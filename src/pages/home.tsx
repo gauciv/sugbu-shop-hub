@@ -6,6 +6,7 @@ import { ShopCard } from "@/components/shared/shop-card";
 import { getActiveShops } from "@/api/shops";
 import { getFeaturedProducts } from "@/api/products";
 import { getCategories } from "@/api/categories";
+import { useAuth } from "@/context/auth";
 import { ArrowRight, Store, ShoppingBag, Shield, Sparkles, Shirt, Home as HomeIcon, Smartphone, Palette, UtensilsCrossed } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Shop, Product, Category } from "@/types";
@@ -20,6 +21,7 @@ const CATEGORY_ICONS: Record<string, React.ElementType> = {
 };
 
 export default function HomePage() {
+  const { session } = useAuth();
   const [shops, setShops] = useState<Shop[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -56,11 +58,13 @@ export default function HomePage() {
                   Browse Shops <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-              <Link to="/register">
-                <Button size="lg" variant="outline" className="border-violet-200 bg-white/60 backdrop-blur-sm hover:bg-white">
-                  Start Selling
-                </Button>
-              </Link>
+              {!session && (
+                <Link to="/register">
+                  <Button size="lg" variant="outline" className="border-violet-200 bg-white/60 backdrop-blur-sm hover:bg-white">
+                    Start Selling
+                  </Button>
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -165,22 +169,24 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* CTA */}
-      <section className="bg-gradient-to-br from-violet-600 via-violet-700 to-fuchsia-700 py-16">
-        <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
-            Ready to start your shop?
-          </h2>
-          <p className="mx-auto mt-3 max-w-md text-violet-200">
-            Join Sugbu Shop Hub and reach customers across Cebu. It&apos;s free to get started.
-          </p>
-          <Link to="/register">
-            <Button size="lg" className="mt-6 bg-white text-violet-700 shadow-lg hover:bg-violet-50">
-              Create Your Shop <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </Link>
-        </div>
-      </section>
+      {/* CTA - only show for non-authenticated users */}
+      {!session && (
+        <section className="bg-gradient-to-br from-violet-600 via-violet-700 to-fuchsia-700 py-16">
+          <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+            <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+              Ready to start your shop?
+            </h2>
+            <p className="mx-auto mt-3 max-w-md text-violet-200">
+              Join Sugbu Shop Hub and reach customers across Cebu. It&apos;s free to get started.
+            </p>
+            <Link to="/register">
+              <Button size="lg" className="mt-6 bg-white text-violet-700 shadow-lg hover:bg-violet-50">
+                Create Your Shop <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
+        </section>
+      )}
     </div>
   );
 }
