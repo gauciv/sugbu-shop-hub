@@ -1,27 +1,80 @@
 import { Link } from "react-router-dom";
-import { Store } from "lucide-react";
+import { Store, Heart } from "lucide-react";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-border/60 bg-gradient-to-b from-white to-lavender-100/40">
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center gap-6 sm:flex-row sm:justify-between">
-          <div className="flex items-center gap-2">
-            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-gradient-to-br from-purple-400 to-pink-400 shadow-sm shadow-purple-400/15">
-              <Store className="h-3.5 w-3.5 text-white" />
+    <footer className="relative">
+      {/* Decorative wave divider */}
+      <div className="relative -mb-px w-full overflow-hidden leading-none">
+        <svg
+          className="relative block w-full"
+          viewBox="0 0 1200 60"
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0,60 L0,20 Q150,0 300,20 T600,20 T900,20 T1200,20 L1200,60 Z"
+            className="fill-lavender-50"
+          />
+        </svg>
+      </div>
+
+      <div className="bg-gradient-to-b from-lavender-50 to-lavender-100">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+          {/* Top row: Brand + Nav */}
+          <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
+            {/* Brand + Tagline */}
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2">
+                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-purple-400 to-pink-400 shadow-sm shadow-purple-400/15">
+                  <Store className="h-4 w-4 text-white" />
+                </div>
+                <span className="text-lg font-bold tracking-tight text-foreground">
+                  Sugbu<span className="text-gradient">Shop</span>
+                </span>
+              </div>
+              <p className="max-w-xs text-sm text-muted-foreground">
+                Your cozy marketplace for local Cebu finds
+              </p>
             </div>
-            <span className="text-sm font-semibold tracking-tight">
-              Sugbu<span className="text-gradient">Shop</span>
-            </span>
+
+            {/* Nav links */}
+            <nav className="flex flex-wrap items-center gap-1">
+              <Link
+                to="/shops"
+                className="rounded-full px-3 py-1 text-sm text-muted-foreground transition-colors hover:bg-purple-50 hover:text-purple-500"
+              >
+                Shops
+              </Link>
+              <Link
+                to="/products"
+                className="rounded-full px-3 py-1 text-sm text-muted-foreground transition-colors hover:bg-purple-50 hover:text-purple-500"
+              >
+                Products
+              </Link>
+              <Link
+                to="/register"
+                className="rounded-full px-3 py-1 text-sm text-muted-foreground transition-colors hover:bg-purple-50 hover:text-purple-500"
+              >
+                Sell on SugbuShop
+              </Link>
+            </nav>
           </div>
-          <nav className="flex items-center gap-4 text-xs text-muted-foreground">
-            <Link to="/shops" className="hover:text-purple-400">Shops</Link>
-            <Link to="/products" className="hover:text-purple-400">Products</Link>
-            <Link to="/register" className="hover:text-purple-400">Sell on SugbuShop</Link>
-          </nav>
-          <p className="text-xs text-muted-foreground">
-            Supporting small businesses in Cebu
-          </p>
+
+          {/* Divider */}
+          <div className="my-8 border-t border-purple-200/40" />
+
+          {/* Bottom row: Copyright */}
+          <div className="flex flex-col items-center gap-2 text-center">
+            <p className="flex items-center gap-1 text-sm text-muted-foreground">
+              Made with
+              <Heart className="inline h-3.5 w-3.5 fill-pink-400 text-pink-400" />
+              for Cebu&apos;s small businesses
+            </p>
+            <p className="text-xs text-muted-foreground/70">
+              &copy; {new Date().getFullYear()} SugbuShop. All rights reserved.
+            </p>
+          </div>
         </div>
       </div>
     </footer>

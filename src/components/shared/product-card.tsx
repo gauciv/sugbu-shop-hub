@@ -38,8 +38,8 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
 
   return (
     <Link to={`/product/${product.id}`}>
-      <Card className="group overflow-hidden border-border/60 transition-all duration-200 hover:border-purple-200 hover:shadow-md hover:shadow-purple-400/5">
-        <div className="relative aspect-square overflow-hidden bg-lavender-100/50">
+      <Card className="card-cozy group overflow-hidden rounded-2xl border-border/60 transition-all duration-200 hover:border-purple-200">
+        <div className="relative aspect-square overflow-hidden rounded-t-2xl bg-lavender-100/50">
           {product.image_urls[0] ? (
             <img
               src={product.image_urls[0]}
@@ -48,11 +48,11 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
             />
           ) : (
             <div className="flex h-full items-center justify-center">
-              <ImageOff className="h-10 w-10 text-muted-foreground/30" />
+              <ImageOff className="h-10 w-10 text-purple-200" />
             </div>
           )}
           {onSale && (
-            <Badge className="absolute left-2 top-2 bg-gradient-to-r from-pink-400 to-purple-400 text-white shadow-sm">
+            <Badge className="absolute left-2 top-2 rounded-full bg-gradient-to-r from-pink-400 to-purple-400 text-white shadow-sm">
               Sale
             </Badge>
           )}
@@ -62,7 +62,7 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
             </div>
           )}
         </div>
-        <CardContent className="p-3.5">
+        <CardContent className="p-4">
           {showShop && product.shop && (
             <p className="mb-1 text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
               {product.shop.name}

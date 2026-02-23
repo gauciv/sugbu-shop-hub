@@ -46,7 +46,7 @@ export default function ProductDetailPage() {
     return (
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-2">
-          <Skeleton className="aspect-square rounded-2xl" />
+          <Skeleton className="aspect-square rounded-3xl" />
           <div className="space-y-4">
             <Skeleton className="h-8 w-3/4" />
             <Skeleton className="h-6 w-1/4" />
@@ -73,18 +73,18 @@ export default function ProductDetailPage() {
   const onSale = product.compare_at_price && product.compare_at_price > product.price;
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <Link to={product.shop ? `/shop/${product.shop.slug}` : "/shops"}>
-        <Button variant="ghost" size="sm" className="mb-4 text-muted-foreground">
+        <Button variant="ghost" size="sm" className="mb-6 rounded-full text-muted-foreground hover:bg-purple-50">
           <ArrowLeft className="mr-2 h-4 w-4" />
           {product.shop ? `Back to ${product.shop.name}` : "Back to Shops"}
         </Button>
       </Link>
 
-      <div className="grid gap-8 lg:grid-cols-2">
+      <div className="grid gap-10 lg:grid-cols-2">
         {/* Images */}
         <div className="space-y-3">
-          <div className="aspect-square overflow-hidden rounded-2xl border border-border/60 bg-lavender-100/50">
+          <div className="aspect-square overflow-hidden rounded-3xl border border-border/40 bg-lavender-100/50 shadow-cozy">
             {product.image_urls[selectedImage] ? (
               <img
                 src={product.image_urls[selectedImage]}
@@ -93,7 +93,7 @@ export default function ProductDetailPage() {
               />
             ) : (
               <div className="flex h-full items-center justify-center">
-                <ImageOff className="h-16 w-16 text-muted-foreground/20" />
+                <ImageOff className="h-16 w-16 text-purple-200" />
               </div>
             )}
           </div>
@@ -103,8 +103,8 @@ export default function ProductDetailPage() {
                 <button
                   key={i}
                   onClick={() => setSelectedImage(i)}
-                  className={`h-16 w-16 overflow-hidden rounded-lg border-2 transition-all ${
-                    i === selectedImage ? "border-purple-400 shadow-sm" : "border-border/60 hover:border-purple-200"
+                  className={`h-16 w-16 overflow-hidden rounded-xl border-2 transition-all ${
+                    i === selectedImage ? "border-purple-400 shadow-cozy" : "border-border/60 hover:border-purple-200"
                   }`}
                 >
                   <img src={url} alt="" className="h-full w-full object-cover" />
@@ -115,9 +115,9 @@ export default function ProductDetailPage() {
         </div>
 
         {/* Info */}
-        <div>
+        <div className="lg:py-2">
           {product.shop && (
-            <Link to={`/shop/${product.shop.slug}`} className="mb-3 inline-flex items-center gap-1.5 text-xs font-medium text-purple-400 hover:text-purple-500">
+            <Link to={`/shop/${product.shop.slug}`} className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-purple-50 px-3 py-1 text-xs font-medium text-purple-400 hover:bg-purple-100 hover:text-purple-500">
               <Store className="h-3.5 w-3.5" /> {product.shop.name}
             </Link>
           )}
@@ -138,33 +138,26 @@ export default function ProductDetailPage() {
           </div>
 
           {product.category && (
-            <Badge variant="secondary" className="mt-3">
+            <Badge variant="secondary" className="mt-3 rounded-full">
               {product.category.name}
             </Badge>
           )}
 
-          <Separator className="my-5" />
+          <Separator className="my-6" />
 
           {product.description && (
-            <div className="mb-5">
+            <div className="mb-6">
               <h3 className="mb-2 text-sm font-semibold">Description</h3>
               <p className="text-sm leading-relaxed text-muted-foreground whitespace-pre-line">{product.description}</p>
             </div>
           )}
 
-          <div className="mb-5 flex items-center gap-2 text-sm">
-            {product.stock > 0 ? (
-              <>
+          {product.stock > 0 && (
+            <div className="rounded-2xl bg-lavender-100/50 p-5">
+              <div className="mb-4 flex items-center gap-2 text-sm">
                 <Check className="h-4 w-4 text-green-600" />
                 <span className="text-green-700 font-medium">{product.stock} in stock</span>
-              </>
-            ) : (
-              <span className="text-destructive font-medium">Out of stock</span>
-            )}
-          </div>
-
-          {product.stock > 0 && (
-            <div className="space-y-4">
+              </div>
               <div className="flex items-center gap-4">
                 <span className="text-sm font-medium">Quantity</span>
                 <QuantitySelector value={quantity} max={product.stock} onChange={setQuantity} />
@@ -175,8 +168,8 @@ export default function ProductDetailPage() {
                 disabled={justAdded}
                 className={
                   justAdded
-                    ? "w-full bg-emerald-600 text-white shadow-lg shadow-emerald-500/20"
-                    : "w-full bg-gradient-to-r from-purple-400 to-pink-400 text-white shadow-lg shadow-purple-400/15 transition-all hover:from-purple-500 hover:to-pink-500 hover:shadow-xl"
+                    ? "mt-4 w-full rounded-full bg-emerald-600 text-white shadow-lg shadow-emerald-500/20"
+                    : "mt-4 w-full rounded-full bg-gradient-to-r from-purple-400 to-pink-400 text-white shadow-lg shadow-purple-400/15 transition-all hover:from-purple-500 hover:to-pink-500 hover:shadow-xl"
                 }
               >
                 {justAdded ? (
@@ -185,6 +178,12 @@ export default function ProductDetailPage() {
                   <><ShoppingCart className="mr-2 h-5 w-5" /> Add to Cart</>
                 )}
               </Button>
+            </div>
+          )}
+
+          {product.stock <= 0 && (
+            <div className="rounded-2xl bg-lavender-100/50 p-5">
+              <span className="text-destructive font-medium">Out of stock</span>
             </div>
           )}
         </div>

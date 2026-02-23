@@ -160,4 +160,68 @@
   .text-gradient {
     @apply bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent;
   }
+
+  /* Cozy warm shadow — purple-tinted, diffused */
+  .shadow-cozy {
+    box-shadow:
+      0 1px 3px rgba(192, 132, 252, 0.06),
+      0 4px 12px rgba(192, 132, 252, 0.08);
+  }
+
+  .shadow-cozy-lg {
+    box-shadow:
+      0 2px 8px rgba(192, 132, 252, 0.08),
+      0 8px 24px rgba(192, 132, 252, 0.12);
+  }
+
+  /* Dot pattern background */
+  .bg-dots {
+    background-image: radial-gradient(circle, #E9D5FF 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  /* Card cozy hover lift */
+  .card-cozy {
+    transition: transform 200ms ease, box-shadow 200ms ease;
+  }
+  .card-cozy:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      0 4px 12px rgba(192, 132, 252, 0.1),
+      0 8px 24px rgba(192, 132, 252, 0.08);
+  }
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(3deg); }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out both;
 }

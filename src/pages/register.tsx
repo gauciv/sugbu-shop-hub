@@ -36,20 +36,20 @@ export default function RegisterPage() {
   }
 
   return (
-    <Card className="border-border/60 shadow-xl shadow-purple-400/5">
+    <Card className="rounded-2xl border-border/60 shadow-xl shadow-purple-400/5">
       <CardHeader className="text-center">
-        <CardTitle className="text-2xl font-bold tracking-tight">Create your account</CardTitle>
-        <CardDescription>Join the Sugbu marketplace</CardDescription>
+        <CardTitle className="text-2xl font-bold tracking-tight">Join the cozy corner</CardTitle>
+        <CardDescription>Create your account and start exploring</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-8 pt-0">
         <div className="mb-5 grid grid-cols-2 gap-3">
           <button
             type="button"
             onClick={() => setRole("buyer")}
             className={cn(
-              "flex flex-col items-center gap-2 rounded-xl border-2 p-4 transition-all",
+              "flex flex-col items-center gap-2 rounded-2xl border-2 p-4 transition-all",
               role === "buyer"
-                ? "border-purple-400 bg-purple-50 shadow-sm"
+                ? "border-purple-400 bg-purple-50 shadow-cozy"
                 : "border-border/60 hover:border-purple-200 hover:bg-lavender-100/50"
             )}
           >
@@ -58,16 +58,16 @@ export default function RegisterPage() {
               <p className={cn("text-sm font-semibold", role === "buyer" ? "text-purple-500" : "text-foreground")}>
                 Buyer
               </p>
-              <p className="text-[11px] text-muted-foreground">Shop & purchase</p>
+              <p className="text-[11px] text-muted-foreground">Browse & discover finds</p>
             </div>
           </button>
           <button
             type="button"
             onClick={() => setRole("seller")}
             className={cn(
-              "flex flex-col items-center gap-2 rounded-xl border-2 p-4 transition-all",
+              "flex flex-col items-center gap-2 rounded-2xl border-2 p-4 transition-all",
               role === "seller"
-                ? "border-purple-400 bg-purple-50 shadow-sm"
+                ? "border-purple-400 bg-purple-50 shadow-cozy"
                 : "border-border/60 hover:border-purple-200 hover:bg-lavender-100/50"
             )}
           >
@@ -76,7 +76,7 @@ export default function RegisterPage() {
               <p className={cn("text-sm font-semibold", role === "seller" ? "text-purple-500" : "text-foreground")}>
                 Seller
               </p>
-              <p className="text-[11px] text-muted-foreground">Sell products</p>
+              <p className="text-[11px] text-muted-foreground">Share your creations</p>
             </div>
           </button>
         </div>
@@ -87,7 +87,7 @@ export default function RegisterPage() {
               id="fullName"
               placeholder="Juan Dela Cruz"
               {...register("fullName", { required: "Name is required" })}
-              className="border-border/60 focus-visible:ring-purple-400/20"
+              className="rounded-xl h-11 border-border/60 focus-visible:ring-purple-400/20"
             />
             {errors.fullName && <p className="text-xs text-destructive">{errors.fullName.message}</p>}
           </div>
@@ -98,7 +98,7 @@ export default function RegisterPage() {
               type="email"
               placeholder="you@example.com"
               {...register("email", { required: "Email is required" })}
-              className="border-border/60 focus-visible:ring-purple-400/20"
+              className="rounded-xl h-11 border-border/60 focus-visible:ring-purple-400/20"
             />
             {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
           </div>
@@ -109,20 +109,20 @@ export default function RegisterPage() {
               type="password"
               placeholder="At least 6 characters"
               {...register("password", { required: "Password is required", minLength: { value: 6, message: "Min 6 characters" } })}
-              className="border-border/60 focus-visible:ring-purple-400/20"
+              className="rounded-xl h-11 border-border/60 focus-visible:ring-purple-400/20"
             />
             {errors.password && <p className="text-xs text-destructive">{errors.password.message}</p>}
           </div>
           <Button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-purple-400 to-pink-400 text-white shadow-sm hover:from-purple-500 hover:to-pink-500"
+            className="w-full rounded-full bg-gradient-to-r from-purple-400 to-pink-400 text-white shadow-sm hover:from-purple-500 hover:to-pink-500"
           >
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Create Account
           </Button>
         </form>
-        <p className="mt-4 text-center text-sm text-muted-foreground">
+        <p className="mt-6 text-center text-sm text-muted-foreground">
           Already have an account?{" "}
           <Link to="/login" className="font-medium text-purple-400 hover:text-purple-500 hover:underline">
             Sign in

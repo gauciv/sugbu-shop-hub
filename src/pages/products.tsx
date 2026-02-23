@@ -69,25 +69,26 @@ export default function ProductsPage() {
   }, [debouncedQuery, categoryId, page, setSearchParams]);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mb-8">
+    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      {/* Page header */}
+      <div className="mb-10 rounded-2xl bg-gradient-to-r from-lavender-100/50 to-purple-50/50 px-6 py-8 sm:px-8">
         <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
           Browse Products
         </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Discover products from local shops across Sugbu
+        <p className="mt-2 text-sm text-muted-foreground">
+          Discover handpicked goodies from local shops across Sugbu
         </p>
       </div>
 
       {/* Search and filters */}
       <div className="mb-6 space-y-4">
         <div className="relative max-w-md">
-          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search products..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="border-border/60 pl-9 focus-visible:ring-purple-400/20"
+            className="rounded-full border-border/60 pl-10 h-11 focus-visible:ring-purple-400/20"
           />
         </div>
 
@@ -98,8 +99,8 @@ export default function ProductsPage() {
               className={cn(
                 "rounded-full px-3.5 py-1.5 text-xs font-medium transition-all",
                 !categoryId
-                  ? "bg-purple-400 text-white shadow-sm"
-                  : "bg-purple-50 text-purple-500 hover:bg-purple-100"
+                  ? "bg-purple-400 text-white shadow-cozy"
+                  : "bg-purple-50 text-purple-500 hover:bg-purple-100 hover:shadow-sm"
               )}
             >
               All
@@ -111,8 +112,8 @@ export default function ProductsPage() {
                 className={cn(
                   "rounded-full px-3.5 py-1.5 text-xs font-medium transition-all",
                   categoryId === cat.id
-                    ? "bg-purple-400 text-white shadow-sm"
-                    : "bg-purple-50 text-purple-500 hover:bg-purple-100"
+                    ? "bg-purple-400 text-white shadow-cozy"
+                    : "bg-purple-50 text-purple-500 hover:bg-purple-100 hover:shadow-sm"
                 )}
               >
                 {cat.name}
@@ -139,7 +140,7 @@ export default function ProductsPage() {
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {Array.from({ length: PAGE_SIZE }).map((_, i) => (
             <div key={i} className="space-y-3">
-              <Skeleton className="aspect-square w-full rounded-xl" />
+              <Skeleton className="aspect-square w-full rounded-2xl" />
               <Skeleton className="h-4 w-3/4" />
               <Skeleton className="h-4 w-1/2" />
             </div>
@@ -156,7 +157,7 @@ export default function ProductsPage() {
           }
         />
       ) : (
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} showShop />
           ))}
@@ -171,12 +172,12 @@ export default function ProductsPage() {
             size="sm"
             disabled={page <= 1}
             onClick={() => setPage((p) => p - 1)}
-            className="border-border/60"
+            className="rounded-full border-border/60"
           >
             <ChevronLeft className="mr-1 h-4 w-4" />
             Previous
           </Button>
-          <span className="px-3 text-sm tabular-nums text-muted-foreground">
+          <span className="px-4 text-sm tabular-nums text-muted-foreground">
             Page {page} of {totalPages}
           </span>
           <Button
@@ -184,7 +185,7 @@ export default function ProductsPage() {
             size="sm"
             disabled={page >= totalPages}
             onClick={() => setPage((p) => p + 1)}
-            className="border-border/60"
+            className="rounded-full border-border/60"
           >
             Next
             <ChevronRight className="ml-1 h-4 w-4" />

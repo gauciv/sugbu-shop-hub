@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { QuantitySelector } from "@/components/shared/quantity-selector";
 import { EmptyState } from "@/components/shared/empty-state";
 import { useCart, type CartProduct } from "@/hooks/use-cart";
@@ -31,7 +30,7 @@ export default function CartPage() {
         <EmptyState
           icon={ShoppingCart}
           title="Your cart is empty"
-          description="Looks like you haven't added anything yet. Browse shops to find something you love."
+          description="Nothing here yet! Browse our cozy shops to find something you'll love."
           action={{ label: "Browse Shops", onClick: () => navigate("/shops") }}
         />
       </div>
@@ -40,24 +39,24 @@ export default function CartPage() {
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
-      <h1 className="mb-6 text-2xl font-bold tracking-tight">Shopping Cart</h1>
+      <h1 className="mb-8 text-2xl font-bold tracking-tight">Shopping Cart</h1>
 
       <div className="space-y-6">
         {Object.entries(shopGroups).map(([shopId, group]) => (
-          <Card key={shopId} className="border-border/60">
-            <CardContent className="p-5">
-              <p className="mb-4 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+          <Card key={shopId} className="overflow-hidden rounded-2xl border-border/60 shadow-cozy">
+            <CardContent className="p-6">
+              <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 {group.shopName}
               </p>
-              <div className="space-y-4">
+              <div className="space-y-5">
                 {group.items.map((item) => (
                   <div key={item.productId} className="flex gap-4">
-                    <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-lavender-100">
+                    <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl bg-lavender-100">
                       {item.image ? (
                         <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
                       ) : (
                         <div className="flex h-full items-center justify-center">
-                          <ImageOff className="h-5 w-5 text-muted-foreground/30" />
+                          <ImageOff className="h-5 w-5 text-purple-200" />
                         </div>
                       )}
                     </div>
@@ -94,20 +93,20 @@ export default function CartPage() {
           </Card>
         ))}
 
-        <Separator />
+        <div className="mt-2 rounded-2xl bg-lavender-100/50 p-6">
+          <div className="flex items-center justify-between">
+            <span className="text-lg font-semibold">Total</span>
+            <span className="text-2xl font-bold tabular-nums">{formatPrice(total)}</span>
+          </div>
 
-        <div className="flex items-center justify-between">
-          <span className="text-lg font-semibold">Total</span>
-          <span className="text-2xl font-bold tabular-nums">{formatPrice(total)}</span>
+          <Button
+            size="lg"
+            onClick={() => navigate("/checkout")}
+            className="mt-5 w-full rounded-full bg-gradient-to-r from-purple-400 to-pink-400 text-white shadow-lg shadow-purple-400/15 hover:from-purple-500 hover:to-pink-500 hover:shadow-xl"
+          >
+            Proceed to Checkout <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
         </div>
-
-        <Button
-          size="lg"
-          onClick={() => navigate("/checkout")}
-          className="w-full bg-gradient-to-r from-purple-400 to-pink-400 text-white shadow-lg shadow-purple-400/15 hover:from-purple-500 hover:to-pink-500"
-        >
-          Proceed to Checkout <ArrowRight className="ml-2 h-4 w-4" />
-        </Button>
       </div>
     </div>
   );

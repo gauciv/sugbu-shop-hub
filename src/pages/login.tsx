@@ -43,12 +43,12 @@ export default function LoginPage() {
   }
 
   return (
-    <Card className="border-border/60 shadow-xl shadow-purple-400/5">
+    <Card className="rounded-2xl border-border/60 shadow-xl shadow-purple-400/5">
       <CardHeader className="text-center">
-        <CardTitle className="text-2xl font-bold tracking-tight">Welcome back</CardTitle>
-        <CardDescription>Sign in to your account to continue</CardDescription>
+        <CardTitle className="text-2xl font-bold tracking-tight">Welcome back!</CardTitle>
+        <CardDescription>We missed you! Sign in to continue shopping</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-8 pt-0">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
@@ -57,7 +57,7 @@ export default function LoginPage() {
               type="email"
               placeholder="you@example.com"
               {...register("email", { required: "Email is required" })}
-              className="border-border/60 focus-visible:ring-purple-400/20"
+              className="rounded-xl h-11 border-border/60 focus-visible:ring-purple-400/20"
             />
             {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
           </div>
@@ -68,20 +68,25 @@ export default function LoginPage() {
               type="password"
               placeholder="Enter your password"
               {...register("password", { required: "Password is required" })}
-              className="border-border/60 focus-visible:ring-purple-400/20"
+              className="rounded-xl h-11 border-border/60 focus-visible:ring-purple-400/20"
             />
             {errors.password && <p className="text-xs text-destructive">{errors.password.message}</p>}
           </div>
           <Button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-purple-400 to-pink-400 text-white shadow-sm hover:from-purple-500 hover:to-pink-500"
+            className="w-full rounded-full bg-gradient-to-r from-purple-400 to-pink-400 text-white shadow-sm hover:from-purple-500 hover:to-pink-500"
           >
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Sign In
           </Button>
         </form>
-        <p className="mt-4 text-center text-sm text-muted-foreground">
+        <div className="my-6 flex items-center gap-3">
+          <div className="h-px flex-1 bg-border/60" />
+          <span className="text-xs text-muted-foreground">or</span>
+          <div className="h-px flex-1 bg-border/60" />
+        </div>
+        <p className="text-center text-sm text-muted-foreground">
           Don&apos;t have an account?{" "}
           <Link to="/register" className="font-medium text-purple-400 hover:text-purple-500 hover:underline">
             Create one
