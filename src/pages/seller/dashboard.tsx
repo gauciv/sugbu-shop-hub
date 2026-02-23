@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/auth";
 import { getMyShop } from "@/api/shops";
 import { getShopProducts } from "@/api/products";
 import { getShopOrders } from "@/api/orders";
-import { formatPrice } from "@/lib/utils";
-import { Package, ShoppingBag, DollarSign, TrendingUp } from "lucide-react";
+import { formatPrice, getInitials } from "@/lib/utils";
+import { Package, ShoppingBag, DollarSign, TrendingUp, Settings } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Shop, Product, Order } from "@/types";
 
@@ -72,10 +75,36 @@ export default function SellerDashboard() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
-        <p className="text-sm text-muted-foreground">Welcome back, {profile?.full_name}</p>
-      </div>
+      {/* Shop profile card */}
+      <Card className="overflow-hidden border-border/60">
+        <div className="relative h-24 bg-gradient-to-br from-pink-100 via-violet-100 to-violet-200">
+          {shop.banner_url && (
+            <img src={shop.banner_url} alt="" className="h-full w-full object-cover" />
+          )}
+        </div>
+        <CardContent className="relative px-5 pb-5 pt-0">
+          <div className="flex items-end gap-4">
+            <Avatar className="-mt-8 h-16 w-16 border-4 border-white shadow-md">
+              <AvatarImage src={shop.logo_url ?? undefined} />
+              <AvatarFallback className="bg-violet-100 text-sm font-bold text-violet-700">
+                {getInitials(shop.name)}
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex-1 pb-1">
+              <h1 className="text-xl font-bold tracking-tight">{shop.name}</h1>
+              <p className="text-xs text-muted-foreground">
+                Welcome back, {profile?.full_name}
+              </p>
+            </div>
+            <Link to="/seller/shop-settings">
+              <Button variant="outline" size="sm" className="border-border/60">
+                <Settings className="mr-1.5 h-3.5 w-3.5" /> Edit Shop
+              </Button>
+            </Link>
+          </div>
+        </CardContent>
+      </Card>
+
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
           <Card key={stat.label} className="border-border/60">
