@@ -9,7 +9,6 @@ import { useCart } from "@/hooks/use-cart";
 import { formatPrice } from "@/lib/utils";
 import { ShoppingCart, Store, Check, ImageOff, ArrowLeft } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { toast } from "sonner";
 import type { Product } from "@/types";
 
 export default function ProductDetailPage() {
@@ -18,6 +17,7 @@ export default function ProductDetailPage() {
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [justAdded, setJustAdded] = useState(false);
   const addItem = useCart((s) => s.addItem);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function ProductDetailPage() {
   }, [id]);
 
   function handleAddToCart() {
-    if (!product || product.stock <= 0) return;
+    if (!product || product.stock <= 0 || justAdded) return;
     for (let i = 0; i < quantity; i++) {
       addItem({
         productId: product.id,
@@ -38,7 +38,8 @@ export default function ProductDetailPage() {
         stock: product.stock,
       });
     }
-    toast.success(`Added ${quantity} item(s) to cart`);
+    setJustAdded(true);
+    setTimeout(() => setJustAdded(false), 2000);
   }
 
   if (loading) {
@@ -171,9 +172,18 @@ export default function ProductDetailPage() {
               <Button
                 size="lg"
                 onClick={handleAddToCart}
-                className="w-full bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-lg shadow-violet-500/20 transition-all hover:from-violet-700 hover:to-fuchsia-700 hover:shadow-xl"
+                disabled={justAdded}
+                className={
+                  justAdded
+                    ? "w-full bg-emerald-600 text-white shadow-lg shadow-emerald-500/20"
+                    : "w-full bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-lg shadow-violet-500/20 transition-all hover:from-violet-700 hover:to-fuchsia-700 hover:shadow-xl"
+                }
               >
-                <ShoppingCart className="mr-2 h-5 w-5" /> Add to Cart
+                {justAdded ? (
+                  <><Check className="mr-2 h-5 w-5" /> Added to Cart</>
+                ) : (
+                  <><ShoppingCart className="mr-2 h-5 w-5" /> Add to Cart</>
+                )}
               </Button>
             </div>
           )}

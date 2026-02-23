@@ -1,10 +1,12 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ShoppingCart, ImageOff } from "lucide-react";
+import { ShoppingCart, ImageOff, Check } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/lib/utils";
 import { useCart } from "@/hooks/use-cart";
+import { cn } from "@/lib/utils";
 import type { Product } from "@/types";
 
 interface ProductCardProps {
@@ -15,11 +17,12 @@ interface ProductCardProps {
 export function ProductCard({ product, showShop }: ProductCardProps) {
   const addItem = useCart((s) => s.addItem);
   const onSale = product.compare_at_price && product.compare_at_price > product.price;
+  const [justAdded, setJustAdded] = useState(false);
 
   function handleAddToCart(e: React.MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
-    if (product.stock <= 0) return;
+    if (product.stock <= 0 || justAdded) return;
     addItem({
       productId: product.id,
       name: product.name,
@@ -29,6 +32,8 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
       shopName: product.shop?.name ?? "",
       stock: product.stock,
     });
+    setJustAdded(true);
+    setTimeout(() => setJustAdded(false), 1500);
   }
 
   return (
@@ -80,11 +85,20 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
             <Button
               size="icon"
               variant="ghost"
-              className="h-8 w-8 rounded-full text-violet-600 hover:bg-violet-50 hover:text-violet-700"
+              className={cn(
+                "h-8 w-8 rounded-full transition-all duration-200",
+                justAdded
+                  ? "bg-emerald-50 text-emerald-600 scale-110"
+                  : "text-violet-600 hover:bg-violet-50 hover:text-violet-700"
+              )}
               onClick={handleAddToCart}
               disabled={product.stock <= 0}
             >
-              <ShoppingCart className="h-4 w-4" />
+              {justAdded ? (
+                <Check className="h-4 w-4" />
+              ) : (
+                <ShoppingCart className="h-4 w-4" />
+              )}
             </Button>
           </div>
         </CardContent>
