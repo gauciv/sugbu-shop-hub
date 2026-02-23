@@ -15,8 +15,8 @@ export const ORDER_STATUS_CONFIG: Record<
 > = {
   pending: { label: "Pending", color: "bg-amber-100 text-amber-800" },
   confirmed: { label: "Confirmed", color: "bg-blue-100 text-blue-800" },
-  preparing: { label: "Preparing", color: "bg-indigo-100 text-indigo-800" },
-  shipped: { label: "Shipped", color: "bg-violet-100 text-violet-800" },
+  preparing: { label: "Preparing", color: "bg-purple-100 text-purple-800" },
+  shipped: { label: "Shipped", color: "bg-pink-100 text-pink-800" },
   delivered: { label: "Delivered", color: "bg-green-100 text-green-800" },
   cancelled: { label: "Cancelled", color: "bg-red-100 text-red-800" },
 };

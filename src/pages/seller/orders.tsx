@@ -55,7 +55,7 @@ export default function SellerOrdersPage() {
       </div>
 
       <Tabs value={filter} onValueChange={setFilter}>
-        <TabsList className="bg-pink-50/50">
+        <TabsList className="bg-lavender-100/50">
           <TabsTrigger value="all">All</TabsTrigger>
           <TabsTrigger value="pending">Pending</TabsTrigger>
           <TabsTrigger value="confirmed">Confirmed</TabsTrigger>
@@ -70,7 +70,7 @@ export default function SellerOrdersPage() {
         <div className="space-y-3">
           {filtered.map((order) => (
             <Link key={order.id} to={`/seller/orders/${order.id}`}>
-              <Card className="flex items-center justify-between border-border/60 p-4 transition-colors hover:border-violet-200 hover:bg-pink-50/30">
+              <Card className="flex items-center justify-between border-border/60 p-4 transition-colors hover:border-purple-200 hover:bg-lavender-100/30">
                 <div>
                   <div className="flex items-center gap-2">
                     <p className="text-sm font-semibold">{order.order_number}</p>

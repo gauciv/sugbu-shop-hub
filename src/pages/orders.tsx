@@ -45,7 +45,7 @@ export default function OrdersPage() {
       ) : (
         <div className="space-y-4">
           {orders.map((order) => (
-            <Card key={order.id} className="border-border/60 transition-colors hover:border-violet-200">
+            <Card key={order.id} className="border-border/60 transition-colors hover:border-purple-200">
               <CardContent className="p-5">
                 <div className="flex items-start justify-between">
                   <div>
@@ -62,7 +62,7 @@ export default function OrdersPage() {
                 {order.items && order.items.length > 0 && (
                   <div className="mt-3 flex gap-2">
                     {order.items.slice(0, 4).map((item) => (
-                      <div key={item.id} className="h-12 w-12 overflow-hidden rounded-lg bg-pink-50">
+                      <div key={item.id} className="h-12 w-12 overflow-hidden rounded-lg bg-lavender-100">
                         {item.product_image ? (
                           <img src={item.product_image} alt="" className="h-full w-full object-cover" />
                         ) : (
@@ -73,7 +73,7 @@ export default function OrdersPage() {
                       </div>
                     ))}
                     {order.items.length > 4 && (
-                      <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-violet-50 text-xs font-medium text-violet-600">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-50 text-xs font-medium text-purple-400">
                         +{order.items.length - 4}
                       </div>
                     )}

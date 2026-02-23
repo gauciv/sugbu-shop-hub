@@ -152,7 +152,7 @@ export default function CheckoutPage() {
                 form="checkout-form"
                 disabled={loading}
                 size="lg"
-                className="w-full bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-sm hover:from-violet-700 hover:to-fuchsia-700"
+                className="w-full bg-gradient-to-r from-purple-400 to-pink-400 text-white shadow-sm hover:from-purple-500 hover:to-pink-500"
               >
                 {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <ShieldCheck className="mr-2 h-4 w-4" />}
                 Place Order

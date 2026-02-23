@@ -27,13 +27,13 @@ export function SellerSidebar({ collapsed, onToggle }: SellerSidebarProps) {
         "flex h-16 items-center border-b border-border/60",
         collapsed ? "justify-center px-2" : "gap-2 px-4"
       )}>
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-violet-600 to-fuchsia-600">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-purple-400 to-pink-400">
           <Store className="h-4 w-4 text-white" />
         </div>
         {!collapsed && (
           <div>
             <span className="text-sm font-bold tracking-tight">
-              Sugbu<span className="text-violet-600">Shop</span>
+              Sugbu<span className="text-gradient">Shop</span>
             </span>
             <p className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
               Seller Portal
@@ -55,8 +55,8 @@ export function SellerSidebar({ collapsed, onToggle }: SellerSidebarProps) {
                   "w-full font-medium",
                   collapsed ? "justify-center px-0" : "justify-start gap-3",
                   active
-                    ? "bg-violet-50 text-violet-700 hover:bg-violet-100"
-                    : "text-muted-foreground hover:bg-pink-50/50 hover:text-foreground"
+                    ? "bg-purple-50 text-purple-500 hover:bg-purple-100"
+                    : "text-muted-foreground hover:bg-lavender-100/50 hover:text-foreground"
                 )}
               >
                 <item.icon className="h-4 w-4 shrink-0" />

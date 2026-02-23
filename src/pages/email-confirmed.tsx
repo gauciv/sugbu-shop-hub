@@ -3,7 +3,7 @@ import { CheckCircle2 } from "lucide-react";
 
 export default function EmailConfirmedPage() {
   return (
-    <Card className="border-border/60 shadow-xl shadow-violet-500/5">
+    <Card className="border-border/60 shadow-xl shadow-purple-400/5">
       <CardHeader className="text-center">
         <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-green-50">
           <CheckCircle2 className="h-7 w-7 text-green-600" />

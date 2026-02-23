@@ -62,12 +62,12 @@ export default function OrderConfirmationPage() {
 
       <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
         <Link to="/orders">
-          <Button variant="outline" className="w-full border-violet-200 sm:w-auto">
+          <Button variant="outline" className="w-full border-purple-200 sm:w-auto">
             <Package className="mr-2 h-4 w-4" /> View Orders
           </Button>
         </Link>
         <Link to="/shops">
-          <Button className="w-full bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white sm:w-auto">
+          <Button className="w-full bg-gradient-to-r from-purple-400 to-pink-400 text-white sm:w-auto">
             Continue Shopping <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </Link>

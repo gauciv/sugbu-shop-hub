@@ -36,13 +36,13 @@ export default function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-pink-50 via-violet-50/80 to-violet-100">
+      <section className="relative overflow-hidden bg-gradient-to-br from-lavender-50 via-lavender-100 to-purple-50">
         <div className="pointer-events-none absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-pink-200/15 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-20 -left-20 h-80 w-80 rounded-full bg-violet-200/20 blur-3xl" />
-        <div className="pointer-events-none absolute right-1/4 top-1/2 h-64 w-64 rounded-full bg-fuchsia-200/10 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-20 -left-20 h-80 w-80 rounded-full bg-purple-200/20 blur-3xl" />
+        <div className="pointer-events-none absolute right-1/4 top-1/2 h-64 w-64 rounded-full bg-pink-200/10 blur-3xl" />
         <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8 lg:py-36">
           <div className="max-w-2xl">
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-violet-200/80 bg-white/70 px-3 py-1 text-xs font-medium text-violet-700 shadow-sm backdrop-blur-sm">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-purple-200/80 bg-white/70 px-3 py-1 text-xs font-medium text-purple-500 shadow-sm backdrop-blur-sm">
               <Sparkles className="h-3 w-3" /> Supporting Cebu's small businesses
             </div>
             <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
@@ -56,13 +56,13 @@ export default function HomePage() {
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/shops">
-                <Button size="lg" className="bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-lg shadow-violet-500/20 hover:from-violet-700 hover:to-fuchsia-700 hover:shadow-xl hover:shadow-violet-500/30">
+                <Button size="lg" className="bg-gradient-to-r from-purple-400 to-pink-400 text-white shadow-lg shadow-purple-400/15 hover:from-purple-500 hover:to-pink-500 hover:shadow-xl hover:shadow-purple-400/20">
                   Browse Shops <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
               {!session && (
                 <Link to="/register">
-                  <Button size="lg" variant="outline" className="border-violet-200 bg-white/60 shadow-sm backdrop-blur-sm hover:bg-white hover:shadow-md">
+                  <Button size="lg" variant="outline" className="border-purple-200 bg-white/60 shadow-sm backdrop-blur-sm hover:bg-white hover:shadow-md">
                     Start Selling
                   </Button>
                 </Link>
@@ -81,8 +81,8 @@ export default function HomePage() {
             { icon: ShoppingBag, title: "Easy Shopping", desc: "Simple & secure checkout" },
           ].map((item) => (
             <div key={item.title} className="flex items-center gap-3 px-6 py-5">
-              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-violet-50">
-                <item.icon className="h-5 w-5 text-violet-600" />
+              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-purple-50">
+                <item.icon className="h-5 w-5 text-purple-400" />
               </div>
               <div>
                 <p className="text-sm font-semibold">{item.title}</p>
@@ -103,8 +103,8 @@ export default function HomePage() {
                 const Icon = CATEGORY_ICONS[cat.icon ?? ""] ?? Store;
                 return (
                   <Link key={cat.id} to={`/shops?category=${cat.slug}`}>
-                    <div className="group flex flex-col items-center gap-2 rounded-xl border border-border/60 p-4 text-center transition-all hover:border-violet-200 hover:bg-violet-50/50 hover:shadow-sm">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-pink-50 text-violet-600 transition-colors group-hover:bg-violet-100">
+                    <div className="group flex flex-col items-center gap-2 rounded-xl border border-border/60 p-4 text-center transition-all hover:border-purple-200 hover:bg-purple-50/50 hover:shadow-sm">
+                      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-lavender-100 text-purple-400 transition-colors group-hover:bg-purple-100">
                         <Icon className="h-5 w-5" />
                       </div>
                       <span className="text-xs font-medium text-foreground">{cat.name}</span>
@@ -119,12 +119,12 @@ export default function HomePage() {
 
       {/* Featured Products */}
       {!loading && products.length > 0 && (
-        <section className="bg-gradient-to-b from-pink-50/30 to-white py-14">
+        <section className="bg-gradient-to-b from-lavender-100/30 to-white py-14">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-bold tracking-tight">New Arrivals</h2>
               <Link to="/products">
-                <Button variant="ghost" size="sm" className="text-violet-600 hover:text-violet-700">
+                <Button variant="ghost" size="sm" className="text-purple-400 hover:text-purple-500">
                   View all <ArrowRight className="ml-1 h-3.5 w-3.5" />
                 </Button>
               </Link>
@@ -157,7 +157,7 @@ export default function HomePage() {
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-bold tracking-tight">Featured Shops</h2>
               <Link to="/shops">
-                <Button variant="ghost" size="sm" className="text-violet-600">
+                <Button variant="ghost" size="sm" className="text-purple-400">
                   View all <ArrowRight className="ml-1 h-3.5 w-3.5" />
                 </Button>
               </Link>
@@ -173,18 +173,18 @@ export default function HomePage() {
 
       {/* CTA - only show for non-authenticated users */}
       {!session && (
-        <section className="relative overflow-hidden bg-gradient-to-br from-violet-600 via-violet-700 to-fuchsia-700 py-16">
-          <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-fuchsia-500/20 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-10 -left-10 h-48 w-48 rounded-full bg-violet-500/20 blur-3xl" />
+        <section className="relative overflow-hidden bg-gradient-to-br from-purple-400 via-purple-500 to-pink-400 py-16">
+          <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-pink-400/20 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-10 -left-10 h-48 w-48 rounded-full bg-purple-400/20 blur-3xl" />
           <div className="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
             <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
               Ready to start your shop?
             </h2>
-            <p className="mx-auto mt-3 max-w-md text-violet-200">
+            <p className="mx-auto mt-3 max-w-md text-purple-200">
               Join Sugbu Shop Hub and reach customers across Cebu. It&apos;s free to get started.
             </p>
             <Link to="/register">
-              <Button size="lg" className="mt-6 bg-white text-violet-700 shadow-lg hover:bg-violet-50">
+              <Button size="lg" className="mt-6 bg-white text-purple-500 shadow-lg hover:bg-purple-50">
                 Create Your Shop <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>

@@ -24,7 +24,7 @@ export function SellerLayout() {
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-pink-50/20">
+    <div className="flex h-screen overflow-hidden bg-lavender-50">
       {/* Desktop sidebar */}
       <div className="hidden md:block">
         <SellerSidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
@@ -47,7 +47,7 @@ export function SellerLayout() {
             <Menu className="h-5 w-5" />
           </Button>
           <span className="ml-2 text-sm font-bold tracking-tight">
-            Sugbu<span className="text-violet-600">Shop</span>
+            Sugbu<span className="text-gradient">Shop</span>
           </span>
         </div>
         <main className="flex-1 p-4 sm:p-6 lg:p-8">

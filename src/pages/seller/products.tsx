@@ -75,7 +75,7 @@ export default function SellerProducts() {
           <p className="text-sm text-muted-foreground">{products.length} products</p>
         </div>
         <Link to="/seller/products/new">
-          <Button className="bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-sm hover:from-violet-700 hover:to-fuchsia-700">
+          <Button className="bg-gradient-to-r from-purple-400 to-pink-400 text-white shadow-sm hover:from-purple-500 hover:to-pink-500">
             <Plus className="mr-2 h-4 w-4" /> Add Product
           </Button>
         </Link>
@@ -92,7 +92,7 @@ export default function SellerProducts() {
         <div className="space-y-3">
           {products.map((product) => (
             <Card key={product.id} className="flex items-center gap-4 border-border/60 p-4">
-              <div className="h-14 w-14 flex-shrink-0 overflow-hidden rounded-lg bg-pink-50">
+              <div className="h-14 w-14 flex-shrink-0 overflow-hidden rounded-lg bg-lavender-100">
                 {product.image_urls[0] ? (
                   <img src={product.image_urls[0]} alt="" className="h-full w-full object-cover" />
                 ) : (

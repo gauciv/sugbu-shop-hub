@@ -36,7 +36,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <Card className="border-border/60 shadow-xl shadow-violet-500/5">
+    <Card className="border-border/60 shadow-xl shadow-purple-400/5">
       <CardHeader className="text-center">
         <CardTitle className="text-2xl font-bold tracking-tight">Create your account</CardTitle>
         <CardDescription>Join the Sugbu marketplace</CardDescription>
@@ -49,13 +49,13 @@ export default function RegisterPage() {
             className={cn(
               "flex flex-col items-center gap-2 rounded-xl border-2 p-4 transition-all",
               role === "buyer"
-                ? "border-violet-500 bg-violet-50 shadow-sm"
-                : "border-border/60 hover:border-violet-200 hover:bg-pink-50/50"
+                ? "border-purple-400 bg-purple-50 shadow-sm"
+                : "border-border/60 hover:border-purple-200 hover:bg-lavender-100/50"
             )}
           >
-            <ShoppingBag className={cn("h-6 w-6", role === "buyer" ? "text-violet-600" : "text-muted-foreground")} />
+            <ShoppingBag className={cn("h-6 w-6", role === "buyer" ? "text-purple-400" : "text-muted-foreground")} />
             <div>
-              <p className={cn("text-sm font-semibold", role === "buyer" ? "text-violet-700" : "text-foreground")}>
+              <p className={cn("text-sm font-semibold", role === "buyer" ? "text-purple-500" : "text-foreground")}>
                 Buyer
               </p>
               <p className="text-[11px] text-muted-foreground">Shop & purchase</p>
@@ -67,13 +67,13 @@ export default function RegisterPage() {
             className={cn(
               "flex flex-col items-center gap-2 rounded-xl border-2 p-4 transition-all",
               role === "seller"
-                ? "border-violet-500 bg-violet-50 shadow-sm"
-                : "border-border/60 hover:border-violet-200 hover:bg-pink-50/50"
+                ? "border-purple-400 bg-purple-50 shadow-sm"
+                : "border-border/60 hover:border-purple-200 hover:bg-lavender-100/50"
             )}
           >
-            <Store className={cn("h-6 w-6", role === "seller" ? "text-violet-600" : "text-muted-foreground")} />
+            <Store className={cn("h-6 w-6", role === "seller" ? "text-purple-400" : "text-muted-foreground")} />
             <div>
-              <p className={cn("text-sm font-semibold", role === "seller" ? "text-violet-700" : "text-foreground")}>
+              <p className={cn("text-sm font-semibold", role === "seller" ? "text-purple-500" : "text-foreground")}>
                 Seller
               </p>
               <p className="text-[11px] text-muted-foreground">Sell products</p>
@@ -87,7 +87,7 @@ export default function RegisterPage() {
               id="fullName"
               placeholder="Juan Dela Cruz"
               {...register("fullName", { required: "Name is required" })}
-              className="border-border/60 focus-visible:ring-violet-500/20"
+              className="border-border/60 focus-visible:ring-purple-400/20"
             />
             {errors.fullName && <p className="text-xs text-destructive">{errors.fullName.message}</p>}
           </div>
@@ -98,7 +98,7 @@ export default function RegisterPage() {
               type="email"
               placeholder="you@example.com"
               {...register("email", { required: "Email is required" })}
-              className="border-border/60 focus-visible:ring-violet-500/20"
+              className="border-border/60 focus-visible:ring-purple-400/20"
             />
             {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
           </div>
@@ -109,14 +109,14 @@ export default function RegisterPage() {
               type="password"
               placeholder="At least 6 characters"
               {...register("password", { required: "Password is required", minLength: { value: 6, message: "Min 6 characters" } })}
-              className="border-border/60 focus-visible:ring-violet-500/20"
+              className="border-border/60 focus-visible:ring-purple-400/20"
             />
             {errors.password && <p className="text-xs text-destructive">{errors.password.message}</p>}
           </div>
           <Button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-sm hover:from-violet-700 hover:to-fuchsia-700"
+            className="w-full bg-gradient-to-r from-purple-400 to-pink-400 text-white shadow-sm hover:from-purple-500 hover:to-pink-500"
           >
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Create Account
@@ -124,7 +124,7 @@ export default function RegisterPage() {
         </form>
         <p className="mt-4 text-center text-sm text-muted-foreground">
           Already have an account?{" "}
-          <Link to="/login" className="font-medium text-violet-600 hover:text-violet-700 hover:underline">
+          <Link to="/login" className="font-medium text-purple-400 hover:text-purple-500 hover:underline">
             Sign in
           </Link>
         </p>

@@ -52,7 +52,7 @@ export default function CartPage() {
               <div className="space-y-4">
                 {group.items.map((item) => (
                   <div key={item.productId} className="flex gap-4">
-                    <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-pink-50">
+                    <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-lavender-100">
                       {item.image ? (
                         <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
                       ) : (
@@ -104,7 +104,7 @@ export default function CartPage() {
         <Button
           size="lg"
           onClick={() => navigate("/checkout")}
-          className="w-full bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-lg shadow-violet-500/20 hover:from-violet-700 hover:to-fuchsia-700"
+          className="w-full bg-gradient-to-r from-purple-400 to-pink-400 text-white shadow-lg shadow-purple-400/15 hover:from-purple-500 hover:to-pink-500"
         >
           Proceed to Checkout <ArrowRight className="ml-2 h-4 w-4" />
         </Button>

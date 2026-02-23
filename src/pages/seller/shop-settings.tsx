@@ -114,7 +114,7 @@ export default function ShopSettingsPage() {
   }
 
   if (pageLoading) {
-    return <div className="flex items-center justify-center py-16"><Loader2 className="h-6 w-6 animate-spin text-violet-600" /></div>;
+    return <div className="flex items-center justify-center py-16"><Loader2 className="h-6 w-6 animate-spin text-purple-400" /></div>;
   }
 
   return (
@@ -135,17 +135,17 @@ export default function ShopSettingsPage() {
           {/* Banner upload */}
           <div>
             <Label className="mb-2 block">Banner</Label>
-            <div className="relative h-32 overflow-hidden rounded-xl border-2 border-dashed border-border/60 bg-gradient-to-br from-pink-50 via-violet-50 to-violet-100 transition-colors hover:border-violet-300">
+            <div className="relative h-32 overflow-hidden rounded-xl border-2 border-dashed border-border/60 bg-gradient-to-br from-lavender-50 via-lavender-100 to-purple-50 transition-colors hover:border-purple-300">
               {bannerUrl && <img src={bannerUrl} alt="Banner" className="h-full w-full object-cover" />}
               <label className={cn(
                 "absolute inset-0 flex cursor-pointer flex-col items-center justify-center gap-1 transition-colors",
-                bannerUrl ? "bg-black/0 hover:bg-black/20" : "hover:bg-violet-100/50",
+                bannerUrl ? "bg-black/0 hover:bg-black/20" : "hover:bg-purple-100/50",
                 uploadingBanner && "pointer-events-none"
               )}>
                 {uploadingBanner ? (
                   <div className="flex flex-col items-center gap-1">
-                    <Loader2 className="h-6 w-6 animate-spin text-violet-600" />
-                    <span className="text-xs font-medium text-violet-600">Uploading...</span>
+                    <Loader2 className="h-6 w-6 animate-spin text-purple-400" />
+                    <span className="text-xs font-medium text-purple-400">Uploading...</span>
                   </div>
                 ) : bannerJustUploaded ? (
                   <div className="flex flex-col items-center gap-1">
@@ -168,15 +168,15 @@ export default function ShopSettingsPage() {
           {/* Logo upload */}
           <div>
             <Label className="mb-2 block">Logo</Label>
-            <div className="relative h-20 w-20 overflow-hidden rounded-xl border-2 border-dashed border-border/60 bg-violet-50 transition-colors hover:border-violet-300">
+            <div className="relative h-20 w-20 overflow-hidden rounded-xl border-2 border-dashed border-border/60 bg-purple-50 transition-colors hover:border-purple-300">
               {logoUrl && <img src={logoUrl} alt="Logo" className="h-full w-full object-cover" />}
               <label className={cn(
                 "absolute inset-0 flex cursor-pointer flex-col items-center justify-center transition-colors",
-                logoUrl ? "bg-black/0 hover:bg-black/20" : "hover:bg-violet-100/50",
+                logoUrl ? "bg-black/0 hover:bg-black/20" : "hover:bg-purple-100/50",
                 uploadingLogo && "pointer-events-none"
               )}>
                 {uploadingLogo ? (
-                  <Loader2 className="h-5 w-5 animate-spin text-violet-600" />
+                  <Loader2 className="h-5 w-5 animate-spin text-purple-400" />
                 ) : logoJustUploaded ? (
                   <CheckCircle2 className="h-5 w-5 text-emerald-500" />
                 ) : (
@@ -221,7 +221,7 @@ export default function ShopSettingsPage() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-sm hover:from-violet-700 hover:to-fuchsia-700"
+              className="w-full bg-gradient-to-r from-purple-400 to-pink-400 text-white shadow-sm hover:from-purple-500 hover:to-pink-500"
             >
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               {shop ? "Update Shop" : "Create Shop"}

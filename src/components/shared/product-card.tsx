@@ -38,8 +38,8 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
 
   return (
     <Link to={`/product/${product.id}`}>
-      <Card className="group overflow-hidden border-border/60 transition-all duration-200 hover:border-violet-200 hover:shadow-md hover:shadow-violet-500/5">
-        <div className="relative aspect-square overflow-hidden bg-pink-50/50">
+      <Card className="group overflow-hidden border-border/60 transition-all duration-200 hover:border-purple-200 hover:shadow-md hover:shadow-purple-400/5">
+        <div className="relative aspect-square overflow-hidden bg-lavender-100/50">
           {product.image_urls[0] ? (
             <img
               src={product.image_urls[0]}
@@ -52,7 +52,7 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
             </div>
           )}
           {onSale && (
-            <Badge className="absolute left-2 top-2 bg-gradient-to-r from-fuchsia-500 to-violet-500 text-white shadow-sm">
+            <Badge className="absolute left-2 top-2 bg-gradient-to-r from-pink-400 to-purple-400 text-white shadow-sm">
               Sale
             </Badge>
           )}
@@ -89,7 +89,7 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
                 "h-8 w-8 rounded-full transition-all duration-200",
                 justAdded
                   ? "bg-emerald-50 text-emerald-600 scale-110"
-                  : "text-violet-600 hover:bg-violet-50 hover:text-violet-700"
+                  : "text-purple-400 hover:bg-purple-50 hover:text-purple-500"
               )}
               onClick={handleAddToCart}
               disabled={product.stock <= 0}

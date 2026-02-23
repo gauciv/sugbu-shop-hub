@@ -51,7 +51,7 @@ export default function ShopDetailPage() {
   return (
     <div>
       {/* Banner */}
-      <div className="relative h-40 bg-gradient-to-br from-pink-100 via-violet-100 to-violet-200 sm:h-52">
+      <div className="relative h-40 bg-gradient-to-br from-pink-100 via-purple-100 to-lavender-200 sm:h-52">
         {shop.banner_url && (
           <img src={shop.banner_url} alt="" className="h-full w-full object-cover" />
         )}
@@ -62,7 +62,7 @@ export default function ShopDetailPage() {
         <div className="relative -mt-10 flex items-end gap-4 pb-6">
           <Avatar className="h-20 w-20 border-4 border-white shadow-md sm:h-24 sm:w-24">
             <AvatarImage src={shop.logo_url ?? undefined} />
-            <AvatarFallback className="bg-violet-100 text-lg font-bold text-violet-700">
+            <AvatarFallback className="bg-purple-100 text-lg font-bold text-purple-500">
               {getInitials(shop.name)}
             </AvatarFallback>
           </Avatar>

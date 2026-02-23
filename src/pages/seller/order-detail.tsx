@@ -41,7 +41,7 @@ export default function SellerOrderDetailPage() {
   }
 
   if (loading || !order) {
-    return <div className="flex items-center justify-center py-16"><Loader2 className="h-6 w-6 animate-spin text-violet-600" /></div>;
+    return <div className="flex items-center justify-center py-16"><Loader2 className="h-6 w-6 animate-spin text-purple-400" /></div>;
   }
 
   const currentIndex = FLOW_STATUSES.indexOf(order.status as OrderStatus);
@@ -89,7 +89,7 @@ export default function SellerOrderDetailPage() {
                       <div className={cn(
                         "flex h-8 w-8 items-center justify-center rounded-full border-2 transition-all duration-300",
                         isCompleted
-                          ? "border-violet-600 bg-violet-600 text-white"
+                          ? "border-purple-400 bg-purple-400 text-white"
                           : "border-border bg-white text-muted-foreground"
                       )}>
                         {isCompleted ? (
@@ -100,7 +100,7 @@ export default function SellerOrderDetailPage() {
                       </div>
                       <span className={cn(
                         "mt-2 text-[10px] font-medium sm:text-xs",
-                        isCurrent ? "text-violet-700 font-semibold" : isCompleted ? "text-foreground" : "text-muted-foreground"
+                        isCurrent ? "text-purple-500 font-semibold" : isCompleted ? "text-foreground" : "text-muted-foreground"
                       )}>
                         {ORDER_STATUS_CONFIG[status].label}
                       </span>
@@ -113,7 +113,7 @@ export default function SellerOrderDetailPage() {
                     <div key={i} className="flex-1 px-2">
                       <div className={cn(
                         "h-0.5 w-full transition-all duration-500",
-                        i < currentIndex ? "bg-violet-600" : "bg-border"
+                        i < currentIndex ? "bg-purple-400" : "bg-border"
                       )} />
                     </div>
                   ))}
@@ -126,7 +126,7 @@ export default function SellerOrderDetailPage() {
                   <Button
                     onClick={() => handleStatusChange(nextStatus)}
                     disabled={updating}
-                    className="bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-sm hover:from-violet-700 hover:to-fuchsia-700"
+                    className="bg-gradient-to-r from-purple-400 to-pink-400 text-white shadow-sm hover:from-purple-500 hover:to-pink-500"
                   >
                     {updating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     Mark as {ORDER_STATUS_CONFIG[nextStatus].label}
@@ -155,7 +155,7 @@ export default function SellerOrderDetailPage() {
         <CardContent className="space-y-3">
           {order.items?.map((item) => (
             <div key={item.id} className="flex items-center gap-3">
-              <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-lg bg-pink-50">
+              <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-lg bg-lavender-100">
                 {item.product_image ? (
                   <img src={item.product_image} alt="" className="h-full w-full object-cover" />
                 ) : (

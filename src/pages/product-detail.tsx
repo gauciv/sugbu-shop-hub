@@ -84,7 +84,7 @@ export default function ProductDetailPage() {
       <div className="grid gap-8 lg:grid-cols-2">
         {/* Images */}
         <div className="space-y-3">
-          <div className="aspect-square overflow-hidden rounded-2xl border border-border/60 bg-pink-50/50">
+          <div className="aspect-square overflow-hidden rounded-2xl border border-border/60 bg-lavender-100/50">
             {product.image_urls[selectedImage] ? (
               <img
                 src={product.image_urls[selectedImage]}
@@ -104,7 +104,7 @@ export default function ProductDetailPage() {
                   key={i}
                   onClick={() => setSelectedImage(i)}
                   className={`h-16 w-16 overflow-hidden rounded-lg border-2 transition-all ${
-                    i === selectedImage ? "border-violet-500 shadow-sm" : "border-border/60 hover:border-violet-200"
+                    i === selectedImage ? "border-purple-400 shadow-sm" : "border-border/60 hover:border-purple-200"
                   }`}
                 >
                   <img src={url} alt="" className="h-full w-full object-cover" />
@@ -117,7 +117,7 @@ export default function ProductDetailPage() {
         {/* Info */}
         <div>
           {product.shop && (
-            <Link to={`/shop/${product.shop.slug}`} className="mb-3 inline-flex items-center gap-1.5 text-xs font-medium text-violet-600 hover:text-violet-700">
+            <Link to={`/shop/${product.shop.slug}`} className="mb-3 inline-flex items-center gap-1.5 text-xs font-medium text-purple-400 hover:text-purple-500">
               <Store className="h-3.5 w-3.5" /> {product.shop.name}
             </Link>
           )}
@@ -131,7 +131,7 @@ export default function ProductDetailPage() {
               </span>
             )}
             {onSale && (
-              <Badge className="bg-gradient-to-r from-fuchsia-500 to-violet-500 text-white border-0">
+              <Badge className="bg-gradient-to-r from-pink-400 to-purple-400 text-white border-0">
                 {Math.round((1 - product.price / product.compare_at_price!) * 100)}% OFF
               </Badge>
             )}
@@ -176,7 +176,7 @@ export default function ProductDetailPage() {
                 className={
                   justAdded
                     ? "w-full bg-emerald-600 text-white shadow-lg shadow-emerald-500/20"
-                    : "w-full bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-lg shadow-violet-500/20 transition-all hover:from-violet-700 hover:to-fuchsia-700 hover:shadow-xl"
+                    : "w-full bg-gradient-to-r from-purple-400 to-pink-400 text-white shadow-lg shadow-purple-400/15 transition-all hover:from-purple-500 hover:to-pink-500 hover:shadow-xl"
                 }
               >
                 {justAdded ? (
