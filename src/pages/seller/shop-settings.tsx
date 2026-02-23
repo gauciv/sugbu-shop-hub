@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -10,7 +11,8 @@ import { getMyShop, createShop, updateShop } from "@/api/shops";
 import { uploadShopAsset } from "@/api/storage";
 import { slugify } from "@/lib/utils";
 import { toast } from "sonner";
-import { Loader2, Upload } from "lucide-react";
+import { Loader2, Upload, ImageIcon, CheckCircle2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 import type { Shop } from "@/types";
 
 interface ShopFormData {
@@ -24,12 +26,16 @@ interface ShopFormData {
 export default function ShopSettingsPage() {
   const { profile } = useAuth();
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<ShopFormData>();
+  const navigate = useNavigate();
   const [shop, setShop] = useState<Shop | null>(null);
   const [loading, setLoading] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
   const [bannerUrl, setBannerUrl] = useState<string | null>(null);
-  const [uploading, setUploading] = useState(false);
+  const [uploadingLogo, setUploadingLogo] = useState(false);
+  const [uploadingBanner, setUploadingBanner] = useState(false);
+  const [logoJustUploaded, setLogoJustUploaded] = useState(false);
+  const [bannerJustUploaded, setBannerJustUploaded] = useState(false);
 
   useEffect(() => {
     if (!profile) return;
@@ -46,17 +52,21 @@ export default function ShopSettingsPage() {
       }
       setPageLoading(false);
     });
-  }, [profile]);
+  }, [profile, setValue]);
 
   async function handleUpload(file: File, type: "logo" | "banner") {
+    const setUploading = type === "logo" ? setUploadingLogo : setUploadingBanner;
+    const setJustUploaded = type === "logo" ? setLogoJustUploaded : setBannerJustUploaded;
     setUploading(true);
     try {
       const url = await uploadShopAsset(file, type);
       if (type === "logo") setLogoUrl(url);
       else setBannerUrl(url);
+      setJustUploaded(true);
+      setTimeout(() => setJustUploaded(false), 2500);
       toast.success(`${type === "logo" ? "Logo" : "Banner"} uploaded`);
     } catch {
-      toast.error("Upload failed");
+      toast.error("Upload failed. Please try again.");
     } finally {
       setUploading(false);
     }
@@ -65,6 +75,7 @@ export default function ShopSettingsPage() {
   async function onSubmit(data: ShopFormData) {
     if (!profile) return;
     setLoading(true);
+    const isCreating = !shop;
     try {
       if (shop) {
         const updated = await updateShop(shop.id, {
@@ -90,12 +101,15 @@ export default function ShopSettingsPage() {
           address: data.address || null,
         });
         setShop(created);
-        toast.success("Shop created!");
+        toast.success("Shop created! Redirecting to dashboard...");
       }
     } catch {
       toast.error("Failed to save shop");
     } finally {
       setLoading(false);
+      if (isCreating) {
+        setTimeout(() => navigate("/seller/dashboard"), 1200);
+      }
     }
   }
 
@@ -118,23 +132,57 @@ export default function ShopSettingsPage() {
           <CardDescription>Upload your shop logo and banner</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
+          {/* Banner upload */}
           <div>
             <Label className="mb-2 block">Banner</Label>
-            <div className="relative h-32 overflow-hidden rounded-xl border-2 border-dashed border-border/60 bg-gradient-to-br from-pink-50 via-violet-50 to-violet-100">
+            <div className="relative h-32 overflow-hidden rounded-xl border-2 border-dashed border-border/60 bg-gradient-to-br from-pink-50 via-violet-50 to-violet-100 transition-colors hover:border-violet-300">
               {bannerUrl && <img src={bannerUrl} alt="Banner" className="h-full w-full object-cover" />}
-              <label className="absolute inset-0 flex cursor-pointer items-center justify-center bg-black/0 transition-colors hover:bg-black/10">
-                <Upload className="h-6 w-6 text-muted-foreground" />
-                <input type="file" accept="image/*" className="hidden" onChange={(e) => e.target.files?.[0] && handleUpload(e.target.files[0], "banner")} disabled={uploading} />
+              <label className={cn(
+                "absolute inset-0 flex cursor-pointer flex-col items-center justify-center gap-1 transition-colors",
+                bannerUrl ? "bg-black/0 hover:bg-black/20" : "hover:bg-violet-100/50",
+                uploadingBanner && "pointer-events-none"
+              )}>
+                {uploadingBanner ? (
+                  <div className="flex flex-col items-center gap-1">
+                    <Loader2 className="h-6 w-6 animate-spin text-violet-600" />
+                    <span className="text-xs font-medium text-violet-600">Uploading...</span>
+                  </div>
+                ) : bannerJustUploaded ? (
+                  <div className="flex flex-col items-center gap-1">
+                    <CheckCircle2 className="h-6 w-6 text-emerald-500" />
+                    <span className="text-xs font-medium text-emerald-600">Uploaded</span>
+                  </div>
+                ) : (
+                  <div className={cn("flex flex-col items-center gap-1", bannerUrl && "text-white drop-shadow-sm")}>
+                    {bannerUrl ? <Upload className="h-5 w-5" /> : <ImageIcon className="h-6 w-6 text-muted-foreground" />}
+                    <span className={cn("text-xs font-medium", bannerUrl ? "" : "text-muted-foreground")}>
+                      {bannerUrl ? "Change banner" : "Click to upload banner"}
+                    </span>
+                  </div>
+                )}
+                <input type="file" accept="image/*" className="hidden" onChange={(e) => e.target.files?.[0] && handleUpload(e.target.files[0], "banner")} disabled={uploadingBanner} />
               </label>
             </div>
           </div>
+
+          {/* Logo upload */}
           <div>
             <Label className="mb-2 block">Logo</Label>
-            <div className="relative h-20 w-20 overflow-hidden rounded-xl border-2 border-dashed border-border/60 bg-violet-50">
+            <div className="relative h-20 w-20 overflow-hidden rounded-xl border-2 border-dashed border-border/60 bg-violet-50 transition-colors hover:border-violet-300">
               {logoUrl && <img src={logoUrl} alt="Logo" className="h-full w-full object-cover" />}
-              <label className="absolute inset-0 flex cursor-pointer items-center justify-center bg-black/0 transition-colors hover:bg-black/10">
-                <Upload className="h-5 w-5 text-muted-foreground" />
-                <input type="file" accept="image/*" className="hidden" onChange={(e) => e.target.files?.[0] && handleUpload(e.target.files[0], "logo")} disabled={uploading} />
+              <label className={cn(
+                "absolute inset-0 flex cursor-pointer flex-col items-center justify-center transition-colors",
+                logoUrl ? "bg-black/0 hover:bg-black/20" : "hover:bg-violet-100/50",
+                uploadingLogo && "pointer-events-none"
+              )}>
+                {uploadingLogo ? (
+                  <Loader2 className="h-5 w-5 animate-spin text-violet-600" />
+                ) : logoJustUploaded ? (
+                  <CheckCircle2 className="h-5 w-5 text-emerald-500" />
+                ) : (
+                  <Upload className={cn("h-5 w-5", logoUrl ? "text-white drop-shadow-sm" : "text-muted-foreground")} />
+                )}
+                <input type="file" accept="image/*" className="hidden" onChange={(e) => e.target.files?.[0] && handleUpload(e.target.files[0], "logo")} disabled={uploadingLogo} />
               </label>
             </div>
           </div>
@@ -156,7 +204,7 @@ export default function ShopSettingsPage() {
               <Label>Description</Label>
               <Textarea {...register("description")} placeholder="Tell customers about your shop..." rows={3} className="border-border/60" />
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Email</Label>
                 <Input type="email" {...register("contact_email")} placeholder="shop@email.com" className="border-border/60" />
