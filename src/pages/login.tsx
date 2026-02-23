@@ -26,7 +26,16 @@ export default function LoginPage() {
       toast.success("Welcome back!");
       navigate("/");
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Failed to sign in";
+      let message = "Failed to sign in";
+      if (err instanceof Error) {
+        if (err.message.includes("Email not confirmed")) {
+          message = "Please verify your email before signing in. Check your inbox for the verification link.";
+        } else if (err.message.includes("Invalid login credentials")) {
+          message = "Incorrect email or password. Please try again.";
+        } else {
+          message = err.message;
+        }
+      }
       toast.error(message);
     } finally {
       setLoading(false);

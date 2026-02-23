@@ -26,8 +26,7 @@ export default function RegisterPage() {
     setLoading(true);
     try {
       await signUp(data.email, data.password, data.fullName, role);
-      toast.success("Account created! Welcome to SugbuShop.");
-      navigate(role === "seller" ? "/seller/shop-settings" : "/");
+      navigate("/verify-email", { state: { email: data.email } });
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Failed to create account";
       toast.error(message);

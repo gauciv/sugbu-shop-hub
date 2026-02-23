@@ -11,12 +11,15 @@ const HomePage = lazy(() => import("@/pages/home"));
 const ShopsPage = lazy(() => import("@/pages/shops"));
 const ShopDetailPage = lazy(() => import("@/pages/shop-detail"));
 const ProductDetailPage = lazy(() => import("@/pages/product-detail"));
+const ProductsPage = lazy(() => import("@/pages/products"));
 const CartPage = lazy(() => import("@/pages/cart"));
 const CheckoutPage = lazy(() => import("@/pages/checkout"));
 const OrderConfirmationPage = lazy(() => import("@/pages/order-confirmation"));
 const OrdersPage = lazy(() => import("@/pages/orders"));
 const LoginPage = lazy(() => import("@/pages/login"));
 const RegisterPage = lazy(() => import("@/pages/register"));
+const VerifyEmailPage = lazy(() => import("@/pages/verify-email"));
+const EmailConfirmedPage = lazy(() => import("@/pages/email-confirmed"));
 const NotFoundPage = lazy(() => import("@/pages/not-found"));
 
 const SellerDashboard = lazy(() => import("@/pages/seller/dashboard"));
@@ -38,9 +41,17 @@ function Loading() {
 }
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { profile, loading } = useAuth();
+  const { session, profile, loading } = useAuth();
   if (loading) return <Loading />;
-  if (!profile) return <Navigate to="/login" replace />;
+  if (!session) return <Navigate to="/login" replace />;
+  if (!profile) return <Loading />;
+  return <>{children}</>;
+}
+
+function GuestRoute({ children }: { children: React.ReactNode }) {
+  const { session, loading } = useAuth();
+  if (loading) return <Loading />;
+  if (session) return <Navigate to="/" replace />;
   return <>{children}</>;
 }
 
@@ -55,6 +66,7 @@ function App() {
               <Route path="/shops" element={<ShopsPage />} />
               <Route path="/shop/:slug" element={<ShopDetailPage />} />
               <Route path="/product/:id" element={<ProductDetailPage />} />
+              <Route path="/products" element={<ProductsPage />} />
               <Route path="/cart" element={<CartPage />} />
               <Route path="/checkout" element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
               <Route path="/order-confirmation/:id" element={<ProtectedRoute><OrderConfirmationPage /></ProtectedRoute>} />
@@ -63,8 +75,10 @@ function App() {
             </Route>
 
             <Route element={<AuthLayout />}>
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/login" element={<GuestRoute><LoginPage /></GuestRoute>} />
+              <Route path="/register" element={<GuestRoute><RegisterPage /></GuestRoute>} />
+              <Route path="/verify-email" element={<VerifyEmailPage />} />
+              <Route path="/email-confirmed" element={<EmailConfirmedPage />} />
             </Route>
 
             <Route element={<SellerLayout />}>
