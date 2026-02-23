@@ -1,0 +1,94 @@
+import { Link } from "react-router-dom";
+import { ShoppingCart, ImageOff } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { formatPrice } from "@/lib/utils";
+import { useCart } from "@/hooks/use-cart";
+import type { Product } from "@/types";
+
+interface ProductCardProps {
+  product: Product;
+  showShop?: boolean;
+}
+
+export function ProductCard({ product, showShop }: ProductCardProps) {
+  const addItem = useCart((s) => s.addItem);
+  const onSale = product.compare_at_price && product.compare_at_price > product.price;
+
+  function handleAddToCart(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (product.stock <= 0) return;
+    addItem({
+      productId: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image_urls[0] ?? "",
+      shopId: product.shop_id,
+      shopName: product.shop?.name ?? "",
+      stock: product.stock,
+    });
+  }
+
+  return (
+    <Link to={`/product/${product.id}`}>
+      <Card className="group overflow-hidden border-border/60 transition-all duration-200 hover:border-violet-200 hover:shadow-md hover:shadow-violet-500/5">
+        <div className="relative aspect-square overflow-hidden bg-pink-50/50">
+          {product.image_urls[0] ? (
+            <img
+              src={product.image_urls[0]}
+              alt={product.name}
+              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+          ) : (
+            <div className="flex h-full items-center justify-center">
+              <ImageOff className="h-10 w-10 text-muted-foreground/30" />
+            </div>
+          )}
+          {onSale && (
+            <Badge className="absolute left-2 top-2 bg-gradient-to-r from-fuchsia-500 to-violet-500 text-white shadow-sm">
+              Sale
+            </Badge>
+          )}
+          {product.stock <= 0 && (
+            <div className="absolute inset-0 flex items-center justify-center bg-white/70">
+              <Badge variant="secondary" className="text-muted-foreground">Out of Stock</Badge>
+            </div>
+          )}
+        </div>
+        <CardContent className="p-3.5">
+          {showShop && product.shop && (
+            <p className="mb-1 text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+              {product.shop.name}
+            </p>
+          )}
+          <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-foreground">
+            {product.name}
+          </h3>
+          <div className="mt-2 flex items-center justify-between">
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-base font-bold tabular-nums text-foreground">
+                {formatPrice(product.price)}
+              </span>
+              {onSale && (
+                <span className="text-xs text-muted-foreground line-through">
+                  {formatPrice(product.compare_at_price!)}
+                </span>
+              )}
+            </div>
+            <Button
+              size="icon"
+              variant="ghost"
+              className="h-8 w-8 rounded-full text-violet-600 hover:bg-violet-50 hover:text-violet-700"
+              onClick={handleAddToCart}
+              disabled={product.stock <= 0}
+            >
+              <ShoppingCart className="h-4 w-4" />
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
+  );
+}
