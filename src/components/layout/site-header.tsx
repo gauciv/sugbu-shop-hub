@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ShoppingCart, Store, LogOut, Package, LayoutDashboard, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -11,44 +11,57 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/context/auth";
 import { useCartItemCount } from "@/hooks/use-cart";
-import { getInitials } from "@/lib/utils";
+import { getInitials, cn } from "@/lib/utils";
 import { useState } from "react";
+
+const NAV_LINKS = [
+  { label: "Home", href: "/" },
+  { label: "Shops", href: "/shops" },
+  { label: "Products", href: "/products" },
+];
 
 export function SiteHeader() {
   const { profile, signOut } = useAuth();
   const cartCount = useCartItemCount();
   const navigate = useNavigate();
+  const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-white/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-8">
-          <Link to="/" className="flex items-center gap-2 transition-opacity hover:opacity-80">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-violet-600 to-fuchsia-600">
+          <Link to="/" className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-violet-600 to-fuchsia-600 shadow-sm shadow-violet-500/20">
               <Store className="h-4 w-4 text-white" />
             </div>
             <span className="text-lg font-bold tracking-tight text-foreground">
-              Sugbu<span className="text-violet-600">Shop</span>
+              Sugbu<span className="text-gradient">Shop</span>
             </span>
           </Link>
 
           <nav className="hidden items-center gap-1 md:flex">
-            <Link to="/">
-              <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-                Home
-              </Button>
-            </Link>
-            <Link to="/shops">
-              <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-                Shops
-              </Button>
-            </Link>
-            <Link to="/products">
-              <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-                Products
-              </Button>
-            </Link>
+            {NAV_LINKS.map((link) => {
+              const isActive = link.href === "/"
+                ? location.pathname === "/"
+                : location.pathname.startsWith(link.href);
+              return (
+                <Link key={link.href} to={link.href}>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className={cn(
+                      "text-sm",
+                      isActive
+                        ? "text-violet-700 font-medium"
+                        : "text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    {link.label}
+                  </Button>
+                </Link>
+              );
+            })}
           </nav>
         </div>
 
@@ -57,7 +70,7 @@ export function SiteHeader() {
             <Button variant="ghost" size="icon" className="relative">
               <ShoppingCart className="h-5 w-5" />
               {cartCount > 0 && (
-                <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-r from-violet-600 to-fuchsia-600 text-[10px] font-bold text-white">
+                <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-r from-violet-600 to-fuchsia-600 text-[10px] font-bold text-white shadow-sm">
                   {cartCount > 99 ? "99+" : cartCount}
                 </span>
               )}
@@ -69,7 +82,7 @@ export function SiteHeader() {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full">
                   <Avatar className="h-8 w-8 border border-violet-200">
-                    <AvatarFallback className="bg-violet-50 text-xs font-semibold text-violet-700">
+                    <AvatarFallback className="bg-gradient-to-br from-violet-50 to-pink-50 text-xs font-semibold text-violet-700">
                       {getInitials(profile.full_name)}
                     </AvatarFallback>
                   </Avatar>
@@ -98,10 +111,10 @@ export function SiteHeader() {
           ) : (
             <div className="hidden items-center gap-2 sm:flex">
               <Link to="/login">
-                <Button variant="ghost" size="sm">Sign In</Button>
+                <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">Sign In</Button>
               </Link>
               <Link to="/register">
-                <Button size="sm" className="bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-sm hover:from-violet-700 hover:to-fuchsia-700">
+                <Button size="sm" className="bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-sm shadow-violet-500/15 hover:from-violet-700 hover:to-fuchsia-700 hover:shadow-md hover:shadow-violet-500/20">
                   Get Started
                 </Button>
               </Link>
@@ -120,17 +133,13 @@ export function SiteHeader() {
       </div>
 
       {mobileOpen && (
-        <div className="border-t border-border/60 bg-white px-4 py-3 md:hidden">
+        <div className="border-t border-border/60 bg-white/95 px-4 py-3 backdrop-blur-sm md:hidden">
           <nav className="flex flex-col gap-1">
-            <Link to="/" onClick={() => setMobileOpen(false)}>
-              <Button variant="ghost" size="sm" className="w-full justify-start">Home</Button>
-            </Link>
-            <Link to="/shops" onClick={() => setMobileOpen(false)}>
-              <Button variant="ghost" size="sm" className="w-full justify-start">Shops</Button>
-            </Link>
-            <Link to="/products" onClick={() => setMobileOpen(false)}>
-              <Button variant="ghost" size="sm" className="w-full justify-start">Products</Button>
-            </Link>
+            {NAV_LINKS.map((link) => (
+              <Link key={link.href} to={link.href} onClick={() => setMobileOpen(false)}>
+                <Button variant="ghost" size="sm" className="w-full justify-start">{link.label}</Button>
+              </Link>
+            ))}
             {!profile && (
               <>
                 <Link to="/login" onClick={() => setMobileOpen(false)}>

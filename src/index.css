@@ -7,7 +7,7 @@
 :root {
   --radius: 0.75rem;
 
-  /* Rose / Violet palette */
+  /* Rose / Violet palette — warm, soft, intentional */
   --background: oklch(0.995 0.003 350);
   --foreground: oklch(0.15 0.01 30);
   --card: oklch(1 0 0);
@@ -89,14 +89,20 @@
   --color-violet-50: #f5f3ff;
   --color-violet-100: #ede9fe;
   --color-violet-200: #ddd6fe;
+  --color-violet-300: #c4b5fd;
+  --color-violet-400: #a78bfa;
   --color-violet-500: #8b5cf6;
   --color-violet-600: #7c3aed;
   --color-violet-700: #6d28d9;
+  --color-violet-800: #5b21b6;
   --color-pink-50: #fdf2f8;
   --color-pink-100: #fce7f3;
   --color-pink-200: #fbcfe8;
+  --color-pink-300: #f9a8d4;
   --color-pink-500: #ec4899;
   --color-pink-900: #831843;
+  --color-fuchsia-50: #fdf4ff;
+  --color-fuchsia-100: #fae8ff;
   --color-fuchsia-400: #e879f9;
   --color-fuchsia-500: #d946ef;
   --color-fuchsia-600: #c026d3;
@@ -115,5 +121,39 @@
     @apply bg-background text-foreground font-sans antialiased;
     font-family: "Inter", system-ui, -apple-system, sans-serif;
     margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Smooth transitions on interactive elements */
+  a, button, input, select, textarea {
+    transition-property: color, background-color, border-color, box-shadow, opacity, transform;
+    transition-duration: 150ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Focus ring improvements */
+  *:focus-visible {
+    outline: 2px solid oklch(0.53 0.21 290 / 0.4);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Subtle selection color */
+  ::selection {
+    background-color: oklch(0.53 0.21 290 / 0.15);
+  }
+}
+
+/* Custom utilities */
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-transparent;
   }
 }

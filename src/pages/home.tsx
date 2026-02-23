@@ -36,31 +36,33 @@ export default function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-pink-50 via-violet-50 to-violet-100">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(147,51,234,0.08),transparent_60%)]" />
+      <section className="relative overflow-hidden bg-gradient-to-br from-pink-50 via-violet-50/80 to-violet-100">
+        <div className="pointer-events-none absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-pink-200/15 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-20 -left-20 h-80 w-80 rounded-full bg-violet-200/20 blur-3xl" />
+        <div className="pointer-events-none absolute right-1/4 top-1/2 h-64 w-64 rounded-full bg-fuchsia-200/10 blur-3xl" />
         <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8 lg:py-36">
           <div className="max-w-2xl">
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white/70 px-3 py-1 text-xs font-medium text-violet-700 backdrop-blur-sm">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-violet-200/80 bg-white/70 px-3 py-1 text-xs font-medium text-violet-700 shadow-sm backdrop-blur-sm">
               <Sparkles className="h-3 w-3" /> Supporting Cebu's small businesses
             </div>
             <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
               Discover local shops in{" "}
-              <span className="bg-gradient-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-transparent">
+              <span className="text-gradient">
                 Sugbu
               </span>
             </h1>
-            <p className="mt-4 text-lg text-muted-foreground sm:text-xl">
+            <p className="mt-4 max-w-lg text-lg leading-relaxed text-muted-foreground sm:text-xl">
               Shop from the best small businesses in Cebu. From artisan crafts to local delicacies, find everything in one place.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/shops">
-                <Button size="lg" className="bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-lg shadow-violet-500/20 transition-all hover:from-violet-700 hover:to-fuchsia-700 hover:shadow-xl hover:shadow-violet-500/30">
+                <Button size="lg" className="bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-lg shadow-violet-500/20 hover:from-violet-700 hover:to-fuchsia-700 hover:shadow-xl hover:shadow-violet-500/30">
                   Browse Shops <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
               {!session && (
                 <Link to="/register">
-                  <Button size="lg" variant="outline" className="border-violet-200 bg-white/60 backdrop-blur-sm hover:bg-white">
+                  <Button size="lg" variant="outline" className="border-violet-200 bg-white/60 shadow-sm backdrop-blur-sm hover:bg-white hover:shadow-md">
                     Start Selling
                   </Button>
                 </Link>
@@ -117,12 +119,12 @@ export default function HomePage() {
 
       {/* Featured Products */}
       {!loading && products.length > 0 && (
-        <section className="bg-pink-50/30 py-14">
+        <section className="bg-gradient-to-b from-pink-50/30 to-white py-14">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-bold tracking-tight">New Arrivals</h2>
-              <Link to="/shops">
-                <Button variant="ghost" size="sm" className="text-violet-600">
+              <Link to="/products">
+                <Button variant="ghost" size="sm" className="text-violet-600 hover:text-violet-700">
                   View all <ArrowRight className="ml-1 h-3.5 w-3.5" />
                 </Button>
               </Link>
@@ -171,8 +173,10 @@ export default function HomePage() {
 
       {/* CTA - only show for non-authenticated users */}
       {!session && (
-        <section className="bg-gradient-to-br from-violet-600 via-violet-700 to-fuchsia-700 py-16">
-          <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+        <section className="relative overflow-hidden bg-gradient-to-br from-violet-600 via-violet-700 to-fuchsia-700 py-16">
+          <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-fuchsia-500/20 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-10 -left-10 h-48 w-48 rounded-full bg-violet-500/20 blur-3xl" />
+          <div className="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
             <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
               Ready to start your shop?
             </h2>
