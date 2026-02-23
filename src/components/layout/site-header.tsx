@@ -44,6 +44,11 @@ export function SiteHeader() {
                 Shops
               </Button>
             </Link>
+            <Link to="/products">
+              <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+                Products
+              </Button>
+            </Link>
           </nav>
         </div>
 
@@ -122,6 +127,9 @@ export function SiteHeader() {
             </Link>
             <Link to="/shops" onClick={() => setMobileOpen(false)}>
               <Button variant="ghost" size="sm" className="w-full justify-start">Shops</Button>
+            </Link>
+            <Link to="/products" onClick={() => setMobileOpen(false)}>
+              <Button variant="ghost" size="sm" className="w-full justify-start">Products</Button>
             </Link>
             {!profile && (
               <>

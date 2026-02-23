@@ -73,3 +73,33 @@ export async function deleteProduct(id: string): Promise<void> {
   const { error } = await supabase.from("products").delete().eq("id", id);
   if (error) throw error;
 }
+
+export async function searchProducts(opts: {
+  query?: string;
+  categoryId?: string;
+  page?: number;
+  pageSize?: number;
+}): Promise<{ products: Product[]; count: number }> {
+  const { query, categoryId, page = 1, pageSize = 12 } = opts;
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize - 1;
+
+  let q = supabase
+    .from("products")
+    .select("*, shop:shops(id, name, slug), category:categories(*)", { count: "exact" })
+    .eq("is_active", true);
+
+  if (query) {
+    q = q.ilike("name", `%${query}%`);
+  }
+  if (categoryId) {
+    q = q.eq("category_id", categoryId);
+  }
+
+  const { data, error, count } = await q
+    .order("created_at", { ascending: false })
+    .range(from, to);
+
+  if (error) throw error;
+  return { products: (data ?? []) as Product[], count: count ?? 0 };
+}
