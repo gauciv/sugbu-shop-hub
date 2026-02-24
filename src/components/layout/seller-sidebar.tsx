@@ -55,7 +55,7 @@ export function SellerSidebar({ collapsed, onToggle }: SellerSidebarProps) {
                   "w-full font-medium",
                   collapsed ? "justify-center px-0" : "justify-start gap-3",
                   active
-                    ? "bg-purple-50 text-purple-500 hover:bg-purple-100"
+                    ? "bg-purple-100 text-primary hover:bg-purple-200"
                     : "text-muted-foreground hover:bg-lavender-100/50 hover:text-foreground"
                 )}
               >

@@ -121,7 +121,7 @@ export default function ProductFormPage() {
 
       <Card className="border-border/60">
         <CardHeader>
-          <CardTitle>{isEditing ? "Edit Product" : "Add Product"}</CardTitle>
+          <CardTitle className="font-display">{isEditing ? "Edit Product" : "Add Product"}</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
@@ -193,7 +193,7 @@ export default function ProductFormPage() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full shadow-sm hover:-translate-y-0.5 hover:shadow-md"
+              className="w-full shadow-cozy hover:-translate-y-0.5 hover:shadow-cozy-lg"
             >
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               {isEditing ? "Update Product" : "Create Product"}

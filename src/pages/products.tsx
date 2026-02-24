@@ -71,8 +71,8 @@ export default function ProductsPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       {/* Page header */}
-      <div className="mb-10 rounded-2xl bg-secondary/40 px-6 py-8 sm:px-8">
-        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
+      <div className="mb-10 rounded-2xl bg-secondary px-6 py-8 sm:px-8">
+        <h1 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">
           Browse Products
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
@@ -88,7 +88,7 @@ export default function ProductsPage() {
             placeholder="Search products..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="rounded-full border-border/60 pl-10 h-11 focus-visible:ring-purple-400/20"
+            className="rounded-full border-border/60 pl-10 h-11 focus-visible:ring-purple-400/30"
           />
         </div>
 
@@ -99,8 +99,8 @@ export default function ProductsPage() {
               className={cn(
                 "rounded-full px-3.5 py-1.5 text-xs font-medium transition-all",
                 !categoryId
-                  ? "bg-purple-400 text-white shadow-cozy"
-                  : "bg-purple-50 text-purple-500 hover:bg-purple-100 hover:shadow-sm"
+                  ? "bg-primary text-white shadow-cozy"
+                  : "bg-purple-100 text-purple-700 hover:bg-purple-200 hover:shadow-sm"
               )}
             >
               All
@@ -112,8 +112,8 @@ export default function ProductsPage() {
                 className={cn(
                   "rounded-full px-3.5 py-1.5 text-xs font-medium transition-all",
                   categoryId === cat.id
-                    ? "bg-purple-400 text-white shadow-cozy"
-                    : "bg-purple-50 text-purple-500 hover:bg-purple-100 hover:shadow-sm"
+                    ? "bg-primary text-white shadow-cozy"
+                    : "bg-purple-100 text-purple-700 hover:bg-purple-200 hover:shadow-sm"
                 )}
               >
                 {cat.name}

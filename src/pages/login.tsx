@@ -45,7 +45,7 @@ export default function LoginPage() {
   return (
     <Card className="rounded-2xl border-border/60 shadow-xl shadow-purple-400/5">
       <CardHeader className="text-center">
-        <CardTitle className="text-2xl font-bold tracking-tight">Welcome back!</CardTitle>
+        <CardTitle className="text-2xl font-bold tracking-tight font-display">Welcome back!</CardTitle>
         <CardDescription>We missed you! Sign in to continue shopping</CardDescription>
       </CardHeader>
       <CardContent className="p-8 pt-0">
@@ -57,7 +57,7 @@ export default function LoginPage() {
               type="email"
               placeholder="you@example.com"
               {...register("email", { required: "Email is required" })}
-              className="rounded-xl h-11 border-border/60 focus-visible:ring-purple-400/20"
+              className="rounded-xl h-11 border-border/60 focus-visible:ring-purple-400/30"
             />
             {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
           </div>
@@ -68,14 +68,14 @@ export default function LoginPage() {
               type="password"
               placeholder="Enter your password"
               {...register("password", { required: "Password is required" })}
-              className="rounded-xl h-11 border-border/60 focus-visible:ring-purple-400/20"
+              className="rounded-xl h-11 border-border/60 focus-visible:ring-purple-400/30"
             />
             {errors.password && <p className="text-xs text-destructive">{errors.password.message}</p>}
           </div>
           <Button
             type="submit"
             disabled={loading}
-            className="w-full rounded-full shadow-sm hover:-translate-y-0.5 hover:shadow-md"
+            className="w-full rounded-full shadow-cozy hover:-translate-y-0.5 hover:shadow-cozy-lg"
           >
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Sign In
@@ -88,7 +88,7 @@ export default function LoginPage() {
         </div>
         <p className="text-center text-sm text-muted-foreground">
           Don&apos;t have an account?{" "}
-          <Link to="/register" className="font-medium text-purple-400 hover:text-purple-500 hover:underline">
+          <Link to="/register" className="font-medium text-primary hover:text-purple-700 hover:underline">
             Create one
           </Link>
         </p>

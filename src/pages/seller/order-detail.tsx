@@ -58,7 +58,7 @@ export default function SellerOrderDetailPage() {
 
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">{order.order_number}</h1>
+          <h1 className="font-display text-2xl font-bold tracking-tight">{order.order_number}</h1>
           <p className="text-sm text-muted-foreground">{formatDate(order.created_at)}</p>
         </div>
         <OrderStatusBadge status={order.status as OrderStatus} />
@@ -126,7 +126,7 @@ export default function SellerOrderDetailPage() {
                   <Button
                     onClick={() => handleStatusChange(nextStatus)}
                     disabled={updating}
-                    className="shadow-sm hover:-translate-y-0.5 hover:shadow-md"
+                    className="shadow-cozy hover:-translate-y-0.5 hover:shadow-cozy-lg"
                   >
                     {updating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     Mark as {ORDER_STATUS_CONFIG[nextStatus].label}

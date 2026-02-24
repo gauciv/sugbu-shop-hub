@@ -6,10 +6,10 @@ export default function NotFoundPage() {
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center text-center">
       <div className="text-8xl font-bold tracking-tighter text-purple-200">404</div>
-      <h1 className="mt-4 text-2xl font-bold tracking-tight">Page not found</h1>
+      <h1 className="mt-4 font-display text-2xl font-bold tracking-tight">Page not found</h1>
       <p className="mt-2 text-muted-foreground">The page you&apos;re looking for doesn&apos;t exist.</p>
       <Link to="/">
-        <Button className="mt-6 shadow-sm hover:-translate-y-0.5 hover:shadow-md">
+        <Button className="mt-6 shadow-cozy hover:-translate-y-0.5 hover:shadow-cozy-lg">
           <Home className="mr-2 h-4 w-4" /> Back to Home
         </Button>
       </Link>

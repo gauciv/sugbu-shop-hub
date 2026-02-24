@@ -32,7 +32,7 @@ export default function OrderConfirmationPage() {
       <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-green-50">
         <CheckCircle2 className="h-10 w-10 text-green-600" />
       </div>
-      <h1 className="mt-5 text-2xl font-bold tracking-tight">Order Placed!</h1>
+      <h1 className="mt-5 font-display text-2xl font-bold tracking-tight">Order Placed!</h1>
       <p className="mt-2 text-muted-foreground">
         Your order has been received and is being processed.
       </p>
@@ -67,7 +67,7 @@ export default function OrderConfirmationPage() {
           </Button>
         </Link>
         <Link to="/shops">
-          <Button className="w-full shadow-sm hover:-translate-y-0.5 hover:shadow-md sm:w-auto">
+          <Button className="w-full shadow-cozy hover:-translate-y-0.5 hover:shadow-cozy-lg sm:w-auto">
             Continue Shopping <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </Link>

@@ -79,7 +79,7 @@ export default function CheckoutPage() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
-      <h1 className="mb-8 text-2xl font-bold tracking-tight">Checkout</h1>
+      <h1 className="mb-8 font-display text-2xl font-bold tracking-tight">Checkout</h1>
 
       <div className="grid gap-8 lg:grid-cols-5">
         <div className="lg:col-span-3">
@@ -152,7 +152,7 @@ export default function CheckoutPage() {
                 form="checkout-form"
                 disabled={loading}
                 size="lg"
-                className="w-full shadow-sm hover:-translate-y-0.5 hover:shadow-md"
+                className="w-full shadow-cozy hover:-translate-y-0.5 hover:shadow-cozy-lg"
               >
                 {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <ShieldCheck className="mr-2 h-4 w-4" />}
                 Place Order

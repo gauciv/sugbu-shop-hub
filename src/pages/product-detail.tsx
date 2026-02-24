@@ -75,7 +75,7 @@ export default function ProductDetailPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <Link to={product.shop ? `/shop/${product.shop.slug}` : "/shops"}>
-        <Button variant="ghost" size="sm" className="mb-6 rounded-full text-muted-foreground hover:bg-secondary">
+        <Button variant="ghost" size="sm" className="mb-6 rounded-full text-muted-foreground hover:bg-purple-100">
           <ArrowLeft className="mr-2 h-4 w-4" />
           {product.shop ? `Back to ${product.shop.name}` : "Back to Shops"}
         </Button>
@@ -104,7 +104,7 @@ export default function ProductDetailPage() {
                   key={i}
                   onClick={() => setSelectedImage(i)}
                   className={`h-16 w-16 overflow-hidden rounded-xl border-2 transition-all ${
-                    i === selectedImage ? "border-purple-400 shadow-cozy" : "border-border/60 hover:border-purple-200"
+                    i === selectedImage ? "border-primary shadow-cozy" : "border-border/60 hover:border-purple-300"
                   }`}
                 >
                   <img src={url} alt="" className="h-full w-full object-cover" />
@@ -117,7 +117,7 @@ export default function ProductDetailPage() {
         {/* Info */}
         <div className="lg:py-2">
           {product.shop && (
-            <Link to={`/shop/${product.shop.slug}`} className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-secondary px-3 py-1 text-xs font-medium text-purple-400 hover:bg-secondary hover:text-purple-500">
+            <Link to={`/shop/${product.shop.slug}`} className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-purple-100 px-3 py-1 text-xs font-medium text-purple-700 hover:bg-purple-200">
               <Store className="h-3.5 w-3.5" /> {product.shop.name}
             </Link>
           )}
@@ -153,7 +153,7 @@ export default function ProductDetailPage() {
           )}
 
           {product.stock > 0 && (
-            <div className="rounded-2xl bg-secondary/50 p-5">
+            <div className="rounded-2xl bg-purple-50 p-5">
               <div className="mb-4 flex items-center gap-2 text-sm">
                 <Check className="h-4 w-4 text-green-600" />
                 <span className="text-green-700 font-medium">{product.stock} in stock</span>
@@ -169,7 +169,7 @@ export default function ProductDetailPage() {
                 className={
                   justAdded
                     ? "mt-4 w-full rounded-full bg-emerald-600 text-white shadow-lg shadow-emerald-500/20"
-                    : "mt-4 w-full rounded-full shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+                    : "mt-4 w-full rounded-full shadow-cozy transition-all hover:-translate-y-0.5 hover:shadow-cozy-lg"
                 }
               >
                 {justAdded ? (
@@ -182,7 +182,7 @@ export default function ProductDetailPage() {
           )}
 
           {product.stock <= 0 && (
-            <div className="rounded-2xl bg-secondary/50 p-5">
+            <div className="rounded-2xl bg-purple-50 p-5">
               <span className="text-destructive font-medium">Out of stock</span>
             </div>
           )}

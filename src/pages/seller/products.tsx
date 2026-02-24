@@ -71,11 +71,11 @@ export default function SellerProducts() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Products</h1>
+          <h1 className="font-display text-2xl font-bold tracking-tight">Products</h1>
           <p className="text-sm text-muted-foreground">{products.length} products</p>
         </div>
         <Link to="/seller/products/new">
-          <Button className="shadow-sm hover:-translate-y-0.5 hover:shadow-md">
+          <Button className="shadow-cozy hover:-translate-y-0.5 hover:shadow-cozy-lg">
             <Plus className="mr-2 h-4 w-4" /> Add Product
           </Button>
         </Link>

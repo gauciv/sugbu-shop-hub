@@ -120,7 +120,7 @@ export default function ShopSettingsPage() {
   return (
     <div className="mx-auto max-w-2xl space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Shop Settings</h1>
+        <h1 className="font-display text-2xl font-bold tracking-tight">Shop Settings</h1>
         <p className="text-sm text-muted-foreground">
           {shop ? "Manage your shop profile" : "Set up your shop to start selling"}
         </p>
@@ -221,7 +221,7 @@ export default function ShopSettingsPage() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full shadow-sm hover:-translate-y-0.5 hover:shadow-md"
+              className="w-full shadow-cozy hover:-translate-y-0.5 hover:shadow-cozy-lg"
             >
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               {shop ? "Update Shop" : "Create Shop"}

@@ -32,7 +32,7 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-8">
           <Link to="/" className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary shadow-sm">
+            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary shadow-cozy">
               <Store className="h-4 w-4 text-white" />
             </div>
             <span className="text-lg font-bold tracking-tight text-foreground">
@@ -53,7 +53,7 @@ export function SiteHeader() {
                     className={cn(
                       "rounded-full text-sm transition-colors",
                       isActive
-                        ? "bg-purple-50 font-medium text-purple-500"
+                        ? "bg-purple-100 font-medium text-purple-700"
                         : "text-muted-foreground hover:bg-purple-50/60 hover:text-foreground"
                     )}
                   >
@@ -82,7 +82,7 @@ export function SiteHeader() {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full">
                   <Avatar className="h-8 w-8 border border-purple-200">
-                    <AvatarFallback className="bg-secondary text-xs font-semibold text-purple-500">
+                    <AvatarFallback className="bg-purple-100 text-xs font-semibold text-purple-700">
                       {getInitials(profile.full_name)}
                     </AvatarFallback>
                   </Avatar>
@@ -114,7 +114,7 @@ export function SiteHeader() {
                 <Button variant="ghost" size="sm" className="rounded-full text-muted-foreground hover:text-foreground">Sign In</Button>
               </Link>
               <Link to="/register">
-                <Button size="sm" className="rounded-full shadow-sm hover:-translate-y-0.5 hover:shadow-md">
+                <Button size="sm" className="rounded-full shadow-cozy hover:-translate-y-0.5 hover:shadow-cozy-lg">
                   Get Started
                 </Button>
               </Link>
@@ -147,7 +147,7 @@ export function SiteHeader() {
                     className={cn(
                       "w-full justify-start rounded-full",
                       isActive
-                        ? "bg-purple-50 font-medium text-purple-500"
+                        ? "bg-purple-100 font-medium text-purple-700"
                         : "text-muted-foreground"
                     )}
                   >

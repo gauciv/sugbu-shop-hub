@@ -39,7 +39,7 @@ export default function CartPage() {
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
-      <h1 className="mb-8 text-2xl font-bold tracking-tight">Shopping Cart</h1>
+      <h1 className="mb-8 font-display text-2xl font-bold tracking-tight">Shopping Cart</h1>
 
       <div className="space-y-6">
         {Object.entries(shopGroups).map(([shopId, group]) => (
@@ -93,7 +93,7 @@ export default function CartPage() {
           </Card>
         ))}
 
-        <div className="mt-2 rounded-2xl bg-secondary/50 p-6">
+        <div className="mt-2 rounded-2xl bg-white shadow-cozy p-6">
           <div className="flex items-center justify-between">
             <span className="text-lg font-semibold">Total</span>
             <span className="text-2xl font-bold tabular-nums">{formatPrice(total)}</span>
@@ -102,7 +102,7 @@ export default function CartPage() {
           <Button
             size="lg"
             onClick={() => navigate("/checkout")}
-            className="mt-5 w-full rounded-full shadow-sm hover:-translate-y-0.5 hover:shadow-md"
+            className="mt-5 w-full rounded-full shadow-cozy hover:-translate-y-0.5 hover:shadow-cozy-lg"
           >
             Proceed to Checkout <ArrowRight className="ml-2 h-4 w-4" />
           </Button>

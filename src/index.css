@@ -7,41 +7,41 @@
 :root {
   --radius: 1.5rem;
 
-  /* Warm indie palette — muted, soft, non-default */
+  /* Bold cozy marketplace palette */
   --background: #FDF7FB;
-  --foreground: #4A3D55;
+  --foreground: #2D1B4E;
   --card: #FFFFFF;
-  --card-foreground: #4A3D55;
+  --card-foreground: #2D1B4E;
   --popover: #FFFFFF;
-  --popover-foreground: #4A3D55;
-  --primary: #B9A0CB;
+  --popover-foreground: #2D1B4E;
+  --primary: #7C3AED;
   --primary-foreground: #FFFFFF;
-  --secondary: #F0EBF4;
-  --secondary-foreground: #5E4F6B;
-  --muted: #EDE4F3;
-  --muted-foreground: #8A7D96;
-  --accent: #E0B5CA;
-  --accent-foreground: #4A3D55;
+  --secondary: #F0EAFF;
+  --secondary-foreground: #4C1D95;
+  --muted: #F3EEFF;
+  --muted-foreground: #6B5B7B;
+  --accent: #F472B6;
+  --accent-foreground: #FFFFFF;
   --destructive: #E87171;
-  --border: #DCD0E7;
-  --input: #DCD0E7;
-  --ring: #B9A0CB;
+  --border: #E4D5F0;
+  --input: #E4D5F0;
+  --ring: #7C3AED;
 
-  --chart-1: #B9A0CB;
-  --chart-2: #E0B5CA;
-  --chart-3: #A78BBE;
-  --chart-4: #D49AB4;
-  --chart-5: #F0D4E0;
+  --chart-1: #7C3AED;
+  --chart-2: #F472B6;
+  --chart-3: #8B5CF6;
+  --chart-4: #C084FC;
+  --chart-5: #EC4899;
 
   --sidebar: #FDF7FB;
   --sidebar-background: #FDF7FB;
-  --sidebar-foreground: #4A3D55;
-  --sidebar-primary: #B9A0CB;
+  --sidebar-foreground: #2D1B4E;
+  --sidebar-primary: #7C3AED;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #F0EBF4;
-  --sidebar-accent-foreground: #5E4F6B;
-  --sidebar-border: #DCD0E7;
-  --sidebar-ring: #B9A0CB;
+  --sidebar-accent: #F0EAFF;
+  --sidebar-accent-foreground: #4C1D95;
+  --sidebar-border: #E4D5F0;
+  --sidebar-ring: #7C3AED;
 }
 
 @theme inline {
@@ -85,29 +85,34 @@
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
 
-  /* Warm muted brand palette — distinctly not default Tailwind */
-  --color-purple-50: #F7F3FA;
-  --color-purple-100: #EDE4F3;
-  --color-purple-200: #DCD0E7;
-  --color-purple-300: #CBB8D9;
-  --color-purple-400: #B9A0CB;
-  --color-purple-500: #A78BBE;
-  --color-purple-600: #9577AE;
-  --color-purple-700: #826A9E;
-  --color-purple-800: #6F5A8E;
-  --color-pink-50: #FBF4F7;
-  --color-pink-100: #F5E5ED;
-  --color-pink-200: #EDCFDD;
-  --color-pink-300: #E0B5CA;
-  --color-pink-400: #D49AB4;
-  --color-pink-500: #C4829C;
-  --color-pink-900: #6B2840;
-  --color-lavender-50: #FAF7FC;
-  --color-lavender-100: #F0EBF4;
-  --color-lavender-200: #E6DCF0;
+  /* Bold brand palette */
+  --color-purple-50: #F5F0FF;
+  --color-purple-100: #EDE5FF;
+  --color-purple-200: #DDD2FE;
+  --color-purple-300: #C4B0FC;
+  --color-purple-400: #A78BFA;
+  --color-purple-500: #8B5CF6;
+  --color-purple-600: #7C3AED;
+  --color-purple-700: #6D28D9;
+  --color-purple-800: #5B21B6;
+  --color-purple-900: #4C1D95;
+  --color-pink-50: #FFF1F7;
+  --color-pink-100: #FCE7F3;
+  --color-pink-200: #FBCFE8;
+  --color-pink-300: #F9A8D4;
+  --color-pink-400: #F472B6;
+  --color-pink-500: #EC4899;
+  --color-pink-900: #831843;
+  --color-lavender-50: #FAF5FF;
+  --color-lavender-100: #F0EAFF;
+  --color-lavender-200: #E4D5F0;
   --color-success: #16A34A;
   --color-warning: #D97706;
   --color-error: #DC2626;
+
+  /* Typography */
+  --font-display: "DM Serif Display", Georgia, serif;
+  --font-body: "Nunito", system-ui, sans-serif;
 }
 
 @layer base {
@@ -116,8 +121,8 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
-    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    @apply bg-background text-foreground antialiased;
+    font-family: "Nunito", system-ui, -apple-system, sans-serif;
     margin: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -131,7 +136,7 @@
   }
 
   *:focus-visible {
-    outline: 2px solid #B9A0CB66;
+    outline: 2px solid #7C3AED44;
     outline-offset: 2px;
     border-radius: var(--radius-sm);
   }
@@ -141,36 +146,56 @@
   }
 
   ::selection {
-    background-color: #B9A0CB22;
+    background-color: #7C3AED22;
   }
 }
 
 /* Custom utilities */
 @layer utilities {
-  .text-gradient {
-    @apply bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent;
+  .font-display {
+    font-family: "DM Serif Display", Georgia, serif;
   }
 
-  /* Gentle diffused shadows — neutral, warm */
+  .text-gradient {
+    @apply bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent;
+  }
+
+  /* Layered depth shadows — warm, confident */
   .shadow-cozy {
-    box-shadow: 0 1px 3px rgba(0,0,0,0.03), 0 4px 16px rgba(0,0,0,0.04);
+    box-shadow: 0 1px 3px rgba(124,58,237,0.06), 0 4px 16px rgba(124,58,237,0.08);
   }
 
   .shadow-cozy-lg {
-    box-shadow: 0 2px 6px rgba(0,0,0,0.04), 0 8px 28px rgba(0,0,0,0.06);
+    box-shadow: 0 2px 8px rgba(124,58,237,0.08), 0 12px 32px rgba(124,58,237,0.12);
   }
 
-  /* Card hover lift — subtle, smooth */
+  /* Card hover lift — confident with purple-tinted shadow */
   .card-cozy {
     transition: transform 250ms ease, box-shadow 250ms ease;
   }
   .card-cozy:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05), 0 12px 32px rgba(0,0,0,0.06);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(124,58,237,0.08), 0 16px 40px rgba(124,58,237,0.12);
+  }
+
+  /* Subtle grain texture overlay */
+  .bg-grain {
+    position: relative;
+  }
+  .bg-grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+    pointer-events: none;
+    border-radius: inherit;
   }
 }
 
-/* Animations — slow, gentle, not gimmicky */
+/* Animations */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-8px); }
@@ -184,7 +209,7 @@
 @keyframes fade-in-up {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
@@ -201,5 +226,5 @@
 }
 
 .animate-fade-in-up {
-  animation: fade-in-up 0.6s ease-out both;
+  animation: fade-in-up 0.5s ease-out both;
 }

@@ -1,53 +1,67 @@
 import { Outlet, Link } from "react-router-dom";
-import { Store, Heart, Sparkles } from "lucide-react";
+import { Store, Heart, Sparkles, ShoppingBag } from "lucide-react";
 
 export function AuthLayout() {
   return (
-    <div className="relative flex min-h-screen overflow-hidden bg-gradient-to-br from-lavender-50 via-lavender-100 to-purple-50">
-      {/* Subtle decorative blobs */}
-      <div className="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-pink-200/20 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-purple-200/25 blur-3xl" />
-      <div className="pointer-events-none absolute left-1/2 top-1/3 h-64 w-64 -translate-x-1/2 rounded-full bg-pink-300/15 blur-3xl" />
-
+    <div className="relative flex min-h-screen overflow-hidden bg-background">
       {/* Desktop: Two-column layout */}
       <div className="relative z-10 flex w-full flex-col lg:flex-row">
         {/* Left decorative side panel — hidden on mobile */}
-        <div className="relative hidden flex-col items-center justify-center gap-6 px-12 py-16 lg:flex lg:w-1/2">
+        <div className="bg-grain relative hidden flex-col items-center justify-center gap-6 bg-gradient-to-br from-purple-700 via-purple-800 to-purple-900 px-12 py-16 lg:flex lg:w-1/2">
           {/* Floating decorative shapes */}
-          <div className="animate-float pointer-events-none absolute left-12 top-24 h-16 w-16 rounded-2xl bg-purple-200/40" />
-          <div className="animate-float-slow pointer-events-none absolute bottom-32 left-20 h-12 w-12 rounded-full bg-pink-200/50" />
-          <div className="animate-float pointer-events-none absolute right-16 top-1/3 h-10 w-10 rounded-xl bg-lavender-200/60" />
+          <div className="animate-float pointer-events-none absolute left-12 top-24 h-16 w-16 rounded-2xl bg-white/10" />
+          <div className="animate-float-slow pointer-events-none absolute bottom-32 left-20 h-12 w-12 rounded-full bg-pink-400/20" />
+          <div className="animate-float pointer-events-none absolute right-16 top-1/3 h-10 w-10 rounded-xl bg-white/10" />
 
           <div className="max-w-md text-center">
             {/* Brand icon */}
-            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary shadow-cozy">
+            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-sm">
               <Store className="h-8 w-8 text-white" />
             </div>
 
-            <h1 className="mb-3 text-4xl font-bold tracking-tight">
+            <h1 className="mb-3 text-4xl font-bold tracking-tight text-white">
               Welcome to your{" "}
-              <span className="text-gradient">cozy corner</span>
+              <span className="text-pink-300">cozy corner</span>
             </h1>
 
-            <p className="mb-8 text-lg text-muted-foreground">
+            <p className="mb-8 text-lg text-purple-200">
               Join thousands of Cebu's small businesses thriving in our warm little marketplace.
             </p>
 
-            <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <Heart className="h-4 w-4 text-pink-400" />
-                <span>Made with love</span>
+            <div className="flex flex-col items-center justify-center gap-4 text-sm">
+              <div className="flex items-center gap-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10">
+                  <ShoppingBag className="h-4 w-4 text-white" />
+                </div>
+                <div className="text-left">
+                  <span className="text-white">Browse & shop</span>
+                  <p className="text-xs text-purple-200">Discover unique local finds</p>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Sparkles className="h-4 w-4 text-purple-400" />
-                <span>Local & handmade</span>
+              <div className="flex items-center gap-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10">
+                  <Heart className="h-4 w-4 text-white" />
+                </div>
+                <div className="text-left">
+                  <span className="text-white">Made with love</span>
+                  <p className="text-xs text-purple-200">Support local artisans</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10">
+                  <Sparkles className="h-4 w-4 text-white" />
+                </div>
+                <div className="text-left">
+                  <span className="text-white">Local & handmade</span>
+                  <p className="text-xs text-purple-200">Authentic Cebu crafts</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         {/* Right column: form area */}
-        <div className="flex flex-1 flex-col items-center justify-center p-4 lg:p-8">
+        <div className="flex flex-1 flex-col items-center justify-center bg-background p-4 lg:p-8">
           {/* Mobile branding — visible on small screens */}
           <div className="mb-6 flex flex-col items-center lg:hidden">
             <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary shadow-cozy">
@@ -64,7 +78,7 @@ export function AuthLayout() {
             to="/"
             className="mb-8 hidden items-center gap-3 transition-opacity hover:opacity-80 lg:flex"
           >
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary shadow-sm">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary shadow-cozy">
               <Store className="h-6 w-6 text-white" />
             </div>
             <span className="text-2xl font-bold tracking-tight">
