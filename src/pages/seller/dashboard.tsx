@@ -8,7 +8,8 @@ import { getMyShop } from "@/api/shops";
 import { getShopProducts } from "@/api/products";
 import { getShopOrders } from "@/api/orders";
 import { formatPrice, getInitials } from "@/lib/utils";
-import { Package, ShoppingBag, DollarSign, TrendingUp, Settings } from "lucide-react";
+import { Settings } from "lucide-react";
+import { DoodlePackage, DoodleCart, DoodleCoin, DoodleTrend } from "@/components/shared/doodles";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Shop, Product, Order } from "@/types";
 
@@ -67,10 +68,10 @@ export default function SellerDashboard() {
   }
 
   const stats = [
-    { label: "Total Products", value: products.length, icon: Package, color: "text-purple-400 bg-purple-50" },
-    { label: "Total Orders", value: orders.length, icon: ShoppingBag, color: "text-pink-400 bg-pink-50" },
-    { label: "Revenue", value: formatPrice(totalRevenue), icon: DollarSign, color: "text-pink-400 bg-pink-50" },
-    { label: "Pending Orders", value: pendingOrders, icon: TrendingUp, color: "text-amber-600 bg-amber-50" },
+    { label: "Total Products", value: products.length, icon: DoodlePackage, color: "text-purple-400 bg-purple-50" },
+    { label: "Total Orders", value: orders.length, icon: DoodleCart, color: "text-pink-400 bg-pink-50" },
+    { label: "Revenue", value: formatPrice(totalRevenue), icon: DoodleCoin, color: "text-pink-400 bg-pink-50" },
+    { label: "Pending Orders", value: pendingOrders, icon: DoodleTrend, color: "text-amber-600 bg-amber-50" },
   ];
 
   return (
