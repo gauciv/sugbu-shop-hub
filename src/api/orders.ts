@@ -58,6 +58,19 @@ export async function placeOrder(input: PlaceOrderInput): Promise<Order> {
 
   if (itemsError) throw itemsError;
 
+  // Decrement stock for each ordered item.
+  // The database trigger (005_stock_decrement.sql) handles this automatically,
+  // but we also call the RPC as a fallback for environments where the trigger
+  // may not yet be applied.
+  await Promise.all(
+    input.items.map((item) =>
+      supabase.rpc("decrement_product_stock", {
+        p_product_id: item.productId,
+        p_quantity: item.quantity,
+      })
+    )
+  );
+
   return order as Order;
 }
 
