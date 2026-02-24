@@ -37,8 +37,8 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
   }
 
   return (
-    <Link to={`/product/${product.id}`}>
-      <Card className="card-cozy group overflow-hidden rounded-2xl border-border/60 transition-all duration-200 hover:border-pink-200">
+    <Link to={`/product/${product.id}`} className="block h-full">
+      <Card className="card-cozy group flex h-full flex-col overflow-hidden rounded-2xl border-border/60 transition-all duration-200 hover:border-pink-200">
         <div className="relative aspect-square overflow-hidden rounded-t-2xl bg-purple-50">
           {product.image_urls[0] ? (
             <img
@@ -62,16 +62,16 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
             </div>
           )}
         </div>
-        <CardContent className="p-4">
+        <CardContent className="flex flex-1 flex-col p-4">
           {showShop && product.shop && (
-            <p className="mb-1 text-[11px] font-medium uppercase tracking-wider text-primary">
+            <p className="mb-1 truncate text-[11px] font-medium uppercase tracking-wider text-primary">
               {product.shop.name}
             </p>
           )}
           <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-foreground">
             {product.name}
           </h3>
-          <div className="mt-2 flex items-center justify-between">
+          <div className="mt-auto flex items-center justify-between pt-2">
             <div className="flex items-baseline gap-1.5">
               <span className="text-base font-bold tabular-nums text-foreground">
                 {formatPrice(product.price)}
@@ -86,7 +86,7 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
               size="icon"
               variant="ghost"
               className={cn(
-                "h-8 w-8 rounded-full transition-all duration-200",
+                "h-8 w-8 shrink-0 rounded-full transition-all duration-200",
                 justAdded
                   ? "bg-emerald-50 text-emerald-600 scale-110"
                   : "text-purple-400 hover:bg-pink-50 hover:text-pink-500"
