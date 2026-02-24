@@ -9,7 +9,7 @@ export default function NotFoundPage() {
       <h1 className="mt-4 text-2xl font-bold tracking-tight">Page not found</h1>
       <p className="mt-2 text-muted-foreground">The page you&apos;re looking for doesn&apos;t exist.</p>
       <Link to="/">
-        <Button className="mt-6 bg-gradient-to-r from-purple-400 to-pink-400 text-white">
+        <Button className="mt-6 shadow-sm hover:-translate-y-0.5 hover:shadow-md">
           <Home className="mr-2 h-4 w-4" /> Back to Home
         </Button>
       </Link>

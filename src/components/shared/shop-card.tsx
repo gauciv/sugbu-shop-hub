@@ -12,13 +12,11 @@ interface ShopCardProps {
 export function ShopCard({ shop }: ShopCardProps) {
   return (
     <Link to={`/shop/${shop.slug}`}>
-      <Card className="card-cozy group overflow-hidden rounded-2xl border-border/60 transition-all duration-200 hover:border-purple-200">
+      <Card className="card-cozy group overflow-hidden rounded-2xl border-border/60 transition-all duration-200 hover:border-border">
         <div className="relative h-32 bg-gradient-to-br from-purple-100 via-pink-50 to-lavender-100">
           {shop.banner_url ? (
             <img src={shop.banner_url} alt="" className="h-full w-full object-cover" />
-          ) : (
-            <div className="bg-dots absolute inset-0 opacity-40" />
-          )}
+          ) : null}
         </div>
         <CardContent className="relative px-4 pb-4 pt-0">
           <Avatar className="-mt-7 h-14 w-14 border-[3px] border-white shadow-sm">

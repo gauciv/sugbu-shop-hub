@@ -32,7 +32,7 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-8">
           <Link to="/" className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-purple-400 to-pink-400 shadow-sm shadow-purple-400/15">
+            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary shadow-sm">
               <Store className="h-4 w-4 text-white" />
             </div>
             <span className="text-lg font-bold tracking-tight text-foreground">
@@ -70,7 +70,7 @@ export function SiteHeader() {
             <Button variant="ghost" size="icon" className="relative">
               <ShoppingCart className="h-5 w-5" />
               {cartCount > 0 && (
-                <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 animate-pulse items-center justify-center rounded-full bg-gradient-to-r from-purple-400 to-pink-400 text-[10px] font-bold text-white shadow-sm">
+                <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-[10px] font-bold text-white shadow-sm">
                   {cartCount > 99 ? "99+" : cartCount}
                 </span>
               )}
@@ -82,7 +82,7 @@ export function SiteHeader() {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full">
                   <Avatar className="h-8 w-8 border border-purple-200">
-                    <AvatarFallback className="bg-gradient-to-br from-purple-50 to-pink-50 text-xs font-semibold text-purple-500">
+                    <AvatarFallback className="bg-secondary text-xs font-semibold text-purple-500">
                       {getInitials(profile.full_name)}
                     </AvatarFallback>
                   </Avatar>
@@ -114,7 +114,7 @@ export function SiteHeader() {
                 <Button variant="ghost" size="sm" className="rounded-full text-muted-foreground hover:text-foreground">Sign In</Button>
               </Link>
               <Link to="/register">
-                <Button size="sm" className="rounded-full bg-gradient-to-r from-purple-400 to-pink-400 text-white shadow-sm shadow-purple-400/15 hover:from-purple-500 hover:to-pink-500 hover:shadow-md hover:shadow-purple-400/20">
+                <Button size="sm" className="rounded-full shadow-sm hover:-translate-y-0.5 hover:shadow-md">
                   Get Started
                 </Button>
               </Link>
@@ -162,7 +162,7 @@ export function SiteHeader() {
                   <Button variant="ghost" size="sm" className="w-full justify-start rounded-full">Sign In</Button>
                 </Link>
                 <Link to="/register" onClick={() => setMobileOpen(false)}>
-                  <Button size="sm" className="w-full rounded-full bg-gradient-to-r from-purple-400 to-pink-400 text-white">
+                  <Button size="sm" className="w-full rounded-full">
                     Get Started
                   </Button>
                 </Link>

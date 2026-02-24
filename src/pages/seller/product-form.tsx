@@ -193,7 +193,7 @@ export default function ProductFormPage() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-purple-400 to-pink-400 text-white shadow-sm hover:from-purple-500 hover:to-pink-500"
+              className="w-full shadow-sm hover:-translate-y-0.5 hover:shadow-md"
             >
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               {isEditing ? "Update Product" : "Create Product"}

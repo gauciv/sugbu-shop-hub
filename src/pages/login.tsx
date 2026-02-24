@@ -75,7 +75,7 @@ export default function LoginPage() {
           <Button
             type="submit"
             disabled={loading}
-            className="w-full rounded-full bg-gradient-to-r from-purple-400 to-pink-400 text-white shadow-sm hover:from-purple-500 hover:to-pink-500"
+            className="w-full rounded-full shadow-sm hover:-translate-y-0.5 hover:shadow-md"
           >
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Sign In

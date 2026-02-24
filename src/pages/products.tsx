@@ -71,8 +71,8 @@ export default function ProductsPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       {/* Page header */}
-      <div className="mb-10 rounded-2xl bg-gradient-to-r from-lavender-100/50 to-purple-50/50 px-6 py-8 sm:px-8">
-        <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+      <div className="mb-10 rounded-2xl bg-secondary/40 px-6 py-8 sm:px-8">
+        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
           Browse Products
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">

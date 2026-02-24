@@ -126,7 +126,7 @@ export default function SellerOrderDetailPage() {
                   <Button
                     onClick={() => handleStatusChange(nextStatus)}
                     disabled={updating}
-                    className="bg-gradient-to-r from-purple-400 to-pink-400 text-white shadow-sm hover:from-purple-500 hover:to-pink-500"
+                    className="shadow-sm hover:-translate-y-0.5 hover:shadow-md"
                   >
                     {updating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     Mark as {ORDER_STATUS_CONFIG[nextStatus].label}

@@ -67,7 +67,7 @@ export default function OrderConfirmationPage() {
           </Button>
         </Link>
         <Link to="/shops">
-          <Button className="w-full bg-gradient-to-r from-purple-400 to-pink-400 text-white sm:w-auto">
+          <Button className="w-full shadow-sm hover:-translate-y-0.5 hover:shadow-md sm:w-auto">
             Continue Shopping <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </Link>

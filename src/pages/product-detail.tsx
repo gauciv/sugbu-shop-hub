@@ -75,7 +75,7 @@ export default function ProductDetailPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <Link to={product.shop ? `/shop/${product.shop.slug}` : "/shops"}>
-        <Button variant="ghost" size="sm" className="mb-6 rounded-full text-muted-foreground hover:bg-purple-50">
+        <Button variant="ghost" size="sm" className="mb-6 rounded-full text-muted-foreground hover:bg-secondary">
           <ArrowLeft className="mr-2 h-4 w-4" />
           {product.shop ? `Back to ${product.shop.name}` : "Back to Shops"}
         </Button>
@@ -84,7 +84,7 @@ export default function ProductDetailPage() {
       <div className="grid gap-10 lg:grid-cols-2">
         {/* Images */}
         <div className="space-y-3">
-          <div className="aspect-square overflow-hidden rounded-3xl border border-border/40 bg-lavender-100/50 shadow-cozy">
+          <div className="aspect-square overflow-hidden rounded-3xl border border-border/40 bg-secondary/40 shadow-cozy">
             {product.image_urls[selectedImage] ? (
               <img
                 src={product.image_urls[selectedImage]}
@@ -117,7 +117,7 @@ export default function ProductDetailPage() {
         {/* Info */}
         <div className="lg:py-2">
           {product.shop && (
-            <Link to={`/shop/${product.shop.slug}`} className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-purple-50 px-3 py-1 text-xs font-medium text-purple-400 hover:bg-purple-100 hover:text-purple-500">
+            <Link to={`/shop/${product.shop.slug}`} className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-secondary px-3 py-1 text-xs font-medium text-purple-400 hover:bg-secondary hover:text-purple-500">
               <Store className="h-3.5 w-3.5" /> {product.shop.name}
             </Link>
           )}
@@ -131,7 +131,7 @@ export default function ProductDetailPage() {
               </span>
             )}
             {onSale && (
-              <Badge className="bg-gradient-to-r from-pink-400 to-purple-400 text-white border-0">
+              <Badge className="bg-accent text-white border-0">
                 {Math.round((1 - product.price / product.compare_at_price!) * 100)}% OFF
               </Badge>
             )}
@@ -153,7 +153,7 @@ export default function ProductDetailPage() {
           )}
 
           {product.stock > 0 && (
-            <div className="rounded-2xl bg-lavender-100/50 p-5">
+            <div className="rounded-2xl bg-secondary/50 p-5">
               <div className="mb-4 flex items-center gap-2 text-sm">
                 <Check className="h-4 w-4 text-green-600" />
                 <span className="text-green-700 font-medium">{product.stock} in stock</span>
@@ -169,7 +169,7 @@ export default function ProductDetailPage() {
                 className={
                   justAdded
                     ? "mt-4 w-full rounded-full bg-emerald-600 text-white shadow-lg shadow-emerald-500/20"
-                    : "mt-4 w-full rounded-full bg-gradient-to-r from-purple-400 to-pink-400 text-white shadow-lg shadow-purple-400/15 transition-all hover:from-purple-500 hover:to-pink-500 hover:shadow-xl"
+                    : "mt-4 w-full rounded-full shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
                 }
               >
                 {justAdded ? (
@@ -182,7 +182,7 @@ export default function ProductDetailPage() {
           )}
 
           {product.stock <= 0 && (
-            <div className="rounded-2xl bg-lavender-100/50 p-5">
+            <div className="rounded-2xl bg-secondary/50 p-5">
               <span className="text-destructive font-medium">Out of stock</span>
             </div>
           )}

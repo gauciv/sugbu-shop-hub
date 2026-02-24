@@ -4,29 +4,14 @@ import { Store, Heart } from "lucide-react";
 export function SiteFooter() {
   return (
     <footer className="relative">
-      {/* Decorative wave divider */}
-      <div className="relative -mb-px w-full overflow-hidden leading-none">
-        <svg
-          className="relative block w-full"
-          viewBox="0 0 1200 60"
-          preserveAspectRatio="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M0,60 L0,20 Q150,0 300,20 T600,20 T900,20 T1200,20 L1200,60 Z"
-            className="fill-lavender-50"
-          />
-        </svg>
-      </div>
-
-      <div className="bg-gradient-to-b from-lavender-50 to-lavender-100">
+      <div className="bg-secondary/50">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           {/* Top row: Brand + Nav */}
           <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
             {/* Brand + Tagline */}
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-purple-400 to-pink-400 shadow-sm shadow-purple-400/15">
+                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary shadow-sm">
                   <Store className="h-4 w-4 text-white" />
                 </div>
                 <span className="text-lg font-bold tracking-tight text-foreground">
@@ -62,7 +47,7 @@ export function SiteFooter() {
           </div>
 
           {/* Divider */}
-          <div className="my-8 border-t border-purple-200/40" />
+          <div className="my-8 border-t border-border/40" />
 
           {/* Bottom row: Copyright */}
           <div className="flex flex-col items-center gap-2 text-center">

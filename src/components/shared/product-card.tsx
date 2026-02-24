@@ -38,7 +38,7 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
 
   return (
     <Link to={`/product/${product.id}`}>
-      <Card className="card-cozy group overflow-hidden rounded-2xl border-border/60 transition-all duration-200 hover:border-purple-200">
+      <Card className="card-cozy group overflow-hidden rounded-2xl border-border/60 transition-all duration-200 hover:border-border">
         <div className="relative aspect-square overflow-hidden rounded-t-2xl bg-lavender-100/50">
           {product.image_urls[0] ? (
             <img
@@ -52,7 +52,7 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
             </div>
           )}
           {onSale && (
-            <Badge className="absolute left-2 top-2 rounded-full bg-gradient-to-r from-pink-400 to-purple-400 text-white shadow-sm">
+            <Badge className="absolute left-2 top-2 rounded-full bg-accent text-white">
               Sale
             </Badge>
           )}

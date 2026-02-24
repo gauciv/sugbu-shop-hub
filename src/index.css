@@ -5,43 +5,43 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --radius: 1rem;
+  --radius: 1.5rem;
 
-  /* Soft Cozy Pastel palette */
+  /* Warm indie palette — muted, soft, non-default */
   --background: #FDF7FB;
-  --foreground: #3F3147;
+  --foreground: #4A3D55;
   --card: #FFFFFF;
-  --card-foreground: #3F3147;
+  --card-foreground: #4A3D55;
   --popover: #FFFFFF;
-  --popover-foreground: #3F3147;
-  --primary: #C084FC;
+  --popover-foreground: #4A3D55;
+  --primary: #B9A0CB;
   --primary-foreground: #FFFFFF;
-  --secondary: #F6EAF7;
-  --secondary-foreground: #5B4B6A;
-  --muted: #F3E8FF;
-  --muted-foreground: #7C6A8A;
-  --accent: #F9A8D4;
-  --accent-foreground: #3F3147;
-  --destructive: #EF4444;
-  --border: #E9D5FF;
-  --input: #E9D5FF;
-  --ring: #C084FC;
+  --secondary: #F0EBF4;
+  --secondary-foreground: #5E4F6B;
+  --muted: #EDE4F3;
+  --muted-foreground: #8A7D96;
+  --accent: #E0B5CA;
+  --accent-foreground: #4A3D55;
+  --destructive: #E87171;
+  --border: #DCD0E7;
+  --input: #DCD0E7;
+  --ring: #B9A0CB;
 
-  --chart-1: #C084FC;
-  --chart-2: #F9A8D4;
-  --chart-3: #A78BFA;
-  --chart-4: #F472B6;
-  --chart-5: #FBCFE8;
+  --chart-1: #B9A0CB;
+  --chart-2: #E0B5CA;
+  --chart-3: #A78BBE;
+  --chart-4: #D49AB4;
+  --chart-5: #F0D4E0;
 
   --sidebar: #FDF7FB;
   --sidebar-background: #FDF7FB;
-  --sidebar-foreground: #3F3147;
-  --sidebar-primary: #C084FC;
+  --sidebar-foreground: #4A3D55;
+  --sidebar-primary: #B9A0CB;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #F6EAF7;
-  --sidebar-accent-foreground: #5B4B6A;
-  --sidebar-border: #E9D5FF;
-  --sidebar-ring: #C084FC;
+  --sidebar-accent: #F0EBF4;
+  --sidebar-accent-foreground: #5E4F6B;
+  --sidebar-border: #DCD0E7;
+  --sidebar-ring: #B9A0CB;
 }
 
 @theme inline {
@@ -85,32 +85,26 @@
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
 
-  /* Cozy brand colors */
-  --color-purple-50: #F3E8FF;
-  --color-purple-100: #E9D5FF;
-  --color-purple-200: #D8B4FE;
-  --color-purple-300: #C084FC;
-  --color-purple-400: #C084FC;
-  --color-purple-500: #A78BFA;
-  --color-purple-600: #8B5CF6;
-  --color-purple-700: #7C3AED;
-  --color-purple-800: #6D28D9;
-  --color-pink-50: #FDF2F8;
-  --color-pink-100: #FCE7F3;
-  --color-pink-200: #FBCFE8;
-  --color-pink-300: #F9A8D4;
-  --color-pink-400: #F472B6;
-  --color-pink-500: #EC4899;
-  --color-pink-900: #831843;
-  --color-fuchsia-50: #FDF4FF;
-  --color-fuchsia-100: #FAE8FF;
-  --color-fuchsia-400: #E879F9;
-  --color-fuchsia-500: #D946EF;
-  --color-fuchsia-600: #C026D3;
-  --color-fuchsia-950: #4A044E;
-  --color-lavender-50: #FDF7FB;
-  --color-lavender-100: #F6EAF7;
-  --color-lavender-200: #F3E8FF;
+  /* Warm muted brand palette — distinctly not default Tailwind */
+  --color-purple-50: #F7F3FA;
+  --color-purple-100: #EDE4F3;
+  --color-purple-200: #DCD0E7;
+  --color-purple-300: #CBB8D9;
+  --color-purple-400: #B9A0CB;
+  --color-purple-500: #A78BBE;
+  --color-purple-600: #9577AE;
+  --color-purple-700: #826A9E;
+  --color-purple-800: #6F5A8E;
+  --color-pink-50: #FBF4F7;
+  --color-pink-100: #F5E5ED;
+  --color-pink-200: #EDCFDD;
+  --color-pink-300: #E0B5CA;
+  --color-pink-400: #D49AB4;
+  --color-pink-500: #C4829C;
+  --color-pink-900: #6B2840;
+  --color-lavender-50: #FAF7FC;
+  --color-lavender-100: #F0EBF4;
+  --color-lavender-200: #E6DCF0;
   --color-success: #16A34A;
   --color-warning: #D97706;
   --color-error: #DC2626;
@@ -130,28 +124,24 @@
     text-rendering: optimizeLegibility;
   }
 
-  /* Smooth transitions on interactive elements */
   a, button, input, select, textarea {
     transition-property: color, background-color, border-color, box-shadow, opacity, transform;
     transition-duration: 150ms;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* Focus ring improvements */
   *:focus-visible {
-    outline: 2px solid #C084FC80;
+    outline: 2px solid #B9A0CB66;
     outline-offset: 2px;
     border-radius: var(--radius-sm);
   }
 
-  /* Smooth scrolling */
   html {
     scroll-behavior: smooth;
   }
 
-  /* Subtle selection color */
   ::selection {
-    background-color: #C084FC26;
+    background-color: #B9A0CB22;
   }
 }
 
@@ -161,52 +151,40 @@
     @apply bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent;
   }
 
-  /* Cozy warm shadow — purple-tinted, diffused */
+  /* Gentle diffused shadows — neutral, warm */
   .shadow-cozy {
-    box-shadow:
-      0 1px 3px rgba(192, 132, 252, 0.06),
-      0 4px 12px rgba(192, 132, 252, 0.08);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03), 0 4px 16px rgba(0,0,0,0.04);
   }
 
   .shadow-cozy-lg {
-    box-shadow:
-      0 2px 8px rgba(192, 132, 252, 0.08),
-      0 8px 24px rgba(192, 132, 252, 0.12);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04), 0 8px 28px rgba(0,0,0,0.06);
   }
 
-  /* Dot pattern background */
-  .bg-dots {
-    background-image: radial-gradient(circle, #E9D5FF 1px, transparent 1px);
-    background-size: 24px 24px;
-  }
-
-  /* Card cozy hover lift */
+  /* Card hover lift — subtle, smooth */
   .card-cozy {
-    transition: transform 200ms ease, box-shadow 200ms ease;
+    transition: transform 250ms ease, box-shadow 250ms ease;
   }
   .card-cozy:hover {
-    transform: translateY(-3px);
-    box-shadow:
-      0 4px 12px rgba(192, 132, 252, 0.1),
-      0 8px 24px rgba(192, 132, 252, 0.08);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05), 0 12px 32px rgba(0,0,0,0.06);
   }
 }
 
-/* Animations */
+/* Animations — slow, gentle, not gimmicky */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
+  50% { transform: translateY(-8px); }
 }
 
 @keyframes float-slow {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-8px) rotate(3deg); }
+  50% { transform: translateY(-6px) rotate(2deg); }
 }
 
 @keyframes fade-in-up {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -215,13 +193,13 @@
 }
 
 .animate-float {
-  animation: float 4s ease-in-out infinite;
+  animation: float 6s ease-in-out infinite;
 }
 
 .animate-float-slow {
-  animation: float-slow 6s ease-in-out infinite;
+  animation: float-slow 8s ease-in-out infinite;
 }
 
 .animate-fade-in-up {
-  animation: fade-in-up 0.5s ease-out both;
+  animation: fade-in-up 0.6s ease-out both;
 }

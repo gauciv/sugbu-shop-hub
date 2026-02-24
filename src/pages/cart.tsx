@@ -51,12 +51,12 @@ export default function CartPage() {
               <div className="space-y-5">
                 {group.items.map((item) => (
                   <div key={item.productId} className="flex gap-4">
-                    <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl bg-lavender-100">
+                    <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl bg-secondary">
                       {item.image ? (
                         <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
                       ) : (
                         <div className="flex h-full items-center justify-center">
-                          <ImageOff className="h-5 w-5 text-purple-200" />
+                          <ImageOff className="h-5 w-5 text-muted-foreground/30" />
                         </div>
                       )}
                     </div>
@@ -93,7 +93,7 @@ export default function CartPage() {
           </Card>
         ))}
 
-        <div className="mt-2 rounded-2xl bg-lavender-100/50 p-6">
+        <div className="mt-2 rounded-2xl bg-secondary/50 p-6">
           <div className="flex items-center justify-between">
             <span className="text-lg font-semibold">Total</span>
             <span className="text-2xl font-bold tabular-nums">{formatPrice(total)}</span>
@@ -102,7 +102,7 @@ export default function CartPage() {
           <Button
             size="lg"
             onClick={() => navigate("/checkout")}
-            className="mt-5 w-full rounded-full bg-gradient-to-r from-purple-400 to-pink-400 text-white shadow-lg shadow-purple-400/15 hover:from-purple-500 hover:to-pink-500 hover:shadow-xl"
+            className="mt-5 w-full rounded-full shadow-sm hover:-translate-y-0.5 hover:shadow-md"
           >
             Proceed to Checkout <ArrowRight className="ml-2 h-4 w-4" />
           </Button>

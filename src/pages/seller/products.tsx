@@ -75,7 +75,7 @@ export default function SellerProducts() {
           <p className="text-sm text-muted-foreground">{products.length} products</p>
         </div>
         <Link to="/seller/products/new">
-          <Button className="bg-gradient-to-r from-purple-400 to-pink-400 text-white shadow-sm hover:from-purple-500 hover:to-pink-500">
+          <Button className="shadow-sm hover:-translate-y-0.5 hover:shadow-md">
             <Plus className="mr-2 h-4 w-4" /> Add Product
           </Button>
         </Link>
