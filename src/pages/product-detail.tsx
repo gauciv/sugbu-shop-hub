@@ -75,7 +75,7 @@ export default function ProductDetailPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <Link to={product.shop ? `/shop/${product.shop.slug}` : "/shops"}>
-        <Button variant="ghost" size="sm" className="mb-6 rounded-full text-muted-foreground hover:bg-pink-50">
+        <Button variant="ghost" size="sm" className="mb-6 rounded-full text-muted-foreground hover:bg-pink-50 hover:text-foreground">
           <ArrowLeft className="mr-2 h-4 w-4" />
           {product.shop ? `Back to ${product.shop.name}` : "Back to Shops"}
         </Button>

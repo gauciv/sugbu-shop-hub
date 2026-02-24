@@ -68,7 +68,7 @@ export default function HomePage() {
                 </Link>
                 {!session && (
                   <Link to="/register">
-                    <Button size="lg" variant="outline" className="rounded-full border-pink-200 bg-white px-8 text-pink-500 shadow-sm hover:-translate-y-0.5 hover:bg-pink-50 hover:shadow-md">
+                    <Button size="lg" variant="outline" className="rounded-full border-pink-200 bg-white px-8 text-pink-500 shadow-sm hover:-translate-y-0.5 hover:bg-pink-50 hover:text-pink-600 hover:shadow-md">
                       Start Selling
                     </Button>
                   </Link>

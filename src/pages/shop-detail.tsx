@@ -51,27 +51,27 @@ export default function ShopDetailPage() {
   return (
     <div>
       {/* Banner */}
-      <div className="relative h-40 bg-gradient-to-br from-pink-50 via-purple-50 to-lavender-100 sm:h-52">
+      <div className="relative h-40 bg-gradient-to-br from-pink-50 via-purple-50 to-lavender-100 sm:h-56 lg:h-64">
         {shop.banner_url && (
           <img src={shop.banner_url} alt="" className="h-full w-full object-cover" />
         )}
       </div>
 
-      {/* Shop Info */}
+      {/* Shop Info — Facebook-style: avatar overlaps banner, name below */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="relative -mt-10 flex items-end gap-4 pb-6">
-          <Avatar className="h-20 w-20 border-4 border-white shadow-md sm:h-24 sm:w-24">
-            <AvatarImage src={shop.logo_url ?? undefined} />
-            <AvatarFallback className="bg-purple-50 text-lg font-bold text-purple-400">
+        <div className="relative flex flex-col items-center pb-6 sm:flex-row sm:items-end sm:gap-5">
+          <Avatar className="-mt-12 h-24 w-24 shrink-0 border-4 border-white shadow-lg sm:-mt-14 sm:h-28 sm:w-28 lg:h-32 lg:w-32">
+            <AvatarImage src={shop.logo_url ?? undefined} className="object-cover" />
+            <AvatarFallback className="bg-purple-50 text-2xl font-bold text-purple-400 sm:text-3xl">
               {getInitials(shop.name)}
             </AvatarFallback>
           </Avatar>
-          <div className="pb-1">
-            <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{shop.name}</h1>
+          <div className="mt-3 text-center sm:mt-0 sm:pb-1 sm:text-left">
+            <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">{shop.name}</h1>
             {shop.description && (
               <p className="mt-1 max-w-xl text-sm text-muted-foreground">{shop.description}</p>
             )}
-            <div className="mt-2 flex flex-wrap gap-4 text-xs text-muted-foreground">
+            <div className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs text-muted-foreground sm:justify-start">
               {shop.address && (
                 <span className="flex items-center gap-1"><MapPin className="h-3 w-3" /> {shop.address}</span>
               )}
