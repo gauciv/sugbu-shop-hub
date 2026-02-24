@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Package, ShoppingBag, Settings, ArrowLeft, PanelLeftClose, PanelLeft } from "lucide-react";
+import { LayoutDashboard, Package, ShoppingBag, Settings, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -20,9 +20,22 @@ export function SellerSidebar({ collapsed, onToggle }: SellerSidebarProps) {
 
   return (
     <aside className={cn(
-      "flex h-full flex-col border-r border-border/60 bg-white transition-all duration-200",
+      "relative flex h-full flex-col border-r border-border/60 bg-white transition-all duration-200",
       collapsed ? "w-16" : "w-64"
     )}>
+      {/* Floating arrow toggle button overlapping the sidebar edge */}
+      <button
+        onClick={onToggle}
+        className="absolute -right-3 top-20 z-10 flex h-6 w-6 items-center justify-center rounded-full border border-border/60 bg-white shadow-sm transition-colors hover:bg-pink-50"
+        title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+      >
+        {collapsed ? (
+          <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
+        ) : (
+          <ChevronLeft className="h-3.5 w-3.5 text-muted-foreground" />
+        )}
+      </button>
+
       <div className={cn(
         "flex h-16 items-center border-b border-border/60",
         collapsed ? "justify-center px-2" : "gap-2 px-4"
@@ -67,19 +80,7 @@ export function SellerSidebar({ collapsed, onToggle }: SellerSidebarProps) {
         })}
       </nav>
 
-      <div className={cn("space-y-1 border-t border-border/60", collapsed ? "p-1.5" : "p-3")}>
-        <Button
-          variant="ghost"
-          onClick={onToggle}
-          className={cn(
-            "w-full text-muted-foreground",
-            collapsed ? "justify-center px-0" : "justify-start gap-3"
-          )}
-          title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-        >
-          {collapsed ? <PanelLeft className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
-          {!collapsed && "Collapse"}
-        </Button>
+      <div className={cn("border-t border-border/60", collapsed ? "p-1.5" : "p-3")}>
         <Link to="/" title={collapsed ? "Back to Store" : undefined}>
           <Button
             variant="ghost"

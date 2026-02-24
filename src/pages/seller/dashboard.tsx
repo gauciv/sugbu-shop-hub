@@ -78,16 +78,16 @@ export default function SellerDashboard() {
     <div className="space-y-6">
       {/* Shop profile card */}
       <Card className="overflow-hidden border-border/60">
-        <div className="relative h-24 bg-gradient-to-br from-pink-50 via-purple-50 to-lavender-100">
+        <div className="relative h-40 sm:h-48 bg-gradient-to-br from-pink-50 via-purple-50 to-lavender-100">
           {shop.banner_url && (
             <img src={shop.banner_url} alt="" className="h-full w-full object-cover" />
           )}
         </div>
         <CardContent className="relative px-5 pb-5 pt-0">
           <div className="flex items-end gap-4">
-            <Avatar className="-mt-8 h-16 w-16 border-4 border-white shadow-md">
+            <Avatar className="-mt-10 h-20 w-20 border-4 border-white shadow-md">
               <AvatarImage src={shop.logo_url ?? undefined} />
-              <AvatarFallback className="bg-purple-100 text-sm font-bold text-purple-400">
+              <AvatarFallback className="bg-purple-100 text-base font-bold text-purple-400">
                 {getInitials(shop.name)}
               </AvatarFallback>
             </Avatar>

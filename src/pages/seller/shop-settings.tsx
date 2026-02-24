@@ -135,7 +135,7 @@ export default function ShopSettingsPage() {
           {/* Banner upload */}
           <div>
             <Label className="mb-2 block">Banner</Label>
-            <div className="relative h-32 overflow-hidden rounded-xl border-2 border-dashed border-border/60 bg-gradient-to-br from-lavender-50 via-lavender-100 to-purple-50 transition-colors hover:border-purple-300">
+            <div className="relative h-48 overflow-hidden rounded-xl border-2 border-dashed border-border/60 bg-gradient-to-br from-lavender-50 via-lavender-100 to-purple-50 transition-colors hover:border-purple-300">
               {bannerUrl && <img src={bannerUrl} alt="Banner" className="h-full w-full object-cover" />}
               <label className={cn(
                 "absolute inset-0 flex cursor-pointer flex-col items-center justify-center gap-1 transition-colors",
