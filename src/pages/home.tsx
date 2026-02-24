@@ -37,13 +37,13 @@ export default function HomePage() {
   return (
     <div>
       {/* Hero — cozy, whimsical, hand-drawn feel */}
-      <section className="relative overflow-hidden pb-16 pt-12 sm:pb-24 sm:pt-20 lg:pb-28 lg:pt-24">
+      <section className="relative overflow-hidden pb-10 pt-8 sm:pb-24 sm:pt-20 lg:pb-28 lg:pt-24">
         {/* Soft pastel background blobs */}
         <div className="pointer-events-none absolute -right-24 -top-24 h-[400px] w-[400px] rounded-full bg-purple-100/50 blur-[100px]" />
         <div className="pointer-events-none absolute -bottom-32 -left-24 h-[350px] w-[350px] rounded-full bg-pink-100/40 blur-[100px]" />
 
-        <div className="relative mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
-          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className="relative mx-auto max-w-6xl px-4 sm:px-8 lg:px-12">
+          <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
             {/* Text content */}
             <div className="text-center lg:text-left animate-fade-in-up">
               {/* Static badge — no animation */}
@@ -77,20 +77,21 @@ export default function HomePage() {
             </div>
 
             {/* Hero image area — organic cloud shape with doodles */}
-            <div className="relative hidden lg:block animate-fade-in-up" style={{ animationDelay: "0.15s" }}>
-              {/* Doodle illustrations scattered around */}
-              <DoodleHeart className="absolute -left-6 top-4 h-8 w-8 text-pink-300" />
-              <DoodleStar className="absolute -right-2 top-0 h-7 w-7 text-purple-300" />
-              <DoodleSparkle className="absolute -left-4 bottom-16 h-6 w-6 text-purple-400" />
-              <DoodleLeaf className="absolute -right-4 bottom-8 h-7 w-7 text-pink-300" />
-              <DoodleFlower className="absolute left-8 -top-6 h-8 w-8 text-purple-300" />
+            <div className="relative animate-fade-in-up" style={{ animationDelay: "0.15s" }}>
+              {/* Doodle illustrations scattered around — hidden on mobile */}
+              <DoodleHeart className="absolute -left-6 top-4 hidden h-8 w-8 text-pink-300 lg:block" />
+              <DoodleStar className="absolute -right-2 top-0 hidden h-7 w-7 text-purple-300 lg:block" />
+              <DoodleSparkle className="absolute -left-4 bottom-16 hidden h-6 w-6 text-purple-400 lg:block" />
+              <DoodleLeaf className="absolute -right-4 bottom-8 hidden h-7 w-7 text-pink-300 lg:block" />
+              <DoodleFlower className="absolute left-8 -top-6 hidden h-8 w-8 text-purple-300 lg:block" />
 
-              <div className="relative mx-auto aspect-[4/3] max-w-lg">
-                <div className="h-full w-full overflow-hidden rounded-[32px] border-2 border-pink-200">
+              <div className="relative mx-auto max-w-[280px] sm:max-w-xs lg:max-w-sm">
+                <div className="overflow-hidden rounded-[24px] border-2 border-pink-200 sm:rounded-[32px]">
                   <img
-                    src="/hero-image.jpg"
+                    src="/assets/hero-image.jpg"
                     alt="A cozy local market stall with colorful handmade goods"
                     className="h-full w-full object-cover"
+                    loading="eager"
                   />
                 </div>
               </div>
@@ -100,17 +101,17 @@ export default function HomePage() {
       </section>
 
       {/* Value Props — soft pastel cards with doodle icons */}
-      <section className="relative py-14">
-        <div className="mx-auto max-w-5xl px-6 sm:px-8 lg:px-12">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5">
+      <section className="relative py-10 sm:py-14">
+        <div className="mx-auto max-w-5xl px-4 sm:px-8 lg:px-12">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-5">
             {[
               { icon: Store, doodle: DoodleShoppingBag, title: "Local Shops", desc: "Curated businesses from all around Cebu, handpicked with care", border: "border-purple-200" },
               { icon: Heart, doodle: DoodleHeart, title: "Trusted Sellers", desc: "Every merchant is verified so you can shop with confidence", border: "border-pink-200" },
               { icon: ShoppingBag, doodle: DoodleStar, title: "Easy Shopping", desc: "A simple, cozy experience from browsing to doorstep delivery", border: "border-purple-200" },
             ].map((item) => (
-              <div key={item.title} className={`rounded-[24px] border-2 ${item.border} bg-white p-6`}>
-                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-[14px] bg-secondary">
-                  <item.doodle className="h-7 w-7 text-purple-400" />
+              <div key={item.title} className={`rounded-[20px] border-2 ${item.border} bg-white p-4 sm:rounded-[24px] sm:p-6`}>
+                <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-secondary sm:mb-3 sm:h-12 sm:w-12 sm:rounded-[14px]">
+                  <item.doodle className="h-6 w-6 text-purple-400 sm:h-7 sm:w-7" />
                 </div>
                 <p className="font-display text-base font-semibold text-foreground">{item.title}</p>
                 <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
@@ -122,8 +123,8 @@ export default function HomePage() {
 
       {/* Categories — soft rounded cards */}
       {categories.length > 0 && (
-        <section className="bg-secondary py-14">
-          <div className="mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
+        <section className="bg-secondary py-10 sm:py-14">
+          <div className="mx-auto max-w-6xl px-4 sm:px-8 lg:px-12">
             <div className="mb-8 text-center">
               <h2 className="font-display text-2xl font-bold text-foreground sm:text-3xl">Shop by Category</h2>
               <p className="mt-2 text-sm text-muted-foreground">Find exactly what you&apos;re looking for</p>
@@ -132,12 +133,12 @@ export default function HomePage() {
               {categories.map((cat) => {
                 const Icon = CATEGORY_ICONS[cat.icon ?? ""] ?? Store;
                 return (
-                  <Link key={cat.id} to={`/shops?category=${cat.slug}`}>
-                    <div className="card-cozy group flex flex-col items-center gap-3 rounded-[20px] border-2 border-purple-100 bg-white p-5 text-center">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-[14px] bg-purple-50 text-purple-400 transition-colors group-hover:bg-primary group-hover:text-white">
+                  <Link key={cat.id} to={`/shops?category=${cat.slug}`} className="block h-full">
+                    <div className="card-cozy group flex h-full flex-col items-center justify-center gap-2 rounded-[20px] border-2 border-purple-100 bg-white p-4 text-center">
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[14px] bg-purple-50 text-purple-400 transition-colors group-hover:bg-primary group-hover:text-white">
                         <Icon className="h-5 w-5" />
                       </div>
-                      <span className="text-xs font-bold text-foreground">{cat.name}</span>
+                      <span className="line-clamp-2 text-xs font-bold leading-tight text-foreground">{cat.name}</span>
                     </div>
                   </Link>
                 );
@@ -149,21 +150,21 @@ export default function HomePage() {
 
       {/* Featured Products */}
       {!loading && products.length > 0 && (
-        <section className="py-14">
-          <div className="mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
-            <div className="mb-8 flex items-end justify-between">
-              <div className="flex items-center gap-3">
-                <DoodleSparkle className="h-6 w-6 text-purple-300" />
+        <section className="py-10 sm:py-14">
+          <div className="mx-auto max-w-6xl px-4 sm:px-8 lg:px-12">
+            <div className="mb-6 flex items-end justify-between sm:mb-8">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <DoodleSparkle className="h-5 w-5 text-purple-300 sm:h-6 sm:w-6" />
                 <div>
-                  <h2 className="font-display text-2xl font-bold text-foreground sm:text-3xl">Freshly Added</h2>
-                  <p className="mt-0.5 text-sm text-muted-foreground">The latest from our local shops</p>
+                  <h2 className="font-display text-xl font-bold text-foreground sm:text-3xl">Freshly Added</h2>
+                  <p className="mt-0.5 text-xs text-muted-foreground sm:text-sm">The latest from our local shops</p>
                 </div>
               </div>
-              <Link to="/products" className="text-sm font-bold text-primary hover:text-purple-600">
-                View all <ArrowRight className="ml-1 inline h-3.5 w-3.5" />
+              <Link to="/products" className="text-xs font-bold text-primary hover:text-purple-600 sm:text-sm">
+                View all <ArrowRight className="ml-1 inline h-3 w-3 sm:h-3.5 sm:w-3.5" />
               </Link>
             </div>
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
               {products.map((p) => (
                 <ProductCard key={p.id} product={p} showShop />
               ))}
@@ -173,11 +174,11 @@ export default function HomePage() {
       )}
 
       {loading && (
-        <section className="py-14">
-          <div className="mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
+        <section className="py-10 sm:py-14">
+          <div className="mx-auto max-w-6xl px-4 sm:px-8 lg:px-12">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
               {[...Array(8)].map((_, i) => (
-                <Skeleton key={i} className="aspect-[3/4] rounded-[24px]" />
+                <Skeleton key={i} className="aspect-[3/4] rounded-xl sm:rounded-[24px]" />
               ))}
             </div>
           </div>
@@ -186,21 +187,21 @@ export default function HomePage() {
 
       {/* Featured Shops */}
       {!loading && shops.length > 0 && (
-        <section className="bg-secondary/70 py-14">
-          <div className="mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
-            <div className="mb-8 flex items-end justify-between">
-              <div className="flex items-center gap-3">
-                <DoodleHeart className="h-6 w-6 text-pink-300" />
+        <section className="bg-secondary/70 py-10 sm:py-14">
+          <div className="mx-auto max-w-6xl px-4 sm:px-8 lg:px-12">
+            <div className="mb-6 flex items-end justify-between sm:mb-8">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <DoodleHeart className="h-5 w-5 text-pink-300 sm:h-6 sm:w-6" />
                 <div>
-                  <h2 className="font-display text-2xl font-bold text-foreground sm:text-3xl">Meet Our Shops</h2>
-                  <p className="mt-0.5 text-sm text-muted-foreground">Local favorites worth discovering</p>
+                  <h2 className="font-display text-xl font-bold text-foreground sm:text-3xl">Meet Our Shops</h2>
+                  <p className="mt-0.5 text-xs text-muted-foreground sm:text-sm">Local favorites worth discovering</p>
                 </div>
               </div>
-              <Link to="/shops" className="text-sm font-bold text-primary hover:text-purple-600">
-                View all <ArrowRight className="ml-1 inline h-3.5 w-3.5" />
+              <Link to="/shops" className="text-xs font-bold text-primary hover:text-purple-600 sm:text-sm">
+                View all <ArrowRight className="ml-1 inline h-3 w-3 sm:h-3.5 sm:w-3.5" />
               </Link>
             </div>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
               {shops.slice(0, 6).map((s) => (
                 <ShopCard key={s.id} shop={s} />
               ))}
@@ -211,9 +212,9 @@ export default function HomePage() {
 
       {/* CTA — warm, inviting card */}
       {!session && (
-        <section className="py-16">
-          <div className="mx-auto max-w-3xl px-6 sm:px-8">
-            <div className="relative overflow-hidden rounded-[28px] border-2 border-purple-200 bg-gradient-to-br from-purple-50 via-pink-50 to-purple-50 px-8 py-12 text-center sm:px-14 sm:py-14">
+        <section className="py-10 sm:py-16">
+          <div className="mx-auto max-w-3xl px-4 sm:px-8">
+            <div className="relative overflow-hidden rounded-2xl border-2 border-purple-200 bg-gradient-to-br from-purple-50 via-pink-50 to-purple-50 px-6 py-10 text-center sm:rounded-[28px] sm:px-14 sm:py-14">
               {/* Doodle decorations */}
               <DoodleStar className="absolute left-6 top-6 h-8 w-8 text-purple-200" />
               <DoodleHeart className="absolute bottom-6 right-6 h-7 w-7 text-pink-200" />

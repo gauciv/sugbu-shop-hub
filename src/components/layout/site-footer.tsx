@@ -10,9 +10,9 @@ export function SiteFooter() {
             {/* Brand + Tagline */}
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2">
-                <img src="/sugbu-shop-hub-logo.png" alt="Sugbu Shop Hub" className="h-8 w-8 rounded-xl object-cover" />
+                <img src="/assets/sugbu-shop-hub-logo.png" alt="Sugbu Shop Hub" className="h-8 w-8 rounded-xl object-cover" />
                 <span className="text-lg font-bold tracking-tight text-foreground">
-                  Sugbu<span className="text-gradient">Shop</span>
+                  Sugbu<span className="text-gradient">Shop</span> Hub
                 </span>
               </div>
               <p className="max-w-xs text-sm text-muted-foreground">
@@ -38,7 +38,7 @@ export function SiteFooter() {
                 to="/register"
                 className="rounded-full px-3 py-1 text-sm text-muted-foreground transition-colors hover:text-primary"
               >
-                Sell on SugbuShop
+                Sell on Sugbu Shop Hub
               </Link>
             </nav>
           </div>
@@ -49,7 +49,7 @@ export function SiteFooter() {
           {/* Bottom row: Copyright */}
           <div className="flex flex-col items-center gap-2 text-center">
             <p className="text-xs text-muted-foreground/60">
-              &copy; {new Date().getFullYear()} SugbuShop. All rights reserved.
+              &copy; {new Date().getFullYear()} Sugbu Shop Hub. All rights reserved.
             </p>
           </div>
         </div>

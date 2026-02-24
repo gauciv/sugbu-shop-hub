@@ -84,7 +84,7 @@ export default function ProductDetailPage() {
       <div className="grid gap-10 lg:grid-cols-2">
         {/* Images */}
         <div className="space-y-3">
-          <div className="aspect-square overflow-hidden rounded-3xl border border-border/40 bg-secondary/40 shadow-cozy">
+          <div className="aspect-square overflow-hidden rounded-2xl border border-border/40 bg-secondary/40 shadow-cozy sm:rounded-3xl">
             {product.image_urls[selectedImage] ? (
               <img
                 src={product.image_urls[selectedImage]}
@@ -98,12 +98,12 @@ export default function ProductDetailPage() {
             )}
           </div>
           {product.image_urls.length > 1 && (
-            <div className="flex gap-2">
+            <div className="flex gap-2 overflow-x-auto pb-1">
               {product.image_urls.map((url, i) => (
                 <button
                   key={i}
                   onClick={() => setSelectedImage(i)}
-                  className={`h-16 w-16 overflow-hidden rounded-xl border-2 transition-all ${
+                  className={`h-14 w-14 flex-shrink-0 overflow-hidden rounded-lg border-2 transition-all sm:h-16 sm:w-16 sm:rounded-xl ${
                     i === selectedImage ? "border-primary shadow-cozy" : "border-border/60 hover:border-pink-200"
                   }`}
                 >

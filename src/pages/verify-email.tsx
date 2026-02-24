@@ -20,7 +20,7 @@ export default function VerifyEmailPage() {
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="rounded-xl bg-lavender-100/60 p-4 text-sm text-muted-foreground">
-          <p>Click the link in the email to verify your account. Once verified, you can sign in and start using SugbuShop.</p>
+          <p>Click the link in the email to verify your account. Once verified, you can sign in and start using Sugbu Shop Hub.</p>
           <p className="mt-2">Didn't receive the email? Check your spam folder.</p>
         </div>
         <Link to="/login">

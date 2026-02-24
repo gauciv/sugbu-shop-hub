@@ -38,8 +38,8 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
 
   return (
     <Link to={`/product/${product.id}`} className="block h-full">
-      <Card className="card-cozy group flex h-full flex-col overflow-hidden rounded-2xl border-border/60 transition-all duration-200 hover:border-pink-200">
-        <div className="relative aspect-square overflow-hidden rounded-t-2xl bg-purple-50">
+      <Card className="card-cozy group flex h-full flex-col overflow-hidden rounded-xl border-border/60 transition-all duration-200 hover:border-pink-200">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-t-xl bg-purple-50">
           {product.image_urls[0] ? (
             <img
               src={product.image_urls[0]}
@@ -48,36 +48,36 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
             />
           ) : (
             <div className="flex h-full items-center justify-center">
-              <ImageOff className="h-10 w-10 text-purple-300" />
+              <ImageOff className="h-8 w-8 text-purple-300" />
             </div>
           )}
           {onSale && (
-            <Badge className="absolute left-2 top-2 rounded-full bg-accent text-white border-0">
+            <Badge className="absolute left-1.5 top-1.5 rounded-full bg-accent text-[10px] text-white border-0 px-2 py-0">
               Sale
             </Badge>
           )}
           {product.stock <= 0 && (
             <div className="absolute inset-0 flex items-center justify-center bg-white/70">
-              <Badge variant="secondary" className="text-muted-foreground">Out of Stock</Badge>
+              <Badge variant="secondary" className="text-xs text-muted-foreground">Out of Stock</Badge>
             </div>
           )}
         </div>
-        <CardContent className="flex flex-1 flex-col p-4">
+        <CardContent className="flex flex-1 flex-col p-3">
           {showShop && product.shop && (
-            <p className="mb-1 truncate text-[11px] font-medium uppercase tracking-wider text-primary">
+            <p className="mb-0.5 truncate text-[10px] font-medium uppercase tracking-wider text-primary">
               {product.shop.name}
             </p>
           )}
-          <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-foreground">
+          <h3 className="line-clamp-2 text-xs font-semibold leading-snug text-foreground sm:text-sm">
             {product.name}
           </h3>
-          <div className="mt-auto flex items-center justify-between pt-2">
-            <div className="flex items-baseline gap-1.5">
-              <span className="text-base font-bold tabular-nums text-foreground">
+          <div className="mt-auto flex items-center justify-between pt-1.5">
+            <div className="flex items-baseline gap-1">
+              <span className="text-sm font-bold tabular-nums text-foreground">
                 {formatPrice(product.price)}
               </span>
               {onSale && (
-                <span className="text-xs text-muted-foreground line-through">
+                <span className="text-[10px] text-muted-foreground line-through">
                   {formatPrice(product.compare_at_price!)}
                 </span>
               )}
@@ -86,7 +86,7 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
               size="icon"
               variant="ghost"
               className={cn(
-                "h-8 w-8 shrink-0 rounded-full transition-all duration-200",
+                "h-7 w-7 shrink-0 rounded-full transition-all duration-200",
                 justAdded
                   ? "bg-emerald-50 text-emerald-600 scale-110"
                   : "text-purple-400 hover:bg-pink-50 hover:text-pink-500"
@@ -95,9 +95,9 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
               disabled={product.stock <= 0}
             >
               {justAdded ? (
-                <Check className="h-4 w-4" />
+                <Check className="h-3.5 w-3.5" />
               ) : (
-                <ShoppingCart className="h-4 w-4" />
+                <ShoppingCart className="h-3.5 w-3.5" />
               )}
             </Button>
           </div>

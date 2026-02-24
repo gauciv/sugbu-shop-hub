@@ -41,12 +41,12 @@ export function SellerSidebar({ collapsed, onToggle }: SellerSidebarProps) {
         collapsed ? "justify-center px-2" : "gap-2 px-4"
       )}>
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg overflow-hidden">
-          <img src="/sugbu-shop-hub-logo.png" alt="Sugbu Shop Hub" className="h-8 w-8 object-cover" />
+          <img src="/assets/sugbu-shop-hub-logo.png" alt="Sugbu Shop Hub" className="h-8 w-8 object-cover" />
         </div>
         {!collapsed && (
           <div>
             <span className="text-sm font-bold tracking-tight">
-              Sugbu<span className="text-gradient">Shop</span>
+              Sugbu<span className="text-gradient">Shop</span> Hub
             </span>
             <p className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
               Seller Portal

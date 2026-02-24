@@ -15,7 +15,7 @@ export function AuthLayout() {
 
           <div className="max-w-md text-center">
             {/* Brand icon */}
-            <img src="/sugbu-shop-hub-logo.png" alt="Sugbu Shop Hub" className="mx-auto mb-6 h-16 w-16 rounded-2xl object-cover border-2 border-purple-200" />
+            <img src="/assets/sugbu-shop-hub-logo.png" alt="Sugbu Shop Hub" className="mx-auto mb-6 h-16 w-16 rounded-2xl object-cover border-2 border-purple-200" />
 
             <h1 className="mb-3 text-4xl font-bold tracking-tight text-foreground">
               Welcome to your{" "}
@@ -59,24 +59,23 @@ export function AuthLayout() {
         </div>
 
         {/* Right column: form area */}
-        <div className="flex flex-1 flex-col items-center justify-center bg-background p-4 lg:p-8">
+        <div className="flex min-h-screen flex-1 flex-col items-center justify-center bg-background px-4 py-8 sm:px-6 lg:p-8">
           {/* Mobile branding — visible on small screens */}
-          <div className="mb-6 flex flex-col items-center lg:hidden">
-            <img src="/sugbu-shop-hub-logo.png" alt="Sugbu Shop Hub" className="mb-3 h-14 w-14 rounded-2xl object-cover border border-purple-200" />
-            <span className="text-xl font-bold tracking-tight">
-              Sugbu<span className="text-gradient">Shop</span>
+          <Link to="/" className="mb-6 flex flex-col items-center lg:hidden">
+            <img src="/assets/sugbu-shop-hub-logo.png" alt="Sugbu Shop Hub" className="mb-3 h-12 w-12 rounded-2xl object-cover border border-purple-200" />
+            <span className="text-lg font-bold tracking-tight">
+              Sugbu<span className="text-gradient">Shop</span> Hub
             </span>
-            <p className="mt-1 text-sm text-muted-foreground">Your cozy corner of Cebu</p>
-          </div>
+          </Link>
 
           {/* Desktop branding above form */}
           <Link
             to="/"
-            className="mb-8 hidden items-center gap-3 transition-opacity hover:opacity-80 lg:flex"
+            className="mb-6 hidden items-center gap-3 transition-opacity hover:opacity-80 lg:flex"
           >
-            <img src="/sugbu-shop-hub-logo.png" alt="Sugbu Shop Hub" className="h-12 w-12 rounded-xl object-cover border border-purple-200" />
-            <span className="text-2xl font-bold tracking-tight">
-              Sugbu<span className="text-gradient">Shop</span>
+            <img src="/assets/sugbu-shop-hub-logo.png" alt="Sugbu Shop Hub" className="h-10 w-10 rounded-xl object-cover border border-purple-200" />
+            <span className="text-xl font-bold tracking-tight">
+              Sugbu<span className="text-gradient">Shop</span> Hub
             </span>
           </Link>
 

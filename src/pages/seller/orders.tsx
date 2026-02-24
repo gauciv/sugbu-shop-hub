@@ -55,12 +55,12 @@ export default function SellerOrdersPage() {
       </div>
 
       <Tabs value={filter} onValueChange={setFilter}>
-        <TabsList className="bg-lavender-100/50">
-          <TabsTrigger value="all">All</TabsTrigger>
-          <TabsTrigger value="pending">Pending</TabsTrigger>
-          <TabsTrigger value="confirmed">Confirmed</TabsTrigger>
-          <TabsTrigger value="shipped">Shipped</TabsTrigger>
-          <TabsTrigger value="delivered">Delivered</TabsTrigger>
+        <TabsList className="w-full justify-start overflow-x-auto bg-lavender-100/50">
+          <TabsTrigger value="all" className="text-xs sm:text-sm">All</TabsTrigger>
+          <TabsTrigger value="pending" className="text-xs sm:text-sm">Pending</TabsTrigger>
+          <TabsTrigger value="confirmed" className="text-xs sm:text-sm">Confirmed</TabsTrigger>
+          <TabsTrigger value="shipped" className="text-xs sm:text-sm">Shipped</TabsTrigger>
+          <TabsTrigger value="delivered" className="text-xs sm:text-sm">Delivered</TabsTrigger>
         </TabsList>
       </Tabs>
 
@@ -79,9 +79,10 @@ export default function SellerOrdersPage() {
           </div>
           {/* Order rows */}
           {filtered.map((order, i) => (
-            <div
+            <Link
               key={order.id}
-              className={`flex items-center justify-between gap-4 px-4 py-3 transition-colors hover:bg-lavender-50/50 sm:grid sm:grid-cols-[1fr_auto_1fr_auto_auto_auto] ${i < filtered.length - 1 ? "border-b border-border/30" : ""}`}
+              to={`/seller/orders/${order.id}`}
+              className={`flex items-center justify-between gap-3 px-4 py-3 transition-colors hover:bg-lavender-50/50 sm:grid sm:grid-cols-[1fr_auto_1fr_auto_auto_auto] sm:gap-4 ${i < filtered.length - 1 ? "border-b border-border/30" : ""}`}
             >
               <div className="min-w-0">
                 <p className="truncate text-sm font-semibold">{order.order_number}</p>
@@ -99,19 +100,19 @@ export default function SellerOrdersPage() {
               <div className="hidden w-20 text-right text-sm font-medium sm:block">
                 {formatPrice(order.total)}
               </div>
-              <div className="flex w-24 justify-center">
+              <div className="flex w-auto justify-center sm:w-24">
                 <OrderStatusBadge status={order.status as OrderStatus} />
               </div>
-              <div className="flex w-16 justify-end">
+              <div className="flex justify-end sm:w-16">
                 {/* Mobile: show total */}
                 <span className="text-sm font-bold sm:hidden">{formatPrice(order.total)}</span>
-                <Link to={`/seller/orders/${order.id}`} className="hidden sm:block">
-                  <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground">
+                <span className="hidden sm:block">
+                  <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground" tabIndex={-1}>
                     <Eye className="h-3.5 w-3.5" />
                   </Button>
-                </Link>
+                </span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       )}

@@ -32,9 +32,9 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-8">
           <Link to="/" className="flex items-center gap-2">
-            <img src="/sugbu-shop-hub-logo.png" alt="Sugbu Shop Hub" className="h-8 w-8 rounded-xl object-cover" />
+            <img src="/assets/sugbu-shop-hub-logo.png" alt="Sugbu Shop Hub" className="h-8 w-8 rounded-xl object-cover" />
             <span className="text-lg font-bold tracking-tight text-foreground">
-              Sugbu<span className="text-gradient">Shop</span>
+              Sugbu<span className="text-gradient">Shop</span> Hub
             </span>
           </Link>
 
