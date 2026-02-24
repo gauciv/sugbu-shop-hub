@@ -88,7 +88,7 @@ export default function ProductsPage() {
             placeholder="Search products..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="rounded-full border-border/60 pl-10 h-11 focus-visible:ring-purple-400/30"
+            className="rounded-full border-border/60 pl-10 h-11 focus-visible:ring-pink-300/30"
           />
         </div>
 
@@ -99,8 +99,8 @@ export default function ProductsPage() {
               className={cn(
                 "rounded-full px-3.5 py-1.5 text-xs font-medium transition-all",
                 !categoryId
-                  ? "bg-primary text-white shadow-cozy"
-                  : "bg-purple-100 text-purple-700 hover:bg-purple-200 hover:shadow-sm"
+                  ? "bg-pink-400 text-white shadow-cozy"
+                  : "bg-pink-50 text-pink-500 hover:bg-pink-100"
               )}
             >
               All
@@ -112,8 +112,8 @@ export default function ProductsPage() {
                 className={cn(
                   "rounded-full px-3.5 py-1.5 text-xs font-medium transition-all",
                   categoryId === cat.id
-                    ? "bg-primary text-white shadow-cozy"
-                    : "bg-purple-100 text-purple-700 hover:bg-purple-200 hover:shadow-sm"
+                    ? "bg-pink-400 text-white shadow-cozy"
+                    : "bg-pink-50 text-pink-500 hover:bg-pink-100"
                 )}
               >
                 {cat.name}

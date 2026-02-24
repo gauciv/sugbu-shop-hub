@@ -4,21 +4,21 @@ import { Store, Heart } from "lucide-react";
 export function SiteFooter() {
   return (
     <footer className="relative">
-      <div className="bg-purple-900">
+      <div className="bg-secondary">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           {/* Top row: Brand + Nav */}
           <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
             {/* Brand + Tagline */}
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-white/10">
-                  <Store className="h-4 w-4 text-white" />
+                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary/10 border border-purple-200">
+                  <Store className="h-4 w-4 text-purple-500" />
                 </div>
-                <span className="text-lg font-bold tracking-tight text-white">
+                <span className="text-lg font-bold tracking-tight text-foreground">
                   Sugbu<span className="text-gradient">Shop</span>
                 </span>
               </div>
-              <p className="max-w-xs text-sm text-purple-200">
+              <p className="max-w-xs text-sm text-muted-foreground">
                 Your cozy marketplace for local Cebu finds
               </p>
             </div>
@@ -27,19 +27,19 @@ export function SiteFooter() {
             <nav className="flex flex-wrap items-center gap-1">
               <Link
                 to="/shops"
-                className="rounded-full px-3 py-1 text-sm text-purple-200 transition-colors hover:text-white"
+                className="rounded-full px-3 py-1 text-sm text-muted-foreground transition-colors hover:text-primary"
               >
                 Shops
               </Link>
               <Link
                 to="/products"
-                className="rounded-full px-3 py-1 text-sm text-purple-200 transition-colors hover:text-white"
+                className="rounded-full px-3 py-1 text-sm text-muted-foreground transition-colors hover:text-primary"
               >
                 Products
               </Link>
               <Link
                 to="/register"
-                className="rounded-full px-3 py-1 text-sm text-purple-200 transition-colors hover:text-white"
+                className="rounded-full px-3 py-1 text-sm text-muted-foreground transition-colors hover:text-primary"
               >
                 Sell on SugbuShop
               </Link>
@@ -47,16 +47,16 @@ export function SiteFooter() {
           </div>
 
           {/* Divider */}
-          <div className="my-8 border-t border-purple-700/40" />
+          <div className="my-8 border-t border-border" />
 
           {/* Bottom row: Copyright */}
           <div className="flex flex-col items-center gap-2 text-center">
-            <p className="flex items-center gap-1 text-sm text-purple-200">
+            <p className="flex items-center gap-1 text-sm text-muted-foreground">
               Made with
               <Heart className="inline h-3.5 w-3.5 fill-pink-400 text-pink-400" />
               for Cebu&apos;s small businesses
             </p>
-            <p className="text-xs text-purple-300/70">
+            <p className="text-xs text-muted-foreground/60">
               &copy; {new Date().getFullYear()} SugbuShop. All rights reserved.
             </p>
           </div>

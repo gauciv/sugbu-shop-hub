@@ -38,7 +38,7 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
 
   return (
     <Link to={`/product/${product.id}`}>
-      <Card className="card-cozy group overflow-hidden rounded-2xl border-border/60 transition-all duration-200 hover:border-purple-300">
+      <Card className="card-cozy group overflow-hidden rounded-2xl border-border/60 transition-all duration-200 hover:border-pink-200">
         <div className="relative aspect-square overflow-hidden rounded-t-2xl bg-purple-50">
           {product.image_urls[0] ? (
             <img
@@ -89,7 +89,7 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
                 "h-8 w-8 rounded-full transition-all duration-200",
                 justAdded
                   ? "bg-emerald-50 text-emerald-600 scale-110"
-                  : "text-primary hover:bg-purple-100 hover:text-purple-700"
+                  : "text-purple-400 hover:bg-pink-50 hover:text-pink-500"
               )}
               onClick={handleAddToCart}
               disabled={product.stock <= 0}

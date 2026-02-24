@@ -27,8 +27,8 @@ export function SellerSidebar({ collapsed, onToggle }: SellerSidebarProps) {
         "flex h-16 items-center border-b border-border/60",
         collapsed ? "justify-center px-2" : "gap-2 px-4"
       )}>
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary">
-          <Store className="h-4 w-4 text-white" />
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 border border-purple-200">
+          <Store className="h-4 w-4 text-purple-500" />
         </div>
         {!collapsed && (
           <div>
@@ -55,8 +55,8 @@ export function SellerSidebar({ collapsed, onToggle }: SellerSidebarProps) {
                   "w-full font-medium",
                   collapsed ? "justify-center px-0" : "justify-start gap-3",
                   active
-                    ? "bg-purple-100 text-primary hover:bg-purple-200"
-                    : "text-muted-foreground hover:bg-lavender-100/50 hover:text-foreground"
+                    ? "bg-pink-50 text-pink-500 hover:bg-pink-100"
+                    : "text-muted-foreground hover:bg-pink-50/50 hover:text-foreground"
                 )}
               >
                 <item.icon className="h-4 w-4 shrink-0" />

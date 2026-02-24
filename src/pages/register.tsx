@@ -49,13 +49,13 @@ export default function RegisterPage() {
             className={cn(
               "flex flex-col items-center gap-2 rounded-2xl border-2 p-4 transition-all",
               role === "buyer"
-                ? "border-primary bg-purple-50 text-purple-700 shadow-cozy"
+                ? "border-primary bg-purple-50 text-purple-600 shadow-cozy"
                 : "border-border/60 hover:border-purple-200 hover:bg-lavender-100/50"
             )}
           >
-            <ShoppingBag className={cn("h-6 w-6", role === "buyer" ? "text-purple-700" : "text-muted-foreground")} />
+            <ShoppingBag className={cn("h-6 w-6", role === "buyer" ? "text-purple-600" : "text-muted-foreground")} />
             <div>
-              <p className={cn("text-sm font-semibold", role === "buyer" ? "text-purple-700" : "text-foreground")}>
+              <p className={cn("text-sm font-semibold", role === "buyer" ? "text-purple-600" : "text-foreground")}>
                 Buyer
               </p>
               <p className="text-[11px] text-muted-foreground">Browse & discover finds</p>
@@ -67,13 +67,13 @@ export default function RegisterPage() {
             className={cn(
               "flex flex-col items-center gap-2 rounded-2xl border-2 p-4 transition-all",
               role === "seller"
-                ? "border-primary bg-purple-50 text-purple-700 shadow-cozy"
+                ? "border-primary bg-purple-50 text-purple-600 shadow-cozy"
                 : "border-border/60 hover:border-purple-200 hover:bg-lavender-100/50"
             )}
           >
-            <Store className={cn("h-6 w-6", role === "seller" ? "text-purple-700" : "text-muted-foreground")} />
+            <Store className={cn("h-6 w-6", role === "seller" ? "text-purple-600" : "text-muted-foreground")} />
             <div>
-              <p className={cn("text-sm font-semibold", role === "seller" ? "text-purple-700" : "text-foreground")}>
+              <p className={cn("text-sm font-semibold", role === "seller" ? "text-purple-600" : "text-foreground")}>
                 Seller
               </p>
               <p className="text-[11px] text-muted-foreground">Share your creations</p>
@@ -124,7 +124,7 @@ export default function RegisterPage() {
         </form>
         <p className="mt-6 text-center text-sm text-muted-foreground">
           Already have an account?{" "}
-          <Link to="/login" className="font-medium text-primary hover:text-purple-700 hover:underline">
+          <Link to="/login" className="font-medium text-primary hover:text-purple-600 hover:underline">
             Sign in
           </Link>
         </p>

@@ -68,7 +68,7 @@ export default function SellerDashboard() {
 
   const stats = [
     { label: "Total Products", value: products.length, icon: Package, color: "text-purple-400 bg-purple-50" },
-    { label: "Total Orders", value: orders.length, icon: ShoppingBag, color: "text-pink-400 bg-lavender-100" },
+    { label: "Total Orders", value: orders.length, icon: ShoppingBag, color: "text-pink-400 bg-pink-50" },
     { label: "Revenue", value: formatPrice(totalRevenue), icon: DollarSign, color: "text-pink-400 bg-pink-50" },
     { label: "Pending Orders", value: pendingOrders, icon: TrendingUp, color: "text-amber-600 bg-amber-50" },
   ];
@@ -77,7 +77,7 @@ export default function SellerDashboard() {
     <div className="space-y-6">
       {/* Shop profile card */}
       <Card className="overflow-hidden border-border/60">
-        <div className="relative h-24 bg-gradient-to-br from-pink-100 via-purple-100 to-lavender-200">
+        <div className="relative h-24 bg-gradient-to-br from-pink-50 via-purple-50 to-lavender-100">
           {shop.banner_url && (
             <img src={shop.banner_url} alt="" className="h-full w-full object-cover" />
           )}
@@ -86,7 +86,7 @@ export default function SellerDashboard() {
           <div className="flex items-end gap-4">
             <Avatar className="-mt-8 h-16 w-16 border-4 border-white shadow-md">
               <AvatarImage src={shop.logo_url ?? undefined} />
-              <AvatarFallback className="bg-purple-100 text-sm font-bold text-purple-500">
+              <AvatarFallback className="bg-purple-100 text-sm font-bold text-purple-400">
                 {getInitials(shop.name)}
               </AvatarFallback>
             </Avatar>

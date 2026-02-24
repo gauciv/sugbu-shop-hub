@@ -33,7 +33,7 @@ export default function ShopsPage() {
           placeholder="Search shops..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="rounded-full border-border/60 pl-10 h-11 focus-visible:ring-purple-400/30"
+          className="rounded-full border-border/60 pl-10 h-11 focus-visible:ring-pink-300/30"
         />
       </div>
 

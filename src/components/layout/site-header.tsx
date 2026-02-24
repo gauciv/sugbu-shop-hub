@@ -28,12 +28,12 @@ export function SiteHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-white/80 shadow-cozy backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-border bg-white/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-8">
           <Link to="/" className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary shadow-cozy">
-              <Store className="h-4 w-4 text-white" />
+            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary/10 border border-purple-200">
+              <Store className="h-4 w-4 text-purple-500" />
             </div>
             <span className="text-lg font-bold tracking-tight text-foreground">
               Sugbu<span className="text-gradient">Shop</span>
@@ -53,7 +53,7 @@ export function SiteHeader() {
                     className={cn(
                       "rounded-full text-sm transition-colors",
                       isActive
-                        ? "bg-purple-100 font-medium text-purple-700"
+                        ? "bg-pink-50 font-medium text-pink-500"
                         : "text-muted-foreground hover:bg-purple-50/60 hover:text-foreground"
                     )}
                   >
@@ -82,7 +82,7 @@ export function SiteHeader() {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full">
                   <Avatar className="h-8 w-8 border border-purple-200">
-                    <AvatarFallback className="bg-purple-100 text-xs font-semibold text-purple-700">
+                    <AvatarFallback className="bg-purple-50 text-xs font-semibold text-purple-500">
                       {getInitials(profile.full_name)}
                     </AvatarFallback>
                   </Avatar>
@@ -147,7 +147,7 @@ export function SiteHeader() {
                     className={cn(
                       "w-full justify-start rounded-full",
                       isActive
-                        ? "bg-purple-100 font-medium text-purple-700"
+                        ? "bg-pink-50 font-medium text-pink-500"
                         : "text-muted-foreground"
                     )}
                   >

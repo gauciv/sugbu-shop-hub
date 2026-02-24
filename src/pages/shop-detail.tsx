@@ -51,7 +51,7 @@ export default function ShopDetailPage() {
   return (
     <div>
       {/* Banner */}
-      <div className="relative h-40 bg-gradient-to-br from-pink-100 via-purple-100 to-lavender-200 sm:h-52">
+      <div className="relative h-40 bg-gradient-to-br from-pink-50 via-purple-50 to-lavender-100 sm:h-52">
         {shop.banner_url && (
           <img src={shop.banner_url} alt="" className="h-full w-full object-cover" />
         )}
@@ -62,7 +62,7 @@ export default function ShopDetailPage() {
         <div className="relative -mt-10 flex items-end gap-4 pb-6">
           <Avatar className="h-20 w-20 border-4 border-white shadow-md sm:h-24 sm:w-24">
             <AvatarImage src={shop.logo_url ?? undefined} />
-            <AvatarFallback className="bg-purple-100 text-lg font-bold text-purple-500">
+            <AvatarFallback className="bg-purple-50 text-lg font-bold text-purple-400">
               {getInitials(shop.name)}
             </AvatarFallback>
           </Avatar>
@@ -87,7 +87,7 @@ export default function ShopDetailPage() {
 
         {/* Products */}
         <div className="border-t border-border/60 py-8">
-          <h2 className="mb-6 text-lg font-semibold">Products ({products.length})</h2>
+          <h2 className="mb-6 font-display text-lg font-semibold">Products ({products.length})</h2>
           {products.length === 0 ? (
             <EmptyState icon={Package} title="No products" description="This shop hasn't added any products yet." />
           ) : (

@@ -12,8 +12,8 @@ interface ShopCardProps {
 export function ShopCard({ shop }: ShopCardProps) {
   return (
     <Link to={`/shop/${shop.slug}`}>
-      <Card className="card-cozy group overflow-hidden rounded-2xl border-border/60 transition-all duration-200 hover:border-purple-300">
-        <div className="relative h-32 bg-gradient-to-br from-purple-200 via-pink-100 to-purple-100">
+      <Card className="card-cozy group overflow-hidden rounded-2xl border-border/60 transition-all duration-200 hover:border-pink-200">
+        <div className="relative h-32 bg-gradient-to-br from-purple-50 via-pink-50 to-purple-50">
           {shop.banner_url ? (
             <img src={shop.banner_url} alt="" className="h-full w-full object-cover" />
           ) : null}
@@ -21,11 +21,11 @@ export function ShopCard({ shop }: ShopCardProps) {
         <CardContent className="relative px-4 pb-4 pt-0">
           <Avatar className="-mt-7 h-14 w-14 border-[3px] border-white shadow-sm">
             <AvatarImage src={shop.logo_url ?? undefined} />
-            <AvatarFallback className="bg-purple-100 text-sm font-bold text-purple-700">
+            <AvatarFallback className="bg-purple-50 text-sm font-bold text-purple-500">
               {getInitials(shop.name)}
             </AvatarFallback>
           </Avatar>
-          <h3 className="mt-2 text-base font-bold text-foreground group-hover:text-purple-500">
+          <h3 className="mt-2 text-base font-bold text-foreground group-hover:text-pink-500">
             {shop.name}
           </h3>
           {shop.description && (
