@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Package, ShoppingBag, Settings, ArrowLeft, Store, PanelLeftClose, PanelLeft } from "lucide-react";
+import { LayoutDashboard, Package, ShoppingBag, Settings, ArrowLeft, PanelLeftClose, PanelLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -27,8 +27,8 @@ export function SellerSidebar({ collapsed, onToggle }: SellerSidebarProps) {
         "flex h-16 items-center border-b border-border/60",
         collapsed ? "justify-center px-2" : "gap-2 px-4"
       )}>
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 border border-purple-200">
-          <Store className="h-4 w-4 text-purple-500" />
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg overflow-hidden">
+          <img src="/sugbu-shop-hub-logo.png" alt="Sugbu Shop Hub" className="h-8 w-8 object-cover" />
         </div>
         {!collapsed && (
           <div>

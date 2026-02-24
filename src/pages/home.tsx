@@ -8,7 +8,7 @@ import { getActiveShops } from "@/api/shops";
 import { getFeaturedProducts } from "@/api/products";
 import { getCategories } from "@/api/categories";
 import { useAuth } from "@/context/auth";
-import { ArrowRight, Store, ShoppingBag, Heart, Sparkles, Shirt, Home as HomeIcon, Smartphone, Palette, UtensilsCrossed } from "lucide-react";
+import { ArrowRight, ShoppingBag, Heart, Sparkles, Shirt, Home as HomeIcon, Smartphone, Palette, UtensilsCrossed, Store } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Shop, Product, Category } from "@/types";
 
@@ -86,14 +86,12 @@ export default function HomePage() {
               <DoodleFlower className="absolute left-8 -top-6 h-8 w-8 text-purple-300" />
 
               <div className="relative mx-auto aspect-[4/3] max-w-lg">
-                <div className="h-full w-full overflow-hidden rounded-[32px] border-2 border-pink-200 bg-gradient-to-br from-purple-50 via-pink-50 to-purple-50 p-8">
-                  <div className="flex h-full flex-col items-center justify-center gap-4 text-center">
-                    <div className="flex h-16 w-16 items-center justify-center rounded-[20px] border-2 border-purple-200 bg-purple-50">
-                      <Store className="h-8 w-8 text-purple-400" />
-                    </div>
-                    <p className="font-display text-lg font-semibold text-foreground/60">Add a warm, candid photo</p>
-                    <p className="text-sm text-muted-foreground">A cozy market scene or artisan at work</p>
-                  </div>
+                <div className="h-full w-full overflow-hidden rounded-[32px] border-2 border-pink-200">
+                  <img
+                    src="/hero-image.jpg"
+                    alt="A cozy local market stall with colorful handmade goods"
+                    className="h-full w-full object-cover"
+                  />
                 </div>
               </div>
             </div>

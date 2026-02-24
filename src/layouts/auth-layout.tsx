@@ -1,5 +1,5 @@
 import { Outlet, Link } from "react-router-dom";
-import { Store, Heart, Sparkles, ShoppingBag } from "lucide-react";
+import { Heart, Sparkles, ShoppingBag } from "lucide-react";
 
 export function AuthLayout() {
   return (
@@ -15,9 +15,7 @@ export function AuthLayout() {
 
           <div className="max-w-md text-center">
             {/* Brand icon */}
-            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 border-2 border-purple-200">
-              <Store className="h-8 w-8 text-purple-500" />
-            </div>
+            <img src="/sugbu-shop-hub-logo.png" alt="Sugbu Shop Hub" className="mx-auto mb-6 h-16 w-16 rounded-2xl object-cover border-2 border-purple-200" />
 
             <h1 className="mb-3 text-4xl font-bold tracking-tight text-foreground">
               Welcome to your{" "}
@@ -64,9 +62,7 @@ export function AuthLayout() {
         <div className="flex flex-1 flex-col items-center justify-center bg-background p-4 lg:p-8">
           {/* Mobile branding — visible on small screens */}
           <div className="mb-6 flex flex-col items-center lg:hidden">
-            <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 border border-purple-200">
-              <Store className="h-7 w-7 text-purple-500" />
-            </div>
+            <img src="/sugbu-shop-hub-logo.png" alt="Sugbu Shop Hub" className="mb-3 h-14 w-14 rounded-2xl object-cover border border-purple-200" />
             <span className="text-xl font-bold tracking-tight">
               Sugbu<span className="text-gradient">Shop</span>
             </span>
@@ -78,9 +74,7 @@ export function AuthLayout() {
             to="/"
             className="mb-8 hidden items-center gap-3 transition-opacity hover:opacity-80 lg:flex"
           >
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 border border-purple-200">
-              <Store className="h-6 w-6 text-purple-500" />
-            </div>
+            <img src="/sugbu-shop-hub-logo.png" alt="Sugbu Shop Hub" className="h-12 w-12 rounded-xl object-cover border border-purple-200" />
             <span className="text-2xl font-bold tracking-tight">
               Sugbu<span className="text-gradient">Shop</span>
             </span>

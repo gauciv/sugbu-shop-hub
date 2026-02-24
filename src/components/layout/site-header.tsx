@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ShoppingCart, Store, LogOut, Package, LayoutDashboard, Menu, X } from "lucide-react";
+import { ShoppingCart, LogOut, Package, LayoutDashboard, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -32,9 +32,7 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-8">
           <Link to="/" className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary/10 border border-purple-200">
-              <Store className="h-4 w-4 text-purple-500" />
-            </div>
+            <img src="/sugbu-shop-hub-logo.png" alt="Sugbu Shop Hub" className="h-8 w-8 rounded-xl object-cover" />
             <span className="text-lg font-bold tracking-tight text-foreground">
               Sugbu<span className="text-gradient">Shop</span>
             </span>
