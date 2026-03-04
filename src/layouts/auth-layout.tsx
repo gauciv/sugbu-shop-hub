@@ -26,7 +26,7 @@ export function AuthLayout() {
               Join thousands of Cebu's small businesses thriving in our warm little marketplace.
             </p>
 
-            <div className="flex flex-col items-center justify-center gap-4 text-sm">
+            <div className="inline-flex flex-col gap-4 text-sm text-left">
               <div className="flex items-center gap-3">
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-pink-50 border border-pink-200">
                   <ShoppingBag className="h-4 w-4 text-pink-400" />
