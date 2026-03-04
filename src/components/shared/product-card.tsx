@@ -62,22 +62,22 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
             </div>
           )}
         </div>
-        <CardContent className="flex flex-1 flex-col p-3">
+        <CardContent className="flex flex-1 flex-col p-3 sm:p-4">
           {showShop && product.shop && (
-            <p className="mb-0.5 truncate text-[10px] font-medium uppercase tracking-wider text-primary">
+            <p className="mb-0.5 truncate text-[11px] font-medium uppercase tracking-wider text-primary">
               {product.shop.name}
             </p>
           )}
-          <h3 className="line-clamp-2 text-xs font-semibold leading-snug text-foreground sm:text-sm">
+          <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-foreground">
             {product.name}
           </h3>
-          <div className="mt-auto flex items-center justify-between pt-1.5">
+          <div className="mt-auto flex items-center justify-between pt-2">
             <div className="flex items-baseline gap-1">
-              <span className="text-sm font-bold tabular-nums text-foreground">
+              <span className="text-sm font-bold tabular-nums text-foreground sm:text-base">
                 {formatPrice(product.price)}
               </span>
               {onSale && (
-                <span className="text-[10px] text-muted-foreground line-through">
+                <span className="text-[11px] text-muted-foreground line-through">
                   {formatPrice(product.compare_at_price!)}
                 </span>
               )}
@@ -86,7 +86,7 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
               size="icon"
               variant="ghost"
               className={cn(
-                "h-7 w-7 shrink-0 rounded-full transition-all duration-200",
+                "h-8 w-8 shrink-0 rounded-full transition-all duration-200",
                 justAdded
                   ? "bg-emerald-50 text-emerald-600 scale-110"
                   : "text-purple-400 hover:bg-pink-50 hover:text-pink-500"
@@ -95,9 +95,9 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
               disabled={product.stock <= 0}
             >
               {justAdded ? (
-                <Check className="h-3.5 w-3.5" />
+                <Check className="h-4 w-4" />
               ) : (
-                <ShoppingCart className="h-3.5 w-3.5" />
+                <ShoppingCart className="h-4 w-4" />
               )}
             </Button>
           </div>

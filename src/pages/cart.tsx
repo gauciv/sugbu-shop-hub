@@ -26,7 +26,7 @@ export default function CartPage() {
 
   if (items.length === 0) {
     return (
-      <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         <EmptyState
           icon={ShoppingCart}
           title="Your cart is empty"
@@ -38,10 +38,10 @@ export default function CartPage() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
-      <h1 className="mb-8 font-display text-2xl font-bold tracking-tight">Shopping Cart</h1>
+    <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+      <h1 className="mb-6 font-display text-2xl font-bold tracking-tight sm:text-3xl">Shopping Cart</h1>
 
-      <div className="space-y-6">
+      <div className="space-y-4">
         {Object.entries(shopGroups).map(([shopId, group]) => (
           <Card key={shopId} className="overflow-hidden rounded-2xl border-border/60 shadow-cozy">
             <CardContent className="p-6">

@@ -69,19 +69,19 @@ export default function ProductsPage() {
   }, [debouncedQuery, categoryId, page, setSearchParams]);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
       {/* Page header */}
-      <div className="mb-10 rounded-2xl bg-secondary px-6 py-8 sm:px-8">
+      <div className="mb-6 rounded-2xl bg-secondary px-6 py-6 sm:px-8">
         <h1 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">
           Browse Products
         </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
+        <p className="mt-1.5 text-sm text-muted-foreground lg:text-base">
           Discover handpicked goodies from local shops across Sugbu
         </p>
       </div>
 
       {/* Search and filters */}
-      <div className="mb-6 space-y-4">
+      <div className="mb-5 space-y-3">
         <div className="relative max-w-md">
           <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
@@ -97,7 +97,7 @@ export default function ProductsPage() {
             <button
               onClick={() => setCategoryId("")}
               className={cn(
-                "rounded-full px-3.5 py-1.5 text-xs font-medium transition-all",
+                "rounded-full px-3.5 py-1.5 text-sm font-medium transition-all",
                 !categoryId
                   ? "bg-pink-400 text-white shadow-cozy"
                   : "bg-pink-50 text-pink-500 hover:bg-pink-100"
@@ -110,7 +110,7 @@ export default function ProductsPage() {
                 key={cat.id}
                 onClick={() => setCategoryId(cat.id)}
                 className={cn(
-                  "rounded-full px-3.5 py-1.5 text-xs font-medium transition-all",
+                  "rounded-full px-3.5 py-1.5 text-sm font-medium transition-all",
                   categoryId === cat.id
                     ? "bg-pink-400 text-white shadow-cozy"
                     : "bg-pink-50 text-pink-500 hover:bg-pink-100"
@@ -137,7 +137,7 @@ export default function ProductsPage() {
 
       {/* Product grid */}
       {loading ? (
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-5">
           {Array.from({ length: PAGE_SIZE }).map((_, i) => (
             <div key={i} className="space-y-3">
               <Skeleton className="aspect-square w-full rounded-2xl" />
@@ -157,7 +157,7 @@ export default function ProductsPage() {
           }
         />
       ) : (
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-5">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} showShop />
           ))}
@@ -166,7 +166,7 @@ export default function ProductsPage() {
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="mt-8 flex items-center justify-center gap-2">
+        <div className="mt-6 flex items-center justify-center gap-2">
           <Button
             variant="outline"
             size="sm"

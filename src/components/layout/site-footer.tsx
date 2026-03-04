@@ -4,7 +4,7 @@ export function SiteFooter() {
   return (
     <footer className="relative">
       <div className="bg-secondary">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
           {/* Top row: Brand + Nav */}
           <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
             {/* Brand + Tagline */}
@@ -44,7 +44,7 @@ export function SiteFooter() {
           </div>
 
           {/* Divider */}
-          <div className="my-8 border-t border-border" />
+          <div className="my-6 border-t border-border" />
 
           {/* Bottom row: Copyright */}
           <div className="flex flex-col items-center gap-2 text-center">
