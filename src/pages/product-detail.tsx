@@ -27,17 +27,15 @@ export default function ProductDetailPage() {
 
   function handleAddToCart() {
     if (!product || product.stock <= 0 || justAdded) return;
-    for (let i = 0; i < quantity; i++) {
-      addItem({
-        productId: product.id,
-        name: product.name,
-        price: product.price,
-        image: product.image_urls[0] ?? "",
-        shopId: product.shop_id,
-        shopName: product.shop?.name ?? "",
-        stock: product.stock,
-      });
-    }
+    addItem({
+      productId: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image_urls[0] ?? "",
+      shopId: product.shop_id,
+      shopName: product.shop?.name ?? "",
+      stock: product.stock,
+    }, quantity);
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 2000);
   }
