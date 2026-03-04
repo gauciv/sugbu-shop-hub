@@ -92,7 +92,7 @@ export default function CheckoutPage() {
                 <div className="space-y-2">
                   <Label>Shipping Address</Label>
                   <Textarea
-                    {...register("shipping_address", { required: "Address is required" })}
+                    {...register("shipping_address", { required: "Address is required", minLength: { value: 10, message: "Please enter a complete address" } })}
                     placeholder="Enter your complete shipping address"
                     rows={3}
                     className="border-border/60"
