@@ -1,0 +1,16 @@
+flowchart LR
+    A[Order Placed by Buyer] --> B[PENDING]
+    B -->|Seller confirms| C[CONFIRMED]
+    C -->|Seller prepares| D[PREPARING]
+    D -->|Seller ships| E[SHIPPED]
+    E -->|Buyer receives| F[DELIVERED]
+
+    B -->|Seller cancels| G[CANCELLED]
+    C -->|Seller cancels| G
+
+    style B fill:#FEF3C7,stroke:#F59E0B,color:#1A1A1A
+    style C fill:#DBEAFE,stroke:#3B82F6,color:#1A1A1A
+    style D fill:#E0E7FF,stroke:#6366F1,color:#1A1A1A
+    style E fill:#FDE68A,stroke:#F59E0B,color:#1A1A1A
+    style F fill:#BBF7D0,stroke:#4ADE80,color:#1A1A1A
+    style G fill:#FECACA,stroke:#EF4444,color:#1A1A1A
