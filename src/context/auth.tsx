@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/lib/supabase";
 import { getProfile } from "@/api/auth";
 import type { Profile } from "@/types";
@@ -18,6 +19,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   async function fetchProfile(userId: string) {
     try {
@@ -56,12 +58,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, s) => {
+      (event, s) => {
         if (!mounted) return;
         setSession(s);
-        if (s?.user?.id) {
+
+        if (event === "PASSWORD_RECOVERY") {
+          navigate("/reset-password");
+          return;
+        }
+
+        if (event === "SIGNED_IN" && s?.user?.id) {
+          const hash = window.location.hash;
+          if (hash.includes("type=signup")) {
+            navigate("/email-confirmed");
+            return;
+          }
           fetchProfile(s.user.id);
-        } else {
+        } else if (!s) {
           setProfile(null);
         }
       }
