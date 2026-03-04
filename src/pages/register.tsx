@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { signUp } from "@/api/auth";
 import { toast } from "sonner";
-import { Loader2, ShoppingBag, Store } from "lucide-react";
+import { Loader2, ShoppingBag, Store, Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface RegisterForm {
@@ -19,6 +19,7 @@ interface RegisterForm {
 export default function RegisterPage() {
   const { register, handleSubmit, formState: { errors } } = useForm<RegisterForm>();
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState<"buyer" | "seller">("buyer");
   const navigate = useNavigate();
 
@@ -104,13 +105,23 @@ export default function RegisterPage() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="At least 6 characters"
-              {...register("password", { required: "Password is required", minLength: { value: 6, message: "Min 6 characters" } })}
-              className="rounded-xl h-11 border-border/60 focus-visible:ring-purple-400/30"
-            />
+            <div className="relative">
+              <Input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="At least 6 characters"
+                {...register("password", { required: "Password is required", minLength: { value: 6, message: "Min 6 characters" } })}
+                className="rounded-xl h-11 border-border/60 pr-10 focus-visible:ring-purple-400/30"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                tabIndex={-1}
+              >
+                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
+            </div>
             {errors.password && <p className="text-xs text-destructive">{errors.password.message}</p>}
           </div>
           <Button

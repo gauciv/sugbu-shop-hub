@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { signIn } from "@/api/auth";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Loader2, Eye, EyeOff } from "lucide-react";
 
 interface LoginForm {
   email: string;
@@ -17,6 +17,7 @@ interface LoginForm {
 export default function LoginPage() {
   const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>();
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   async function onSubmit(data: LoginForm) {
@@ -63,13 +64,23 @@ export default function LoginPage() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="Enter your password"
-              {...register("password", { required: "Password is required" })}
-              className="rounded-xl h-11 border-border/60 focus-visible:ring-purple-400/30"
-            />
+            <div className="relative">
+              <Input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter your password"
+                {...register("password", { required: "Password is required" })}
+                className="rounded-xl h-11 border-border/60 pr-10 focus-visible:ring-purple-400/30"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                tabIndex={-1}
+              >
+                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
+            </div>
             {errors.password && <p className="text-xs text-destructive">{errors.password.message}</p>}
           </div>
           <Button
