@@ -29,7 +29,7 @@ export default function ProductFormPage() {
   const isEditing = Boolean(id);
   const navigate = useNavigate();
   const { profile } = useAuth();
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm<ProductFormData>();
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<ProductFormData>();
   const [loading, setLoading] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -80,6 +80,10 @@ export default function ProductFormPage() {
   }
 
   async function onSubmit(data: ProductFormData) {
+    if (imageUrls.length === 0) {
+      toast.error("Please upload at least one product image");
+      return;
+    }
     setLoading(true);
     try {
       const payload = {
@@ -153,12 +157,13 @@ export default function ProductFormPage() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Price (PHP)</Label>
-                <Input type="number" step="0.01" min="0" {...register("price", { required: "Price is required" })} placeholder="0.00" className="border-border/60" />
+                <Input type="number" step="0.01" min="0" {...register("price", { required: "Price is required", validate: (v) => parseFloat(v) > 0 || "Price must be greater than 0" })} placeholder="0.00" className="border-border/60" />
                 {errors.price && <p className="text-xs text-destructive">{errors.price.message}</p>}
               </div>
               <div className="space-y-2">
                 <Label>Compare at Price</Label>
-                <Input type="number" step="0.01" min="0" {...register("compare_at_price")} placeholder="Original price" className="border-border/60" />
+                <Input type="number" step="0.01" min="0" {...register("compare_at_price", { validate: (v) => { if (!v) return true; const cmp = parseFloat(v); const price = parseFloat(watch("price")); return cmp > price || "Must be higher than price"; } })} placeholder="Original price" className="border-border/60" />
+                {errors.compare_at_price && <p className="text-xs text-destructive">{errors.compare_at_price.message}</p>}
               </div>
             </div>
 
