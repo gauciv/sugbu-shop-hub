@@ -59,7 +59,7 @@ export async function placeOrder(input: PlaceOrderInput): Promise<Order> {
   if (itemsError) throw itemsError;
 
   // Stock is decremented automatically by the database trigger
-  // (005_stock_decrement.sql) on order_items insert.
+  // (008_stock_on_shipped.sql) when the order status changes to "shipped".
 
   return order as Order;
 }
