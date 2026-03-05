@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ShoppingCart, ImageOff, Check } from "lucide-react";
+import { ShoppingCart, ImageOff, Check, Star } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -82,6 +82,13 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
           <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-foreground">
             {product.name}
           </h3>
+          {product.avg_rating !== undefined && product.review_count !== undefined && product.review_count > 0 && (
+            <div className="mt-0.5 flex items-center gap-1 text-[11px]">
+              <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+              <span className="font-medium tabular-nums">{product.avg_rating.toFixed(1)}</span>
+              <span className="text-muted-foreground">({product.review_count})</span>
+            </div>
+          )}
           <div className="mt-auto flex items-center justify-between pt-2">
             <div className="flex items-baseline gap-1">
               <span className="text-sm font-bold tabular-nums text-foreground sm:text-base">

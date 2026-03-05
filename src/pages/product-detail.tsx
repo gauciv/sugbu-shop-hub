@@ -4,14 +4,19 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { QuantitySelector } from "@/components/shared/quantity-selector";
+import { StarRating } from "@/components/shared/star-rating";
+import { RatingBreakdown } from "@/components/shared/rating-breakdown";
+import { ReviewCard } from "@/components/shared/review-card";
+import { ReviewImageGallery } from "@/components/shared/review-image-gallery";
 import { getProductById } from "@/api/products";
+import { getProductReviews, getReviewStats } from "@/api/reviews";
 import { useCart } from "@/hooks/use-cart";
 import { useAuth } from "@/context/auth";
 import { formatPrice } from "@/lib/utils";
-import { ShoppingCart, Store, Check, ImageOff, ArrowLeft } from "lucide-react";
+import { ShoppingCart, Store, Check, ImageOff, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
-import type { Product } from "@/types";
+import type { Product, Review, ReviewStats } from "@/types";
 
 export default function ProductDetailPage() {
   const { id } = useParams();
@@ -24,10 +29,46 @@ export default function ProductDetailPage() {
   const { session } = useAuth();
   const navigate = useNavigate();
 
+  // Review state
+  const [reviewStats, setReviewStats] = useState<ReviewStats | null>(null);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [reviewsCount, setReviewsCount] = useState(0);
+  const [reviewsPage, setReviewsPage] = useState(1);
+  const [ratingFilter, setRatingFilter] = useState<number | null>(null);
+  const [reviewsLoading, setReviewsLoading] = useState(false);
+  const [galleryOpen, setGalleryOpen] = useState(false);
+  const [galleryImages, setGalleryImages] = useState<string[]>([]);
+  const [galleryIndex, setGalleryIndex] = useState(0);
+
+  const REVIEWS_PAGE_SIZE = 5;
+
   useEffect(() => {
     if (!id) return;
     getProductById(id).then(setProduct).finally(() => setLoading(false));
   }, [id]);
+
+  // Load review stats
+  useEffect(() => {
+    if (!product) return;
+    getReviewStats(product.id).then(setReviewStats).catch(() => {});
+  }, [product]);
+
+  // Load paginated reviews
+  useEffect(() => {
+    if (!product) return;
+    setReviewsLoading(true);
+    getProductReviews(product.id, {
+      page: reviewsPage,
+      pageSize: REVIEWS_PAGE_SIZE,
+      rating: ratingFilter ?? undefined,
+    })
+      .then(({ reviews: r, count: c }) => {
+        setReviews(r);
+        setReviewsCount(c);
+      })
+      .catch(() => {})
+      .finally(() => setReviewsLoading(false));
+  }, [product, reviewsPage, ratingFilter]);
 
   function handleAddToCart() {
     if (!product || product.stock <= 0 || justAdded) return;
@@ -132,6 +173,16 @@ export default function ProductDetailPage() {
           )}
           <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{product.name}</h1>
 
+          {product.review_count !== undefined && product.review_count > 0 && (
+            <div className="mt-2">
+              <StarRating
+                rating={product.avg_rating ?? 0}
+                showValue
+                count={product.review_count}
+              />
+            </div>
+          )}
+
           <div className="mt-3 flex items-baseline gap-3">
             <span className="text-3xl font-bold tabular-nums">{formatPrice(product.price)}</span>
             {onSale && (
@@ -197,6 +248,91 @@ export default function ProductDetailPage() {
           )}
         </div>
       </div>
+
+      {/* Reviews Section */}
+      {reviewStats && reviewStats.review_count > 0 && (
+        <div className="mt-10">
+          <Separator className="mb-8" />
+          <h2 className="mb-6 font-display text-xl font-bold tracking-tight">
+            Product Reviews
+          </h2>
+          <div className="grid gap-8 lg:grid-cols-[280px_1fr]">
+            {/* Left: Rating breakdown */}
+            <div className="rounded-[28px] border border-border/60 bg-card p-5 shadow-cozy lg:sticky lg:top-24 lg:self-start">
+              <RatingBreakdown
+                stats={reviewStats}
+                selectedRating={ratingFilter}
+                onRatingFilter={(r) => { setRatingFilter(r); setReviewsPage(1); }}
+              />
+            </div>
+
+            {/* Right: Reviews list */}
+            <div>
+              {reviewsLoading ? (
+                <div className="space-y-4">
+                  {[...Array(3)].map((_, i) => (
+                    <Skeleton key={i} className="h-24 rounded-2xl" />
+                  ))}
+                </div>
+              ) : reviews.length === 0 ? (
+                <p className="py-8 text-center text-sm text-muted-foreground">
+                  No reviews match this filter.
+                </p>
+              ) : (
+                <div className="divide-y divide-border/40">
+                  {reviews.map((review) => (
+                    <ReviewCard
+                      key={review.id}
+                      review={review}
+                      onImageClick={(urls, index) => {
+                        setGalleryImages(urls);
+                        setGalleryIndex(index);
+                        setGalleryOpen(true);
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {/* Pagination */}
+              {Math.ceil(reviewsCount / REVIEWS_PAGE_SIZE) > 1 && (
+                <div className="mt-6 flex items-center justify-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={reviewsPage <= 1}
+                    onClick={() => setReviewsPage((p) => p - 1)}
+                    className="rounded-full border-border/60"
+                  >
+                    <ChevronLeft className="mr-1 h-4 w-4" />
+                    Previous
+                  </Button>
+                  <span className="px-4 text-sm tabular-nums text-muted-foreground">
+                    Page {reviewsPage} of {Math.ceil(reviewsCount / REVIEWS_PAGE_SIZE)}
+                  </span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={reviewsPage >= Math.ceil(reviewsCount / REVIEWS_PAGE_SIZE)}
+                    onClick={() => setReviewsPage((p) => p + 1)}
+                    className="rounded-full border-border/60"
+                  >
+                    Next
+                    <ChevronRight className="ml-1 h-4 w-4" />
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <ReviewImageGallery
+            images={galleryImages}
+            initialIndex={galleryIndex}
+            open={galleryOpen}
+            onOpenChange={setGalleryOpen}
+          />
+        </div>
+      )}
     </div>
   );
 }
