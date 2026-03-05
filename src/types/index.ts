@@ -49,6 +49,8 @@ export interface Product {
   is_active: boolean;
   created_at: string;
   updated_at: string;
+  avg_rating?: number;
+  review_count?: number;
   shop?: Shop;
   category?: Category;
 }
@@ -90,6 +92,26 @@ export interface OrderItem {
   unit_price: number;
   quantity: number;
   line_total: number;
+}
+
+export interface Review {
+  id: string;
+  product_id: string;
+  buyer_id: string;
+  order_item_id: string;
+  rating: number;
+  comment: string | null;
+  image_urls: string[];
+  created_at: string;
+  updated_at: string;
+  buyer?: Pick<Profile, "id" | "full_name" | "avatar_url">;
+  product?: Pick<Product, "name" | "image_urls">;
+}
+
+export interface ReviewStats {
+  avg_rating: number;
+  review_count: number;
+  distribution: [number, number, number, number, number];
 }
 
 export interface Address {
