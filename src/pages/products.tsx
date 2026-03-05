@@ -83,7 +83,7 @@ export default function ProductsPage() {
 
       {/* Search and filters */}
       <div className="mb-5 space-y-3">
-        <div className="relative max-w-md">
+        <div className="relative mx-auto max-w-2xl">
           <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search products..."
@@ -94,7 +94,7 @@ export default function ProductsPage() {
         </div>
 
         {categories.length > 0 && (
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap justify-center gap-2">
             <button
               onClick={() => setCategoryId("")}
               className={cn(
@@ -125,11 +125,9 @@ export default function ProductsPage() {
       </div>
 
       {/* Result count */}
-      {!loading && (
+      {!loading && totalCount > 0 && (
         <p className="mb-4 text-sm text-muted-foreground">
-          {totalCount === 0
-            ? "No products found"
-            : `Showing ${(page - 1) * PAGE_SIZE + 1}\u2013${Math.min(page * PAGE_SIZE, totalCount)} of ${totalCount} product${totalCount !== 1 ? "s" : ""}`}
+          Showing {(page - 1) * PAGE_SIZE + 1}&ndash;{Math.min(page * PAGE_SIZE, totalCount)} of {totalCount} product{totalCount !== 1 ? "s" : ""}
           {debouncedQuery && (
             <span> for &ldquo;{debouncedQuery}&rdquo;</span>
           )}

@@ -28,7 +28,7 @@ export default function ShopsPage() {
         <p className="mt-1.5 text-sm text-muted-foreground lg:text-base">Handpicked small businesses from all around Cebu</p>
       </div>
 
-      <div className="relative mb-6 max-w-md">
+      <div className="relative mx-auto mb-6 max-w-2xl">
         <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           placeholder="Search shops..."

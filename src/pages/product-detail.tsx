@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { QuantitySelector } from "@/components/shared/quantity-selector";
 import { getProductById } from "@/api/products";
 import { useCart } from "@/hooks/use-cart";
+import { useAuth } from "@/context/auth";
 import { formatPrice } from "@/lib/utils";
 import { ShoppingCart, Store, Check, ImageOff, ArrowLeft } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { toast } from "sonner";
 import type { Product } from "@/types";
 
 export default function ProductDetailPage() {
@@ -19,6 +21,8 @@ export default function ProductDetailPage() {
   const [selectedImage, setSelectedImage] = useState(0);
   const [justAdded, setJustAdded] = useState(false);
   const addItem = useCart((s) => s.addItem);
+  const { session } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!id) return;
@@ -27,6 +31,13 @@ export default function ProductDetailPage() {
 
   function handleAddToCart() {
     if (!product || product.stock <= 0 || justAdded) return;
+    if (!session) {
+      toast("Sign up to start shopping!", {
+        description: "Create an account to add items to your cart.",
+        action: { label: "Sign up", onClick: () => navigate("/register") },
+      });
+      return;
+    }
     addItem({
       productId: product.id,
       name: product.name,

@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ShoppingCart, ImageOff, Check } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/lib/utils";
 import { useCart } from "@/hooks/use-cart";
+import { useAuth } from "@/context/auth";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 import type { Product } from "@/types";
 
 interface ProductCardProps {
@@ -16,6 +18,8 @@ interface ProductCardProps {
 
 export function ProductCard({ product, showShop }: ProductCardProps) {
   const addItem = useCart((s) => s.addItem);
+  const { session } = useAuth();
+  const navigate = useNavigate();
   const onSale = product.compare_at_price && product.compare_at_price > product.price;
   const [justAdded, setJustAdded] = useState(false);
 
@@ -23,6 +27,13 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
     e.preventDefault();
     e.stopPropagation();
     if (product.stock <= 0 || justAdded) return;
+    if (!session) {
+      toast("Sign up to start shopping!", {
+        description: "Create an account to add items to your cart.",
+        action: { label: "Sign up", onClick: () => navigate("/register") },
+      });
+      return;
+    }
     addItem({
       productId: product.id,
       name: product.name,
