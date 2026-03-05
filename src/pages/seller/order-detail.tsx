@@ -5,9 +5,19 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { OrderStatusBadge } from "@/components/shared/order-status-badge";
 import { getOrderById, updateOrderStatus } from "@/api/orders";
+import { getMockCourier, getMockTrackingNumber, getExpectedDelivery } from "@/lib/mock-logistics";
 import { formatPrice, formatDate } from "@/lib/utils";
 import { ORDER_STATUS_CONFIG, type OrderStatus } from "@/lib/constants";
-import { ArrowLeft, Loader2, ImageOff, CheckCircle2, Circle, XCircle } from "lucide-react";
+import {
+  ArrowLeft,
+  Loader2,
+  ImageOff,
+  CheckCircle2,
+  Circle,
+  XCircle,
+  RotateCcw,
+  Truck,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import type { Order } from "@/types";
@@ -32,7 +42,13 @@ export default function SellerOrderDetailPage() {
     try {
       const updated = await updateOrderStatus(order.id, status);
       setOrder((prev) => prev ? { ...prev, status: updated.status } : prev);
-      toast.success(`Order marked as ${ORDER_STATUS_CONFIG[status].label}`);
+      if (status === "shipped") {
+        const courier = getMockCourier(order.id);
+        const tracking = getMockTrackingNumber(order.id);
+        toast.success(`Shipped via ${courier} (${tracking})`);
+      } else {
+        toast.success(`Order marked as ${ORDER_STATUS_CONFIG[status].label}`);
+      }
     } catch {
       toast.error("Failed to update status");
     } finally {
@@ -46,9 +62,15 @@ export default function SellerOrderDetailPage() {
 
   const currentIndex = FLOW_STATUSES.indexOf(order.status as OrderStatus);
   const isCancelled = order.status === "cancelled";
-  const nextStatus = !isCancelled && currentIndex >= 0 && currentIndex < FLOW_STATUSES.length - 1
+  const isReturnRequested = order.status === "return_requested";
+  const isTerminal = isCancelled || isReturnRequested;
+  const nextStatus = !isTerminal && currentIndex >= 0 && currentIndex < FLOW_STATUSES.length - 1
     ? FLOW_STATUSES[currentIndex + 1]
     : null;
+  const showLogistics = ["shipped", "delivered"].includes(order.status);
+  const courier = getMockCourier(order.id);
+  const trackingNumber = getMockTrackingNumber(order.id);
+  const expectedDelivery = getExpectedDelivery(order.created_at);
 
   return (
     <div className="mx-auto max-w-2xl space-y-6">
@@ -63,6 +85,21 @@ export default function SellerOrderDetailPage() {
         </div>
         <OrderStatusBadge status={order.status as OrderStatus} />
       </div>
+
+      {/* Return/Refund banner */}
+      {isReturnRequested && (
+        <Card className="border-orange-200 bg-orange-50">
+          <CardContent className="flex items-center gap-3 p-4">
+            <RotateCcw className="h-6 w-6 shrink-0 text-orange-500" />
+            <div>
+              <p className="text-sm font-semibold text-orange-800">Return/Refund Requested</p>
+              <p className="text-xs text-orange-600">
+                The buyer has requested a return or refund for this order. Please review and take appropriate action.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Status timeline */}
       <Card className="border-border/60">
@@ -82,8 +119,9 @@ export default function SellerOrderDetailPage() {
             <>
               <div className="relative flex items-center justify-between">
                 {FLOW_STATUSES.map((status, i) => {
-                  const isCompleted = i <= currentIndex;
-                  const isCurrent = i === currentIndex;
+                  const resolvedIndex = isReturnRequested ? FLOW_STATUSES.indexOf("delivered") : currentIndex;
+                  const isCompleted = i <= resolvedIndex;
+                  const isCurrent = i === resolvedIndex;
                   return (
                     <div key={status} className="relative z-10 flex flex-col items-center">
                       <div className={cn(
@@ -109,40 +147,71 @@ export default function SellerOrderDetailPage() {
                 })}
                 {/* Connecting lines */}
                 <div className="absolute left-0 right-0 top-4 -z-0 mx-4 flex">
-                  {FLOW_STATUSES.slice(0, -1).map((_, i) => (
-                    <div key={i} className="flex-1 px-2">
-                      <div className={cn(
-                        "h-0.5 w-full transition-all duration-500",
-                        i < currentIndex ? "bg-purple-400" : "bg-border"
-                      )} />
-                    </div>
-                  ))}
+                  {FLOW_STATUSES.slice(0, -1).map((_, i) => {
+                    const resolvedIndex = isReturnRequested ? FLOW_STATUSES.indexOf("delivered") : currentIndex;
+                    return (
+                      <div key={i} className="flex-1 px-2">
+                        <div className={cn(
+                          "h-0.5 w-full transition-all duration-500",
+                          i < resolvedIndex ? "bg-purple-400" : "bg-border"
+                        )} />
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
+              {/* Logistics info */}
+              {showLogistics && (
+                <div className="mt-4 rounded-2xl bg-muted/50 p-3.5">
+                  <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-2">
+                      <Truck className="h-4 w-4 text-muted-foreground" />
+                      <div>
+                        <p className="font-medium">{courier}</p>
+                        <p className="text-xs text-muted-foreground">Tracking: {trackingNumber}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xs text-muted-foreground">Expected delivery</p>
+                      <p className="text-sm font-medium">{formatDate(expectedDelivery)}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Action buttons */}
-              <div className="mt-6 flex flex-wrap gap-2">
-                {nextStatus && (
-                  <Button
-                    onClick={() => handleStatusChange(nextStatus)}
-                    disabled={updating}
-                    className="shadow-cozy hover:-translate-y-0.5 hover:shadow-cozy-lg"
-                  >
-                    {updating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    Mark as {ORDER_STATUS_CONFIG[nextStatus].label}
-                  </Button>
-                )}
-                {order.status !== "delivered" && order.status !== "cancelled" && (
-                  <Button
-                    variant="outline"
-                    onClick={() => handleStatusChange("cancelled")}
-                    disabled={updating}
-                    className="border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700"
-                  >
-                    Cancel Order
-                  </Button>
-                )}
-              </div>
+              {!isReturnRequested && (
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {nextStatus && (
+                    <Button
+                      onClick={() => handleStatusChange(nextStatus)}
+                      disabled={updating}
+                      className="shadow-cozy hover:-translate-y-0.5 hover:shadow-cozy-lg"
+                    >
+                      {updating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                      {nextStatus === "shipped" ? (
+                        <>
+                          <Truck className="mr-2 h-4 w-4" />
+                          Mark as Shipped
+                        </>
+                      ) : (
+                        `Mark as ${ORDER_STATUS_CONFIG[nextStatus].label}`
+                      )}
+                    </Button>
+                  )}
+                  {order.status !== "delivered" && order.status !== "cancelled" && (
+                    <Button
+                      variant="outline"
+                      onClick={() => handleStatusChange("cancelled")}
+                      disabled={updating}
+                      className="border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700"
+                    >
+                      Cancel Order
+                    </Button>
+                  )}
+                </div>
+              )}
             </>
           )}
         </CardContent>

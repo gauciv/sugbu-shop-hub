@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { OrderStatusBadge } from "@/components/shared/order-status-badge";
@@ -8,8 +7,9 @@ import { EmptyState } from "@/components/shared/empty-state";
 import { useAuth } from "@/context/auth";
 import { getMyShop } from "@/api/shops";
 import { getShopOrders } from "@/api/orders";
-import { formatPrice, formatDate } from "@/lib/utils";
-import { ShoppingBag, Eye } from "lucide-react";
+import { SELLER_ORDER_TABS } from "@/lib/constants";
+import { formatPrice, formatDate, cn } from "@/lib/utils";
+import { ShoppingBag, Eye, Package } from "lucide-react";
 import type { Order, Shop } from "@/types";
 import type { OrderStatus } from "@/lib/constants";
 
@@ -18,7 +18,7 @@ export default function SellerOrdersPage() {
   const [, setShop] = useState<Shop | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<string>("all");
+  const [activeTab, setActiveTab] = useState<string>("all");
 
   useEffect(() => {
     if (!profile) return;
@@ -36,12 +36,20 @@ export default function SellerOrdersPage() {
     })();
   }, [profile]);
 
-  const filtered = filter === "all" ? orders : orders.filter((o) => o.status === filter);
+  const currentTab = SELLER_ORDER_TABS.find((t) => t.key === activeTab) ?? SELLER_ORDER_TABS[0];
+  const filtered = currentTab.statuses
+    ? orders.filter((o) => (currentTab.statuses as readonly string[]).includes(o.status))
+    : orders;
 
   if (loading) {
     return (
       <div className="space-y-4">
         <Skeleton className="h-8 w-48" />
+        <div className="flex gap-2">
+          {[...Array(4)].map((_, i) => (
+            <Skeleton key={i} className="h-9 w-20 rounded-full" />
+          ))}
+        </div>
         {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-20 rounded-xl" />)}
       </div>
     );
@@ -54,18 +62,58 @@ export default function SellerOrdersPage() {
         <p className="text-sm text-muted-foreground">{orders.length} total orders</p>
       </div>
 
-      <Tabs value={filter} onValueChange={setFilter}>
-        <TabsList className="w-full justify-start overflow-x-auto bg-lavender-100/50">
-          <TabsTrigger value="all" className="text-xs sm:text-sm">All</TabsTrigger>
-          <TabsTrigger value="pending" className="text-xs sm:text-sm">Pending</TabsTrigger>
-          <TabsTrigger value="confirmed" className="text-xs sm:text-sm">Confirmed</TabsTrigger>
-          <TabsTrigger value="shipped" className="text-xs sm:text-sm">Shipped</TabsTrigger>
-          <TabsTrigger value="delivered" className="text-xs sm:text-sm">Delivered</TabsTrigger>
-        </TabsList>
-      </Tabs>
+      {/* Tabs */}
+      <div className="overflow-x-auto">
+        <div className="flex gap-1 border-b border-border/40 pb-px">
+          {SELLER_ORDER_TABS.map((tab) => {
+            const isActive = activeTab === tab.key;
+            const count = tab.statuses
+              ? orders.filter((o) => (tab.statuses as readonly string[]).includes(o.status)).length
+              : orders.length;
+
+            return (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                className={cn(
+                  "relative shrink-0 px-3 py-2.5 text-sm font-medium transition-colors",
+                  isActive
+                    ? "text-purple-600"
+                    : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                {tab.label}
+                {count > 0 && (
+                  <span
+                    className={cn(
+                      "ml-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-[10px] font-semibold",
+                      isActive
+                        ? "bg-purple-100 text-purple-700"
+                        : "bg-muted text-muted-foreground"
+                    )}
+                  >
+                    {count}
+                  </span>
+                )}
+                {isActive && (
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full bg-purple-500" />
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
 
       {filtered.length === 0 ? (
-        <EmptyState icon={ShoppingBag} title="No orders" description="Orders will appear here when customers place them." />
+        <EmptyState
+          icon={activeTab === "all" ? ShoppingBag : Package}
+          title={activeTab === "all" ? "No orders yet" : `No ${currentTab.label.toLowerCase()} orders`}
+          description={
+            activeTab === "all"
+              ? "Orders will appear here when customers place them."
+              : `You don't have any orders under "${currentTab.label}" right now.`
+          }
+        />
       ) : (
         <div className="overflow-hidden rounded-xl border border-border/60 bg-white">
           {/* Table header */}
@@ -86,7 +134,6 @@ export default function SellerOrdersPage() {
             >
               <div className="min-w-0">
                 <p className="truncate text-sm font-semibold">{order.order_number}</p>
-                {/* Mobile-only secondary info */}
                 <p className="text-xs text-muted-foreground sm:hidden">
                   {order.buyer?.full_name ?? "Customer"} &middot; {formatDate(order.created_at)}
                 </p>
@@ -104,7 +151,6 @@ export default function SellerOrdersPage() {
                 <OrderStatusBadge status={order.status as OrderStatus} />
               </div>
               <div className="flex justify-end sm:w-16">
-                {/* Mobile: show total */}
                 <span className="text-sm font-bold sm:hidden">{formatPrice(order.total)}</span>
                 <span className="hidden sm:block">
                   <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground" tabIndex={-1}>
