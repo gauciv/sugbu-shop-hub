@@ -107,3 +107,17 @@ export async function updateOrderStatus(
   if (error) throw error;
   return data as Order;
 }
+
+export async function buyerUpdateOrderStatus(
+  orderId: string,
+  status: "confirmed" | "delivered" | "return_requested" | "cancelled"
+): Promise<Order> {
+  const { data, error } = await supabase
+    .from("orders")
+    .update({ status })
+    .eq("id", orderId)
+    .select()
+    .single();
+  if (error) throw error;
+  return data as Order;
+}
