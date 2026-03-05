@@ -35,7 +35,7 @@ export async function getMyShop(ownerId: string): Promise<Shop | null> {
 }
 
 export async function createShop(
-  shop: Pick<Shop, "owner_id" | "name" | "slug" | "description" | "contact_email" | "contact_phone" | "address"> & Partial<Pick<Shop, "logo_url" | "banner_url">>
+  shop: Pick<Shop, "owner_id" | "name" | "slug" | "description" | "contact_email" | "contact_phone" | "address"> & Partial<Pick<Shop, "logo_url" | "banner_url" | "banner_position_y">>
 ): Promise<Shop> {
   const { data, error } = await supabase
     .from("shops")
@@ -48,7 +48,7 @@ export async function createShop(
 
 export async function updateShop(
   shopId: string,
-  updates: Partial<Pick<Shop, "name" | "slug" | "description" | "logo_url" | "banner_url" | "contact_email" | "contact_phone" | "address" | "is_active">>
+  updates: Partial<Pick<Shop, "name" | "slug" | "description" | "logo_url" | "banner_url" | "banner_position_y" | "contact_email" | "contact_phone" | "address" | "is_active">>
 ): Promise<Shop> {
   const { data, error } = await supabase
     .from("shops")

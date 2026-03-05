@@ -53,7 +53,12 @@ export default function ShopDetailPage() {
       {/* Banner */}
       <div className="relative h-40 bg-gradient-to-br from-pink-50 via-purple-50 to-lavender-100 sm:h-56 lg:h-64">
         {shop.banner_url && (
-          <img src={shop.banner_url} alt="" className="h-full w-full object-cover" />
+          <img
+            src={shop.banner_url}
+            alt=""
+            className="h-full w-full object-cover"
+            style={{ objectPosition: `center ${shop.banner_position_y ?? 50}%` }}
+          />
         )}
       </div>
 

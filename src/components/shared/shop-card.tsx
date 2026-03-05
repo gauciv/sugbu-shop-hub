@@ -15,7 +15,12 @@ export function ShopCard({ shop }: ShopCardProps) {
       <Card className="card-cozy group flex h-full flex-col overflow-hidden rounded-[24px] border-border/60 shadow-cozy transition-all duration-200 hover:border-pink-200">
         <div className="relative h-24 shrink-0 bg-gradient-to-br from-purple-100/60 via-pink-50/80 to-lavender-50">
           {shop.banner_url ? (
-            <img src={shop.banner_url} alt="" className="h-full w-full object-cover" />
+            <img
+              src={shop.banner_url}
+              alt=""
+              className="h-full w-full object-cover"
+              style={{ objectPosition: `center ${shop.banner_position_y ?? 50}%` }}
+            />
           ) : null}
         </div>
         <CardContent className="relative flex flex-1 flex-col px-3 pb-3 pt-0">
