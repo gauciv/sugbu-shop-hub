@@ -90,3 +90,15 @@ export interface OrderItem {
   quantity: number;
   line_total: number;
 }
+
+export interface Address {
+  id: string;
+  user_id: string;
+  label: string;
+  full_name: string;
+  address: string;
+  contact_phone: string | null;
+  is_default: boolean;
+  created_at: string;
+  updated_at: string;
+}
