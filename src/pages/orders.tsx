@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState } from "@/components/shared/empty-state";
 import { OrderStatusBadge } from "@/components/shared/order-status-badge";
 import { useAuth } from "@/context/auth";
 import { getBuyerOrders } from "@/api/orders";
-import { formatPrice, formatDate } from "@/lib/utils";
-import { ShoppingBag, ImageOff } from "lucide-react";
+import { BUYER_ORDER_TABS } from "@/lib/constants";
+import { getExpectedDelivery } from "@/lib/mock-logistics";
+import { formatPrice, formatDate, cn } from "@/lib/utils";
+import { ShoppingBag, ImageOff, Package } from "lucide-react";
 import type { Order } from "@/types";
 import type { OrderStatus } from "@/lib/constants";
 
@@ -16,72 +17,147 @@ export default function OrdersPage() {
   const navigate = useNavigate();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<string>("all");
 
   useEffect(() => {
     if (!profile) return;
     getBuyerOrders(profile.id).then(setOrders).finally(() => setLoading(false));
   }, [profile]);
 
+  const currentTab = BUYER_ORDER_TABS.find((t) => t.key === activeTab) ?? BUYER_ORDER_TABS[0];
+  const filteredOrders = currentTab.statuses
+    ? orders.filter((o) => (currentTab.statuses as readonly string[]).includes(o.status))
+    : orders;
+
   if (loading) {
     return (
       <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
-        <Skeleton className="mb-6 h-8 w-32" />
-        {[...Array(3)].map((_, i) => <Skeleton key={i} className="mb-3 h-28 rounded-xl" />)}
+        <Skeleton className="mb-6 h-8 w-40" />
+        <div className="mb-6 flex gap-2">
+          {[...Array(5)].map((_, i) => (
+            <Skeleton key={i} className="h-9 w-20 rounded-full" />
+          ))}
+        </div>
+        {[...Array(4)].map((_, i) => (
+          <Skeleton key={i} className="mb-3 h-20 rounded-2xl" />
+        ))}
       </div>
     );
   }
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
-      <h1 className="mb-6 text-2xl font-bold tracking-tight">My Orders</h1>
+      <h1 className="mb-6 font-display text-2xl font-bold tracking-tight">My Orders</h1>
 
-      {orders.length === 0 ? (
+      {/* Horizontal tabs */}
+      <div className="sticky top-0 z-10 -mx-4 mb-6 overflow-x-auto bg-background/80 px-4 backdrop-blur-sm">
+        <div className="flex gap-1 border-b border-border/40 pb-px">
+          {BUYER_ORDER_TABS.map((tab) => {
+            const isActive = activeTab === tab.key;
+            const count = tab.statuses
+              ? orders.filter((o) => (tab.statuses as readonly string[]).includes(o.status)).length
+              : orders.length;
+
+            return (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                className={cn(
+                  "relative shrink-0 px-3 py-2.5 text-sm font-medium transition-colors",
+                  isActive
+                    ? "text-purple-600"
+                    : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                {tab.label}
+                {count > 0 && (
+                  <span
+                    className={cn(
+                      "ml-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-[10px] font-semibold",
+                      isActive
+                        ? "bg-purple-100 text-purple-700"
+                        : "bg-muted text-muted-foreground"
+                    )}
+                  >
+                    {count}
+                  </span>
+                )}
+                {isActive && (
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full bg-purple-500" />
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Order list */}
+      {filteredOrders.length === 0 ? (
         <EmptyState
-          icon={ShoppingBag}
-          title="No orders yet"
-          description="When you place an order, it will appear here."
-          action={{ label: "Browse Shops", onClick: () => navigate("/shops") }}
+          icon={activeTab === "all" ? ShoppingBag : Package}
+          title={activeTab === "all" ? "No orders yet" : `No ${currentTab.label.toLowerCase()} orders`}
+          description={
+            activeTab === "all"
+              ? "When you place an order, it will appear here."
+              : `You don't have any orders under "${currentTab.label}" right now.`
+          }
+          action={activeTab === "all" ? { label: "Browse Shops", onClick: () => navigate("/shops") } : undefined}
         />
       ) : (
-        <div className="space-y-4">
-          {orders.map((order) => (
-            <Card key={order.id} className="border-border/60 transition-colors hover:border-purple-200">
-              <CardContent className="p-5">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <p className="text-sm font-semibold">{order.order_number}</p>
-                      <OrderStatusBadge status={order.status as OrderStatus} />
+        <div className="space-y-2.5">
+          {filteredOrders.map((order) => {
+            const firstItem = order.items?.[0];
+            const itemCount = order.items?.length ?? 0;
+            const expectedDelivery = getExpectedDelivery(order.created_at);
+            const showDelivery = ["confirmed", "preparing", "shipped"].includes(order.status);
+
+            return (
+              <button
+                key={order.id}
+                onClick={() => navigate(`/orders/${order.id}`)}
+                className="flex w-full items-center gap-3.5 rounded-2xl border border-border/60 bg-card p-3.5 text-left transition-all hover:border-purple-200 hover:shadow-cozy active:scale-[0.995]"
+              >
+                {/* Thumbnail */}
+                <div className="h-12 w-12 shrink-0 overflow-hidden rounded-xl bg-lavender-100">
+                  {firstItem?.product_image ? (
+                    <img
+                      src={firstItem.product_image}
+                      alt=""
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <div className="flex h-full items-center justify-center">
+                      <ImageOff className="h-4 w-4 text-muted-foreground/30" />
                     </div>
-                    <p className="mt-0.5 text-xs text-muted-foreground">
-                      {order.shop?.name ?? "Shop"} &middot; {formatDate(order.created_at)}
-                    </p>
-                  </div>
-                  <p className="text-sm font-bold">{formatPrice(order.total)}</p>
+                  )}
                 </div>
-                {order.items && order.items.length > 0 && (
-                  <div className="mt-3 flex gap-2">
-                    {order.items.slice(0, 4).map((item) => (
-                      <div key={item.id} className="h-12 w-12 overflow-hidden rounded-lg bg-lavender-100">
-                        {item.product_image ? (
-                          <img src={item.product_image} alt="" className="h-full w-full object-cover" />
-                        ) : (
-                          <div className="flex h-full items-center justify-center">
-                            <ImageOff className="h-3.5 w-3.5 text-muted-foreground/30" />
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                    {order.items.length > 4 && (
-                      <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-50 text-xs font-medium text-purple-400">
-                        +{order.items.length - 4}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          ))}
+
+                {/* Middle: order info */}
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-semibold leading-tight">
+                    {order.order_number}
+                  </p>
+                  <p className="mt-0.5 truncate text-xs text-muted-foreground">
+                    {order.shop?.name ?? "Shop"} &middot; {formatDate(order.created_at)}
+                  </p>
+                  <p className="mt-0.5 text-xs text-muted-foreground">
+                    {itemCount} {itemCount === 1 ? "item" : "items"}
+                  </p>
+                </div>
+
+                {/* Right: price & status */}
+                <div className="flex shrink-0 flex-col items-end gap-1">
+                  <p className="text-sm font-bold">{formatPrice(order.total)}</p>
+                  <OrderStatusBadge status={order.status as OrderStatus} />
+                  {showDelivery && (
+                    <p className="text-[10px] text-muted-foreground">
+                      Est. {formatDate(expectedDelivery)}
+                    </p>
+                  )}
+                </div>
+              </button>
+            );
+          })}
         </div>
       )}
     </div>
