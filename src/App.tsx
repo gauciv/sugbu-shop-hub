@@ -20,6 +20,7 @@ const LoginPage = lazy(() => import("@/pages/login"));
 const RegisterPage = lazy(() => import("@/pages/register"));
 const VerifyEmailPage = lazy(() => import("@/pages/verify-email"));
 const EmailConfirmedPage = lazy(() => import("@/pages/email-confirmed"));
+const ForgotPasswordPage = lazy(() => import("@/pages/forgot-password"));
 const ResetPasswordPage = lazy(() => import("@/pages/reset-password"));
 const NotFoundPage = lazy(() => import("@/pages/not-found"));
 
@@ -78,6 +79,7 @@ function App() {
             <Route element={<AuthLayout />}>
               <Route path="/login" element={<GuestRoute><LoginPage /></GuestRoute>} />
               <Route path="/register" element={<GuestRoute><RegisterPage /></GuestRoute>} />
+              <Route path="/forgot-password" element={<GuestRoute><ForgotPasswordPage /></GuestRoute>} />
               <Route path="/verify-email" element={<VerifyEmailPage />} />
               <Route path="/email-confirmed" element={<EmailConfirmedPage />} />
               <Route path="/reset-password" element={<ResetPasswordPage />} />

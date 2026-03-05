@@ -41,6 +41,13 @@ export async function getProfile(userId: string) {
   return data;
 }
 
+export async function sendPasswordResetEmail(email: string) {
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${window.location.origin}/reset-password`,
+  });
+  if (error) throw error;
+}
+
 export async function updateProfile(
   userId: string,
   updates: { full_name?: string; phone?: string; avatar_url?: string }

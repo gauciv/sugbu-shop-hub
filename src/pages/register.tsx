@@ -14,14 +14,39 @@ interface RegisterForm {
   fullName: string;
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
+function getPasswordStrength(password: string) {
+  const checks = [
+    password.length >= 6,
+    /[a-z]/.test(password),
+    /[A-Z]/.test(password),
+    /[0-9]/.test(password),
+    /[^a-zA-Z0-9]/.test(password),
+  ];
+  return checks.filter(Boolean).length;
+}
+
+const STRENGTH_CONFIG = [
+  { label: "", color: "" },
+  { label: "Very weak", color: "bg-red-400" },
+  { label: "Weak", color: "bg-orange-400" },
+  { label: "Fair", color: "bg-yellow-400" },
+  { label: "Good", color: "bg-emerald-400" },
+  { label: "Strong", color: "bg-emerald-500" },
+] as const;
+
 export default function RegisterPage() {
-  const { register, handleSubmit, formState: { errors } } = useForm<RegisterForm>();
+  const { register, handleSubmit, watch, formState: { errors } } = useForm<RegisterForm>();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [role, setRole] = useState<"buyer" | "seller">("buyer");
   const navigate = useNavigate();
+
+  const passwordValue = watch("password", "");
+  const strength = getPasswordStrength(passwordValue);
 
   async function onSubmit(data: RegisterForm) {
     setLoading(true);
@@ -124,6 +149,51 @@ export default function RegisterPage() {
               </button>
             </div>
             {errors.password && <p className="text-xs text-destructive">{errors.password.message}</p>}
+            {passwordValue.length > 0 && (
+              <div className="space-y-1.5 pt-1">
+                <div className="flex gap-1">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className={cn(
+                        "h-1.5 flex-1 rounded-full transition-colors",
+                        i < strength ? STRENGTH_CONFIG[strength].color : "bg-border/60"
+                      )}
+                    />
+                  ))}
+                </div>
+                <p className={cn(
+                  "text-[11px] font-medium",
+                  strength <= 2 ? "text-orange-500" : "text-emerald-600"
+                )}>
+                  {STRENGTH_CONFIG[strength].label}
+                </p>
+              </div>
+            )}
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="confirmPassword">Confirm Password</Label>
+            <div className="relative">
+              <Input
+                id="confirmPassword"
+                type={showConfirm ? "text" : "password"}
+                placeholder="Re-enter your password"
+                {...register("confirmPassword", {
+                  required: "Please confirm your password",
+                  validate: (val) => val === passwordValue || "Passwords do not match",
+                })}
+                className="rounded-2xl h-11 border-border/60 pr-10 focus-visible:ring-purple-400/30"
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirm(!showConfirm)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                tabIndex={-1}
+              >
+                {showConfirm ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
+            </div>
+            {errors.confirmPassword && <p className="text-xs text-destructive">{errors.confirmPassword.message}</p>}
           </div>
           <Button
             type="submit"
