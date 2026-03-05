@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ShoppingCart, LogOut, Package, LayoutDashboard, Menu, X, User, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -80,6 +80,7 @@ export function SiteHeader() {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full">
                   <Avatar className="h-8 w-8 border border-purple-200">
+                    <AvatarImage src={profile.avatar_url ?? undefined} alt={profile.full_name} />
                     <AvatarFallback className="bg-purple-50 text-xs font-semibold text-purple-500">
                       {getInitials(profile.full_name)}
                     </AvatarFallback>

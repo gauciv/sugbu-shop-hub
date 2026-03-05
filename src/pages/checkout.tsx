@@ -10,7 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/context/auth";
 import { useCart, type CartProduct } from "@/hooks/use-cart";
 import { placeOrder } from "@/api/orders";
-import { getUserAddresses } from "@/api/addresses";
+import { getUserAddresses, createAddress } from "@/api/addresses";
 import { formatPrice, cn } from "@/lib/utils";
 import { Loader2, ShieldCheck, MapPin } from "lucide-react";
 import { toast } from "sonner";
@@ -29,6 +29,7 @@ export default function CheckoutPage() {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<CheckoutForm>();
   const [loading, setLoading] = useState(false);
   const [addresses, setAddresses] = useState<Address[]>([]);
+  const [addressesLoaded, setAddressesLoaded] = useState(false);
   const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
 
   // Fetch saved addresses and pre-fill from default
@@ -36,6 +37,7 @@ export default function CheckoutPage() {
     if (!profile) return;
     getUserAddresses(profile.id).then((data) => {
       setAddresses(data);
+      setAddressesLoaded(true);
       const defaultAddr = data.find((a) => a.is_default) ?? data[0];
       if (defaultAddr) {
         setSelectedAddressId(defaultAddr.id);
@@ -50,6 +52,9 @@ export default function CheckoutPage() {
     setValue("shipping_address", addr.address);
     setValue("contact_phone", addr.contact_phone ?? "");
   }
+
+  const hasAddresses = addresses.length > 0;
+  const showManualForm = addressesLoaded && !hasAddresses;
 
   const shopGroups = items.reduce<Record<string, { shopName: string; shopId: string; items: CartProduct[] }>>(
     (acc, item) => {
@@ -68,6 +73,21 @@ export default function CheckoutPage() {
     if (!profile) return;
     setLoading(true);
     try {
+      // If the user has no saved addresses, auto-save this one
+      if (!hasAddresses && data.shipping_address) {
+        try {
+          await createAddress(profile.id, {
+            label: "Home",
+            full_name: profile.full_name,
+            address: data.shipping_address,
+            contact_phone: data.contact_phone || undefined,
+            is_default: true,
+          });
+        } catch {
+          // Non-critical — don't block the order if saving fails
+        }
+      }
+
       let lastOrderId = "";
       for (const group of Object.values(shopGroups)) {
         const order = await placeOrder({
@@ -108,11 +128,11 @@ export default function CheckoutPage() {
       <div className="grid gap-8 lg:grid-cols-5">
         <div className="lg:col-span-3 space-y-6">
           {/* Saved addresses picker */}
-          {addresses.length > 0 && (
+          {hasAddresses && (
             <Card className="border-border/60 rounded-[28px] shadow-cozy">
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-base">Saved Addresses</CardTitle>
+                  <CardTitle className="text-base">Shipping Address</CardTitle>
                   <Link to="/addresses">
                     <Button variant="ghost" size="sm" className="text-xs text-purple-600">
                       Manage
@@ -155,25 +175,13 @@ export default function CheckoutPage() {
             </Card>
           )}
 
-          {addresses.length === 0 && (
-            <div className="flex items-center gap-2 rounded-xl border border-dashed border-border/60 p-4">
-              <MapPin className="h-4 w-4 text-muted-foreground" />
-              <p className="text-sm text-muted-foreground">
-                No saved addresses.{" "}
-                <Link to="/addresses" className="font-medium text-purple-600 hover:underline">
-                  Add one
-                </Link>{" "}
-                to speed up checkout.
-              </p>
-            </div>
-          )}
-
-          <Card className="border-border/60 rounded-[28px] shadow-cozy">
-            <CardHeader>
-              <CardTitle className="text-base">Shipping Information</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <form id="checkout-form" onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          {/* Manual shipping form — only when user has no saved addresses */}
+          {showManualForm && (
+            <Card className="border-border/60 rounded-[28px] shadow-cozy">
+              <CardHeader>
+                <CardTitle className="text-base">Shipping Information</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
                 <div className="space-y-2">
                   <Label>Shipping Address</Label>
                   <Textarea
@@ -192,11 +200,29 @@ export default function CheckoutPage() {
                     className="border-border/60"
                   />
                 </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Notes — always visible */}
+          <Card className="border-border/60 rounded-[28px] shadow-cozy">
+            <CardHeader>
+              <CardTitle className="text-base">Order Notes</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <form id="checkout-form" onSubmit={handleSubmit(onSubmit)}>
+                {/* Hidden registered fields when using saved address */}
+                {hasAddresses && (
+                  <>
+                    <input type="hidden" {...register("shipping_address", { required: "Address is required" })} />
+                    <input type="hidden" {...register("contact_phone")} />
+                  </>
+                )}
                 <div className="space-y-2">
-                  <Label>Order Notes (optional)</Label>
+                  <Label>Special Instructions (optional)</Label>
                   <Textarea
                     {...register("notes")}
-                    placeholder="Any special instructions"
+                    placeholder="Any special instructions for your order"
                     rows={2}
                     className="border-border/60"
                   />
@@ -235,7 +261,7 @@ export default function CheckoutPage() {
               <Button
                 type="submit"
                 form="checkout-form"
-                disabled={loading}
+                disabled={loading || (!hasAddresses && !addressesLoaded)}
                 size="lg"
                 className="w-full shadow-cozy hover:-translate-y-0.5 hover:shadow-cozy-lg"
               >
