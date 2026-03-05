@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getOrderById } from "@/api/orders";
 import { formatPrice, formatDate } from "@/lib/utils";
-import { CheckCircle2, Package, ArrowRight, AlertTriangle } from "lucide-react";
+import { CheckCircle2, Package, ArrowRight, AlertTriangle, CreditCard } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Order } from "@/types";
 
@@ -64,7 +64,7 @@ export default function OrderConfirmationPage() {
       </div>
       <h1 className="mt-5 font-display text-2xl font-bold tracking-tight">Order Placed!</h1>
       <p className="mt-2 text-muted-foreground">
-        Your order has been received and is being processed.
+        Your order has been received. Complete payment to confirm your order.
       </p>
 
       <Card className="mt-8 border-border/60 text-left">
@@ -88,7 +88,16 @@ export default function OrderConfirmationPage() {
         </CardContent>
       </Card>
 
-      <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+      {order.status === "pending" && (
+        <Link to={`/payment/${order.id}`} className="mt-6 block">
+          <Button size="lg" className="w-full shadow-cozy hover:-translate-y-0.5 hover:shadow-cozy-lg">
+            <CreditCard className="mr-2 h-4 w-4" />
+            Pay Now &middot; {formatPrice(order.total)}
+          </Button>
+        </Link>
+      )}
+
+      <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:justify-center">
         <Link to="/orders">
           <Button variant="outline" className="w-full border-purple-200 sm:w-auto">
             <Package className="mr-2 h-4 w-4" /> View Orders
