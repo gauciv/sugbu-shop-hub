@@ -1,24 +1,39 @@
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { ShopCard } from "@/components/shared/shop-card";
 import { EmptyState } from "@/components/shared/empty-state";
-import { getActiveShops, searchShops } from "@/api/shops";
+import { getActiveShopsPaginated } from "@/api/shops";
 import { useDebounce } from "@/hooks/use-debounce";
-import { Search, Store } from "lucide-react";
+import { Search, Store, ChevronLeft, ChevronRight } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Shop } from "@/types";
 
+const PAGE_SIZE = 9;
+
 export default function ShopsPage() {
   const [shops, setShops] = useState<Shop[]>([]);
+  const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
+  const [page, setPage] = useState(1);
   const debouncedQuery = useDebounce(query, 300);
+
+  const totalPages = Math.ceil(totalCount / PAGE_SIZE);
+
+  useEffect(() => {
+    setPage(1);
+  }, [debouncedQuery]);
 
   useEffect(() => {
     setLoading(true);
-    const fetcher = debouncedQuery ? searchShops(debouncedQuery) : getActiveShops();
-    fetcher.then(setShops).finally(() => setLoading(false));
-  }, [debouncedQuery]);
+    getActiveShopsPaginated({ query: debouncedQuery || undefined, page, pageSize: PAGE_SIZE })
+      .then(({ shops: s, count }) => {
+        setShops(s);
+        setTotalCount(count);
+      })
+      .finally(() => setLoading(false));
+  }, [debouncedQuery, page]);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
@@ -51,11 +66,42 @@ export default function ShopsPage() {
           description={query ? `No results for "${query}"` : "No shops available yet. Check back soon!"}
         />
       ) : (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {shops.map((shop) => (
-            <ShopCard key={shop.id} shop={shop} />
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {shops.map((shop) => (
+              <ShopCard key={shop.id} shop={shop} />
+            ))}
+          </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="mt-6 flex items-center justify-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={page <= 1}
+                onClick={() => setPage((p) => p - 1)}
+                className="rounded-full border-border/60"
+              >
+                <ChevronLeft className="mr-1 h-4 w-4" />
+                Previous
+              </Button>
+              <span className="px-4 text-sm tabular-nums text-muted-foreground">
+                Page {page} of {totalPages}
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={page >= totalPages}
+                onClick={() => setPage((p) => p + 1)}
+                className="rounded-full border-border/60"
+              >
+                Next
+                <ChevronRight className="ml-1 h-4 w-4" />
+              </Button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

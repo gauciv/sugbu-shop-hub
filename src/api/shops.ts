@@ -73,3 +73,38 @@ export async function searchShops(query: string): Promise<Shop[]> {
     product_count: Array.isArray(s.product_count) ? s.product_count[0]?.count ?? 0 : 0,
   })) as Shop[];
 }
+
+export async function getActiveShopsPaginated({
+  query,
+  page,
+  pageSize,
+}: {
+  query?: string;
+  page: number;
+  pageSize: number;
+}): Promise<{ shops: Shop[]; count: number }> {
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize - 1;
+
+  let q = supabase
+    .from("shops")
+    .select("*, product_count:products(count)", { count: "exact" })
+    .eq("is_active", true);
+
+  if (query) {
+    q = q.ilike("name", `%${query}%`);
+  }
+
+  const { data, error, count } = await q
+    .order("created_at", { ascending: false })
+    .range(from, to);
+
+  if (error) throw error;
+
+  const shops = (data ?? []).map((s: Record<string, unknown>) => ({
+    ...s,
+    product_count: Array.isArray(s.product_count) ? s.product_count[0]?.count ?? 0 : 0,
+  })) as Shop[];
+
+  return { shops, count: count ?? 0 };
+}
