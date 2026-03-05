@@ -38,3 +38,21 @@ export async function uploadShopAsset(
 
   return data.publicUrl;
 }
+
+export async function uploadProfileImage(file: File): Promise<string> {
+  const ext = file.name.split(".").pop();
+  const fileName = `${crypto.randomUUID()}.${ext}`;
+  const filePath = `avatars/${fileName}`;
+
+  const { error } = await supabase.storage
+    .from("profile-images")
+    .upload(filePath, file);
+
+  if (error) throw error;
+
+  const { data } = supabase.storage
+    .from("profile-images")
+    .getPublicUrl(filePath);
+
+  return data.publicUrl;
+}

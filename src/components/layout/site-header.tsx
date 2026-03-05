@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ShoppingCart, LogOut, Package, LayoutDashboard, Menu, X } from "lucide-react";
+import { ShoppingCart, LogOut, Package, LayoutDashboard, Menu, X, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -92,6 +92,9 @@ export function SiteHeader() {
                   <p className="text-xs text-muted-foreground">{profile.email}</p>
                 </div>
                 <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => navigate("/profile")}>
+                  <User className="mr-2 h-4 w-4" /> Profile
+                </DropdownMenuItem>
                 {profile.role === "seller" && (
                   <DropdownMenuItem onClick={() => navigate("/seller/dashboard")}>
                     <LayoutDashboard className="mr-2 h-4 w-4" /> Dashboard
