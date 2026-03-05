@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { OrderStatusBadge } from "@/components/shared/order-status-badge";
 import { getOrderById, updateOrderStatus } from "@/api/orders";
+import { supabase } from "@/lib/supabase";
 import { getMockCourier, getMockTrackingNumber, getExpectedDelivery } from "@/lib/mock-logistics";
 import { formatPrice, formatDate } from "@/lib/utils";
 import { ORDER_STATUS_CONFIG, type OrderStatus } from "@/lib/constants";
@@ -35,6 +36,24 @@ export default function SellerOrderDetailPage() {
   useEffect(() => {
     if (!id) return;
     getOrderById(id).then(setOrder).finally(() => setLoading(false));
+  }, [id]);
+
+  // Realtime: sync order status changes
+  useEffect(() => {
+    if (!id) return;
+    const channel = supabase
+      .channel(`seller-order-${id}`)
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "orders", filter: `id=eq.${id}` },
+        (payload) => {
+          const updated = payload.new as { status: string };
+          setOrder((prev) => prev ? { ...prev, status: updated.status as Order["status"] } : prev);
+          toast.info(`Order status updated to ${ORDER_STATUS_CONFIG[updated.status as OrderStatus]?.label ?? updated.status}`);
+        }
+      )
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
   }, [id]);
 
   async function handleStatusChange(status: OrderStatus) {

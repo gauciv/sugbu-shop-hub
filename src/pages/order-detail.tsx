@@ -6,8 +6,9 @@ import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { OrderStatusBadge } from "@/components/shared/order-status-badge";
 import { getOrderById, buyerUpdateOrderStatus } from "@/api/orders";
+import { supabase } from "@/lib/supabase";
 import { getMockCourier, getMockTrackingNumber, getExpectedDelivery } from "@/lib/mock-logistics";
-import { type OrderStatus } from "@/lib/constants";
+import { type OrderStatus, ORDER_STATUS_CONFIG } from "@/lib/constants";
 import { formatPrice, formatDate } from "@/lib/utils";
 import {
   ArrowLeft,
@@ -58,6 +59,24 @@ export default function OrderDetailPage() {
       })
       .finally(() => setLoading(false));
   }, [id, navigate]);
+
+  // Realtime: sync order status changes
+  useEffect(() => {
+    if (!id) return;
+    const channel = supabase
+      .channel(`buyer-order-${id}`)
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "orders", filter: `id=eq.${id}` },
+        (payload) => {
+          const updated = payload.new as { status: string };
+          setOrder((prev) => prev ? { ...prev, status: updated.status as Order["status"] } : prev);
+          toast.info(`Order status updated to ${ORDER_STATUS_CONFIG[updated.status as OrderStatus]?.label ?? updated.status}`);
+        }
+      )
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
+  }, [id]);
 
   async function handleAction(status: "delivered" | "return_requested" | "cancelled") {
     if (!order) return;

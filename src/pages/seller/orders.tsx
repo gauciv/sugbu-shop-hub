@@ -7,6 +7,7 @@ import { EmptyState } from "@/components/shared/empty-state";
 import { useAuth } from "@/context/auth";
 import { getMyShop } from "@/api/shops";
 import { getShopOrders } from "@/api/orders";
+import { supabase } from "@/lib/supabase";
 import { SELLER_ORDER_TABS } from "@/lib/constants";
 import { formatPrice, formatDate, cn } from "@/lib/utils";
 import { ShoppingBag, Eye, Package } from "lucide-react";
@@ -15,7 +16,7 @@ import type { OrderStatus } from "@/lib/constants";
 
 export default function SellerOrdersPage() {
   const { profile } = useAuth();
-  const [, setShop] = useState<Shop | null>(null);
+  const [shop, setShop] = useState<Shop | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<string>("all");
@@ -35,6 +36,25 @@ export default function SellerOrdersPage() {
       }
     })();
   }, [profile]);
+
+  // Realtime: sync order status changes
+  useEffect(() => {
+    if (!shop) return;
+    const channel = supabase
+      .channel("seller-orders")
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "orders", filter: `shop_id=eq.${shop.id}` },
+        (payload) => {
+          const updated = payload.new as { id: string; status: string };
+          setOrders((prev) =>
+            prev.map((o) => (o.id === updated.id ? { ...o, status: updated.status as Order["status"] } : o))
+          );
+        }
+      )
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
+  }, [shop]);
 
   const currentTab = SELLER_ORDER_TABS.find((t) => t.key === activeTab) ?? SELLER_ORDER_TABS[0];
   const filtered = currentTab.statuses

@@ -4,6 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState } from "@/components/shared/empty-state";
 import { OrderStatusBadge } from "@/components/shared/order-status-badge";
 import { useAuth } from "@/context/auth";
+import { supabase } from "@/lib/supabase";
 import { getBuyerOrders } from "@/api/orders";
 import { BUYER_ORDER_TABS } from "@/lib/constants";
 import { getExpectedDelivery } from "@/lib/mock-logistics";
@@ -22,6 +23,25 @@ export default function OrdersPage() {
   useEffect(() => {
     if (!profile) return;
     getBuyerOrders(profile.id).then(setOrders).finally(() => setLoading(false));
+  }, [profile]);
+
+  // Realtime: sync order status changes
+  useEffect(() => {
+    if (!profile) return;
+    const channel = supabase
+      .channel("buyer-orders")
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "orders", filter: `buyer_id=eq.${profile.id}` },
+        (payload) => {
+          const updated = payload.new as { id: string; status: string };
+          setOrders((prev) =>
+            prev.map((o) => (o.id === updated.id ? { ...o, status: updated.status as Order["status"] } : o))
+          );
+        }
+      )
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
   }, [profile]);
 
   const currentTab = BUYER_ORDER_TABS.find((t) => t.key === activeTab) ?? BUYER_ORDER_TABS[0];
