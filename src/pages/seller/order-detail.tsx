@@ -17,12 +17,13 @@ import {
   XCircle,
   RotateCcw,
   Truck,
+  PackageCheck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import type { Order } from "@/types";
 
-const FLOW_STATUSES: OrderStatus[] = ["pending", "confirmed", "preparing", "shipped", "delivered"];
+const FLOW_STATUSES: OrderStatus[] = ["pending", "confirmed", "preparing", "shipped"];
 
 export default function SellerOrderDetailPage() {
   const { id } = useParams();
@@ -60,10 +61,13 @@ export default function SellerOrderDetailPage() {
     return <div className="flex items-center justify-center py-16"><Loader2 className="h-6 w-6 animate-spin text-purple-400" /></div>;
   }
 
-  const currentIndex = FLOW_STATUSES.indexOf(order.status as OrderStatus);
+  const isDelivered = order.status === "delivered";
   const isCancelled = order.status === "cancelled";
   const isReturnRequested = order.status === "return_requested";
-  const isTerminal = isCancelled || isReturnRequested;
+  const isTerminal = isCancelled || isReturnRequested || isDelivered;
+  const currentIndex = isDelivered
+    ? FLOW_STATUSES.length - 1
+    : FLOW_STATUSES.indexOf(order.status as OrderStatus);
   const nextStatus = !isTerminal && currentIndex >= 0 && currentIndex < FLOW_STATUSES.length - 1
     ? FLOW_STATUSES[currentIndex + 1]
     : null;
@@ -119,7 +123,7 @@ export default function SellerOrderDetailPage() {
             <>
               <div className="relative flex items-center justify-between">
                 {FLOW_STATUSES.map((status, i) => {
-                  const resolvedIndex = isReturnRequested ? FLOW_STATUSES.indexOf("delivered") : currentIndex;
+                  const resolvedIndex = isReturnRequested || isDelivered ? FLOW_STATUSES.length - 1 : currentIndex;
                   const isCompleted = i <= resolvedIndex;
                   const isCurrent = i === resolvedIndex;
                   return (
@@ -148,7 +152,7 @@ export default function SellerOrderDetailPage() {
                 {/* Connecting lines */}
                 <div className="absolute left-0 right-0 top-4 -z-0 mx-4 flex">
                   {FLOW_STATUSES.slice(0, -1).map((_, i) => {
-                    const resolvedIndex = isReturnRequested ? FLOW_STATUSES.indexOf("delivered") : currentIndex;
+                    const resolvedIndex = isReturnRequested || isDelivered ? FLOW_STATUSES.length - 1 : currentIndex;
                     return (
                       <div key={i} className="flex-1 px-2">
                         <div className={cn(
@@ -180,8 +184,33 @@ export default function SellerOrderDetailPage() {
                 </div>
               )}
 
+              {/* Status info cards */}
+              {order.status === "shipped" && !nextStatus && !isReturnRequested && (
+                <div className="mt-4 flex items-center gap-3 rounded-lg bg-purple-50 p-4">
+                  <PackageCheck className="h-6 w-6 shrink-0 text-purple-500" />
+                  <div>
+                    <p className="text-sm font-semibold text-purple-800">Waiting for Buyer Confirmation</p>
+                    <p className="text-xs text-purple-600">
+                      The order has been shipped. The buyer will confirm once they receive the package.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {isDelivered && (
+                <div className="mt-4 flex items-center gap-3 rounded-lg bg-green-50 p-4">
+                  <PackageCheck className="h-6 w-6 shrink-0 text-green-500" />
+                  <div>
+                    <p className="text-sm font-semibold text-green-800">Order Completed</p>
+                    <p className="text-xs text-green-600">
+                      The buyer has confirmed receipt of this order.
+                    </p>
+                  </div>
+                </div>
+              )}
+
               {/* Action buttons */}
-              {!isReturnRequested && (
+              {!isReturnRequested && !isDelivered && (
                 <div className="mt-6 flex flex-wrap gap-2">
                   {nextStatus && (
                     <Button
@@ -200,7 +229,7 @@ export default function SellerOrderDetailPage() {
                       )}
                     </Button>
                   )}
-                  {order.status !== "delivered" && order.status !== "cancelled" && (
+                  {order.status !== "shipped" && order.status !== "cancelled" && (
                     <Button
                       variant="outline"
                       onClick={() => handleStatusChange("cancelled")}
