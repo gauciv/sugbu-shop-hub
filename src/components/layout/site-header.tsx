@@ -28,7 +28,7 @@ export function SiteHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-white/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 bg-card/92 shadow-[0_2px_20px_rgba(164,125,196,0.10)] backdrop-blur-lg">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-8">
           <Link to="/" className="flex items-center gap-2">
@@ -131,7 +131,7 @@ export function SiteHeader() {
       </div>
 
       {mobileOpen && (
-        <div className="mx-4 mt-2 rounded-2xl bg-white shadow-cozy-lg md:hidden">
+        <div className="mx-4 mt-2 rounded-[24px] bg-card shadow-cozy-lg md:hidden">
           <nav className="flex flex-col gap-1 px-3 py-3">
             {NAV_LINKS.map((link) => {
               const isActive = link.href === "/"

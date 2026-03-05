@@ -38,8 +38,8 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
 
   return (
     <Link to={`/product/${product.id}`} className="block h-full">
-      <Card className="card-cozy group flex h-full flex-col overflow-hidden rounded-xl border-border/60 transition-all duration-200 hover:border-pink-200">
-        <div className="relative aspect-[4/3] overflow-hidden rounded-t-xl bg-purple-50">
+      <Card className="card-cozy group flex h-full flex-col overflow-hidden rounded-[24px] border-border/60 shadow-cozy transition-all duration-200 hover:border-pink-200">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-t-[24px] bg-purple-50">
           {product.image_urls[0] ? (
             <img
               src={product.image_urls[0]}
@@ -57,7 +57,7 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
             </Badge>
           )}
           {product.stock <= 0 && (
-            <div className="absolute inset-0 flex items-center justify-center bg-white/70">
+            <div className="absolute inset-0 flex items-center justify-center bg-card/70">
               <Badge variant="secondary" className="text-xs text-muted-foreground">Out of Stock</Badge>
             </div>
           )}

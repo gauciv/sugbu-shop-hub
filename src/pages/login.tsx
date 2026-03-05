@@ -44,10 +44,11 @@ export default function LoginPage() {
   }
 
   return (
-    <Card className="rounded-2xl border-border/60 shadow-xl shadow-purple-400/5">
+    <Card className="rounded-[32px] border-border/60 shadow-dreamy">
       <CardHeader className="text-center">
-        <CardTitle className="text-2xl font-bold tracking-tight font-display">Welcome back!</CardTitle>
-        <CardDescription>We missed you! Sign in to continue shopping</CardDescription>
+        <span className="font-accent text-xl text-accent">~ welcome back ~</span>
+        <CardTitle className="text-2xl font-bold tracking-tight font-display">We missed you!</CardTitle>
+        <CardDescription>Sign in to continue shopping</CardDescription>
       </CardHeader>
       <CardContent className="p-8 pt-0">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -58,7 +59,7 @@ export default function LoginPage() {
               type="email"
               placeholder="you@example.com"
               {...register("email", { required: "Email is required" })}
-              className="rounded-xl h-11 border-border/60 focus-visible:ring-purple-400/30"
+              className="rounded-2xl h-11 border-border/60 focus-visible:ring-purple-400/30"
             />
             {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
           </div>
@@ -70,7 +71,7 @@ export default function LoginPage() {
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
                 {...register("password", { required: "Password is required" })}
-                className="rounded-xl h-11 border-border/60 pr-10 focus-visible:ring-purple-400/30"
+                className="rounded-2xl h-11 border-border/60 pr-10 focus-visible:ring-purple-400/30"
               />
               <button
                 type="button"

@@ -2,11 +2,12 @@
 
 interface DoodleProps {
   className?: string;
+  style?: React.CSSProperties;
 }
 
-export function DoodleHeart({ className = "" }: DoodleProps) {
+export function DoodleHeart({ className = "", style }: DoodleProps) {
   return (
-    <svg viewBox="0 0 40 40" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 40 40" fill="none" className={className} style={style} xmlns="http://www.w3.org/2000/svg">
       <path
         d="M20 35C20 35 5.5 25.5 5.5 15.5C5.5 10.5 9.2 6.2 13.8 6.2C16.8 6.5 18.9 8.1 20 10.2C21.1 8 23.5 6.5 26.2 6.2C30.8 6.2 34.5 10.5 34.5 15.5C34.5 25.5 20 35 20 35Z"
         stroke="currentColor"
@@ -24,9 +25,9 @@ export function DoodleHeart({ className = "" }: DoodleProps) {
   );
 }
 
-export function DoodleStar({ className = "" }: DoodleProps) {
+export function DoodleStar({ className = "", style }: DoodleProps) {
   return (
-    <svg viewBox="0 0 40 40" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 40 40" fill="none" className={className} style={style} xmlns="http://www.w3.org/2000/svg">
       <path
         d="M20 4.5L24.2 13.8L34.5 15.2L27 22.8L28.8 33.5L20 28.8L11.2 33.5L13 22.8L5.5 15.2L15.8 13.8L20 4.5Z"
         stroke="currentColor"
@@ -44,9 +45,9 @@ export function DoodleStar({ className = "" }: DoodleProps) {
   );
 }
 
-export function DoodleSparkle({ className = "" }: DoodleProps) {
+export function DoodleSparkle({ className = "", style }: DoodleProps) {
   return (
-    <svg viewBox="0 0 32 32" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 32 32" fill="none" className={className} style={style} xmlns="http://www.w3.org/2000/svg">
       {/* Four-point sparkle with crayon strokes */}
       <path
         d="M16 3C16.5 9 17.5 13 16 16C14.5 13 15.5 9 16 3Z"
@@ -87,9 +88,9 @@ export function DoodleSparkle({ className = "" }: DoodleProps) {
   );
 }
 
-export function DoodleLeaf({ className = "" }: DoodleProps) {
+export function DoodleLeaf({ className = "", style }: DoodleProps) {
   return (
-    <svg viewBox="0 0 36 36" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 36 36" fill="none" className={className} style={style} xmlns="http://www.w3.org/2000/svg">
       <path
         d="M8.5 29.5C8.5 29.5 6.5 18 14.2 10.2C21.8 2.5 33.5 4.5 33.5 4.5C33.5 4.5 31.5 16 23.8 23.8C16.2 31.5 8.5 29.5 8.5 29.5Z"
         stroke="currentColor"
@@ -108,9 +109,9 @@ export function DoodleLeaf({ className = "" }: DoodleProps) {
   );
 }
 
-export function DoodleShoppingBag({ className = "" }: DoodleProps) {
+export function DoodleShoppingBag({ className = "", style }: DoodleProps) {
   return (
-    <svg viewBox="0 0 40 40" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 40 40" fill="none" className={className} style={style} xmlns="http://www.w3.org/2000/svg">
       <path
         d="M8.5 14.5H31.5L29.5 33.5H10.5L8.5 14.5Z"
         stroke="currentColor"
@@ -137,9 +138,9 @@ export function DoodleShoppingBag({ className = "" }: DoodleProps) {
   );
 }
 
-export function DoodleFlower({ className = "" }: DoodleProps) {
+export function DoodleFlower({ className = "", style }: DoodleProps) {
   return (
-    <svg viewBox="0 0 36 36" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 36 36" fill="none" className={className} style={style} xmlns="http://www.w3.org/2000/svg">
       {/* Center */}
       <circle cx="18" cy="14" r="4.5" stroke="currentColor" strokeWidth="2" fill="currentColor" fillOpacity="0.25" strokeDasharray="0.5 0.3" />
       {/* Petals with crayon feel */}
@@ -157,9 +158,9 @@ export function DoodleFlower({ className = "" }: DoodleProps) {
 
 /** Decorative doodle icons for category cards and dashboard stats */
 
-export function DoodlePackage({ className = "" }: DoodleProps) {
+export function DoodlePackage({ className = "", style }: DoodleProps) {
   return (
-    <svg viewBox="0 0 32 32" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 32 32" fill="none" className={className} style={style} xmlns="http://www.w3.org/2000/svg">
       <path
         d="M5.5 10.5L16 5L26.5 10.5V21.5L16 27L5.5 21.5V10.5Z"
         stroke="currentColor"
@@ -177,9 +178,9 @@ export function DoodlePackage({ className = "" }: DoodleProps) {
   );
 }
 
-export function DoodleCoin({ className = "" }: DoodleProps) {
+export function DoodleCoin({ className = "", style }: DoodleProps) {
   return (
-    <svg viewBox="0 0 32 32" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 32 32" fill="none" className={className} style={style} xmlns="http://www.w3.org/2000/svg">
       <circle
         cx="16" cy="16" r="11.5"
         stroke="currentColor"
@@ -188,14 +189,14 @@ export function DoodleCoin({ className = "" }: DoodleProps) {
         fillOpacity="0.12"
         strokeDasharray="0.7 0.3"
       />
-      <text x="16" y="21" textAnchor="middle" fill="currentColor" fontSize="12" fontWeight="bold" opacity="0.5" fontFamily="Fredoka, sans-serif">$</text>
+      <text x="16" y="21" textAnchor="middle" fill="currentColor" fontSize="12" fontWeight="bold" opacity="0.5" fontFamily="Quicksand, sans-serif">$</text>
     </svg>
   );
 }
 
-export function DoodleCart({ className = "" }: DoodleProps) {
+export function DoodleCart({ className = "", style }: DoodleProps) {
   return (
-    <svg viewBox="0 0 32 32" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 32 32" fill="none" className={className} style={style} xmlns="http://www.w3.org/2000/svg">
       <path
         d="M5 6H8L11 22H24L27 10H10"
         stroke="currentColor"
@@ -211,9 +212,9 @@ export function DoodleCart({ className = "" }: DoodleProps) {
   );
 }
 
-export function DoodleTrend({ className = "" }: DoodleProps) {
+export function DoodleTrend({ className = "", style }: DoodleProps) {
   return (
-    <svg viewBox="0 0 32 32" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 32 32" fill="none" className={className} style={style} xmlns="http://www.w3.org/2000/svg">
       <path
         d="M4 24L11 17L17 21L28 8"
         stroke="currentColor"

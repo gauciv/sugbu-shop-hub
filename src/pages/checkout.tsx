@@ -83,7 +83,7 @@ export default function CheckoutPage() {
 
       <div className="grid gap-8 lg:grid-cols-5">
         <div className="lg:col-span-3">
-          <Card className="border-border/60">
+          <Card className="border-border/60 rounded-[28px] shadow-cozy">
             <CardHeader>
               <CardTitle className="text-base">Shipping Information</CardTitle>
             </CardHeader>
@@ -122,7 +122,7 @@ export default function CheckoutPage() {
         </div>
 
         <div className="lg:col-span-2">
-          <Card className="sticky top-20 border-border/60">
+          <Card className="sticky top-20 border-border/60 rounded-[24px] shadow-cozy">
             <CardHeader>
               <CardTitle className="text-base">Order Summary</CardTitle>
             </CardHeader>

@@ -12,14 +12,14 @@ interface ShopCardProps {
 export function ShopCard({ shop }: ShopCardProps) {
   return (
     <Link to={`/shop/${shop.slug}`} className="block h-full">
-      <Card className="card-cozy group flex h-full flex-col overflow-hidden rounded-xl border-border/60 transition-all duration-200 hover:border-pink-200">
-        <div className="relative h-24 shrink-0 bg-gradient-to-br from-purple-50 via-pink-50 to-purple-50">
+      <Card className="card-cozy group flex h-full flex-col overflow-hidden rounded-[24px] border-border/60 shadow-cozy transition-all duration-200 hover:border-pink-200">
+        <div className="relative h-24 shrink-0 bg-gradient-to-br from-purple-100/60 via-pink-50/80 to-lavender-50">
           {shop.banner_url ? (
             <img src={shop.banner_url} alt="" className="h-full w-full object-cover" />
           ) : null}
         </div>
         <CardContent className="relative flex flex-1 flex-col px-3 pb-3 pt-0">
-          <Avatar className="-mt-6 h-12 w-12 border-[3px] border-white shadow-sm">
+          <Avatar className="-mt-6 h-12 w-12 border-[3px] border-card shadow-sm">
             <AvatarImage src={shop.logo_url ?? undefined} />
             <AvatarFallback className="bg-purple-50 text-xs font-bold text-purple-500">
               {getInitials(shop.name)}

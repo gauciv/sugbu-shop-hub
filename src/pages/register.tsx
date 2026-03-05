@@ -37,8 +37,9 @@ export default function RegisterPage() {
   }
 
   return (
-    <Card className="rounded-2xl border-border/60 shadow-xl shadow-purple-400/5">
+    <Card className="rounded-[32px] border-border/60 shadow-dreamy">
       <CardHeader className="text-center">
+        <span className="font-accent text-xl text-accent">~ join us ~</span>
         <CardTitle className="text-2xl font-bold tracking-tight font-display">Join the cozy corner</CardTitle>
         <CardDescription>Create your account and start exploring</CardDescription>
       </CardHeader>
@@ -48,7 +49,7 @@ export default function RegisterPage() {
             type="button"
             onClick={() => setRole("buyer")}
             className={cn(
-              "flex flex-col items-center gap-2 rounded-2xl border-2 p-4 transition-all",
+              "flex flex-col items-center gap-2 rounded-[20px] border-2 p-4 transition-all",
               role === "buyer"
                 ? "border-primary bg-purple-50 text-purple-600 shadow-cozy"
                 : "border-border/60 hover:border-purple-200 hover:bg-lavender-100/50"
@@ -66,7 +67,7 @@ export default function RegisterPage() {
             type="button"
             onClick={() => setRole("seller")}
             className={cn(
-              "flex flex-col items-center gap-2 rounded-2xl border-2 p-4 transition-all",
+              "flex flex-col items-center gap-2 rounded-[20px] border-2 p-4 transition-all",
               role === "seller"
                 ? "border-primary bg-purple-50 text-purple-600 shadow-cozy"
                 : "border-border/60 hover:border-purple-200 hover:bg-lavender-100/50"
@@ -88,7 +89,7 @@ export default function RegisterPage() {
               id="fullName"
               placeholder="Juan Dela Cruz"
               {...register("fullName", { required: "Name is required" })}
-              className="rounded-xl h-11 border-border/60 focus-visible:ring-purple-400/30"
+              className="rounded-2xl h-11 border-border/60 focus-visible:ring-purple-400/30"
             />
             {errors.fullName && <p className="text-xs text-destructive">{errors.fullName.message}</p>}
           </div>
@@ -99,7 +100,7 @@ export default function RegisterPage() {
               type="email"
               placeholder="you@example.com"
               {...register("email", { required: "Email is required" })}
-              className="rounded-xl h-11 border-border/60 focus-visible:ring-purple-400/30"
+              className="rounded-2xl h-11 border-border/60 focus-visible:ring-purple-400/30"
             />
             {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
           </div>
@@ -111,7 +112,7 @@ export default function RegisterPage() {
                 type={showPassword ? "text" : "password"}
                 placeholder="At least 6 characters"
                 {...register("password", { required: "Password is required", minLength: { value: 6, message: "Min 6 characters" } })}
-                className="rounded-xl h-11 border-border/60 pr-10 focus-visible:ring-purple-400/30"
+                className="rounded-2xl h-11 border-border/60 pr-10 focus-visible:ring-purple-400/30"
               />
               <button
                 type="button"

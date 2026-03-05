@@ -43,7 +43,7 @@ export default function CartPage() {
 
       <div className="space-y-4">
         {Object.entries(shopGroups).map(([shopId, group]) => (
-          <Card key={shopId} className="overflow-hidden rounded-2xl border-border/60 shadow-cozy">
+          <Card key={shopId} className="overflow-hidden rounded-[28px] border-border/60 shadow-cozy">
             <CardContent className="p-6">
               <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 {group.shopName}
@@ -93,7 +93,7 @@ export default function CartPage() {
           </Card>
         ))}
 
-        <div className="mt-2 rounded-2xl bg-white shadow-cozy p-6">
+        <div className="mt-2 rounded-[28px] bg-card shadow-cozy p-6">
           <div className="flex items-center justify-between">
             <span className="text-lg font-semibold">Total</span>
             <span className="text-2xl font-bold tabular-nums">{formatPrice(total)}</span>

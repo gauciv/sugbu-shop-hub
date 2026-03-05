@@ -5,43 +5,43 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --radius: 1.25rem;
+  --radius: 1.5rem;
 
-  /* Cozy indie marketplace — soft blended pinks & purples */
-  --background: #FFF8F6;
-  --foreground: #4A3060;
-  --card: #FFFFFF;
-  --card-foreground: #4A3060;
-  --popover: #FFFFFF;
-  --popover-foreground: #4A3060;
-  --primary: #9B72CF;
+  /* Soft girl aesthetic — warm oat cream, muted pastels, cozy contrast */
+  --background: #FAF5F0;
+  --foreground: #4A3258;
+  --card: #FFF8F4;
+  --card-foreground: #4A3258;
+  --popover: #FFF8F4;
+  --popover-foreground: #4A3258;
+  --primary: #A47DC4;
   --primary-foreground: #FFFFFF;
-  --secondary: #FFF0F5;
-  --secondary-foreground: #6B4A8A;
-  --muted: #F8F0F8;
-  --muted-foreground: #8B7A9E;
-  --accent: #E8849A;
-  --accent-foreground: #4A3060;
-  --destructive: #E87171;
-  --border: #EDD5E3;
-  --input: #EDD5E3;
-  --ring: #9B72CF;
+  --secondary: #FFF0F4;
+  --secondary-foreground: #6B4880;
+  --muted: #F8EEF5;
+  --muted-foreground: #8A7399;
+  --accent: #D98A9B;
+  --accent-foreground: #4A3258;
+  --destructive: #E06060;
+  --border: #EAD4E0;
+  --input: #EAD4E0;
+  --ring: #A47DC4;
 
-  --chart-1: #9B72CF;
-  --chart-2: #E8849A;
-  --chart-3: #B48DD6;
-  --chart-4: #F4A7B9;
-  --chart-5: #C9A4E0;
+  --chart-1: #A47DC4;
+  --chart-2: #D98A9B;
+  --chart-3: #B99BD0;
+  --chart-4: #E8AEBB;
+  --chart-5: #C8ADE0;
 
-  --sidebar: #FFF8F6;
-  --sidebar-background: #FFF8F6;
-  --sidebar-foreground: #4A3060;
-  --sidebar-primary: #9B72CF;
+  --sidebar: #FAF5F0;
+  --sidebar-background: #FAF5F0;
+  --sidebar-foreground: #4A3258;
+  --sidebar-primary: #A47DC4;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #FFF0F5;
-  --sidebar-accent-foreground: #6B4A8A;
-  --sidebar-border: #EDD5E3;
-  --sidebar-ring: #9B72CF;
+  --sidebar-accent: #FFF0F4;
+  --sidebar-accent-foreground: #6B4880;
+  --sidebar-border: #EAD4E0;
+  --sidebar-ring: #A47DC4;
 }
 
 @theme inline {
@@ -85,34 +85,35 @@
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
 
-  /* Soft blended brand palette */
-  --color-purple-50: #F8F0FF;
-  --color-purple-100: #F0E0FF;
-  --color-purple-200: #E0C6F5;
-  --color-purple-300: #C9A4E0;
-  --color-purple-400: #B48DD6;
-  --color-purple-500: #9B72CF;
-  --color-purple-600: #8558C0;
-  --color-purple-700: #6B4A8A;
-  --color-purple-800: #553B6E;
-  --color-purple-900: #3D2A52;
-  --color-pink-50: #FFF5F7;
-  --color-pink-100: #FFE8EE;
-  --color-pink-200: #FDD1DC;
-  --color-pink-300: #F4A7B9;
-  --color-pink-400: #E8849A;
-  --color-pink-500: #D4687F;
-  --color-pink-900: #6B2840;
-  --color-lavender-50: #FDF8FF;
-  --color-lavender-100: #F8F0FF;
-  --color-lavender-200: #EDD5E3;
+  /* Soft pastel brand palette — deeper, warmer tones */
+  --color-purple-50: #F7F0FD;
+  --color-purple-100: #EDE0F8;
+  --color-purple-200: #DDCAEF;
+  --color-purple-300: #C8ADE0;
+  --color-purple-400: #B99BD0;
+  --color-purple-500: #A47DC4;
+  --color-purple-600: #8861AC;
+  --color-purple-700: #6B4880;
+  --color-purple-800: #4A3258;
+  --color-purple-900: #362342;
+  --color-pink-50: #FFF3F6;
+  --color-pink-100: #FFE5EC;
+  --color-pink-200: #F8CEDB;
+  --color-pink-300: #E8AEBB;
+  --color-pink-400: #D98A9B;
+  --color-pink-500: #C97588;
+  --color-pink-900: #5E2235;
+  --color-lavender-50: #FAF5FD;
+  --color-lavender-100: #F5ECFA;
+  --color-lavender-200: #EAD4E0;
   --color-success: #16A34A;
   --color-warning: #D97706;
   --color-error: #DC2626;
 
   /* Typography */
-  --font-display: "Fredoka", "Nunito", system-ui, sans-serif;
+  --font-display: "Quicksand", "Nunito", system-ui, sans-serif;
   --font-body: "Nunito", system-ui, sans-serif;
+  --font-accent: "Caveat", cursive;
 }
 
 @layer base {
@@ -129,6 +130,20 @@
     text-rendering: optimizeLegibility;
   }
 
+  /* Subtle grainy texture overlay — soft girl lo-fi vibe */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+    mix-blend-mode: multiply;
+  }
+
   a, button, input, select, textarea {
     transition-property: color, background-color, border-color, box-shadow, opacity, transform;
     transition-duration: 150ms;
@@ -136,7 +151,7 @@
   }
 
   *:focus-visible {
-    outline: 2px solid #9B72CF44;
+    outline: 2px solid #A47DC444;
     outline-offset: 2px;
     border-radius: var(--radius-sm);
   }
@@ -146,27 +161,35 @@
   }
 
   ::selection {
-    background-color: #9B72CF22;
+    background-color: #A47DC422;
   }
 }
 
 /* Custom utilities */
 @layer utilities {
   .font-display {
-    font-family: "Fredoka", "Nunito", system-ui, sans-serif;
+    font-family: "Quicksand", "Nunito", system-ui, sans-serif;
+  }
+
+  .font-accent {
+    font-family: "Caveat", cursive;
   }
 
   .text-gradient {
-    @apply bg-gradient-to-r from-purple-500 to-pink-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent;
   }
 
-  /* Soft warm shadows — gentle, diffused */
+  /* Soft dreamy shadows — large, diffused, color-tinted glow */
   .shadow-cozy {
-    box-shadow: 0 2px 8px rgba(155,114,207,0.08), 0 1px 3px rgba(232,132,154,0.06);
+    box-shadow: 0 4px 20px rgba(164,125,196,0.12), 0 2px 8px rgba(217,138,155,0.10);
   }
 
   .shadow-cozy-lg {
-    box-shadow: 0 4px 16px rgba(155,114,207,0.10), 0 2px 6px rgba(232,132,154,0.08);
+    box-shadow: 0 8px 36px rgba(164,125,196,0.16), 0 4px 14px rgba(217,138,155,0.12);
+  }
+
+  .shadow-dreamy {
+    box-shadow: 0 12px 48px rgba(164,125,196,0.18), 0 6px 20px rgba(217,138,155,0.12), 0 0 0 1px rgba(234,212,224,0.4);
   }
 
   /* Card hover lift */
@@ -174,8 +197,23 @@
     transition: transform 250ms ease, box-shadow 250ms ease, border-color 250ms ease;
   }
   .card-cozy:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(155,114,207,0.12), 0 2px 8px rgba(232,132,154,0.08);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(164,125,196,0.18), 0 4px 14px rgba(217,138,155,0.12);
+  }
+
+  /* Decorative washi-tape strip for scrapbook feel */
+  .tape-strip {
+    @apply absolute bg-pink-100/80 shadow-sm;
+    width: 60px;
+    height: 20px;
+    border-radius: 2px;
+    transform: rotate(-12deg);
+    opacity: 0.7;
+  }
+
+  /* Organic blob shape */
+  .blob {
+    border-radius: 60% 40% 50% 50% / 50% 60% 40% 50%;
   }
 }
 
@@ -193,6 +231,16 @@
 
 .animate-fade-in-up {
   animation: fade-in-up 0.5s ease-out both;
+}
+
+/* Gentle floating animation for decorative elements */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
 }
 
 /* Shimmer effect for skeleton loaders */

@@ -22,7 +22,8 @@ export default function ShopsPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
-      <div className="mb-6 rounded-2xl bg-secondary px-6 py-6 sm:px-8">
+      <div className="mb-6 rounded-[32px] bg-secondary px-6 py-6 shadow-cozy sm:px-8">
+        <span className="font-accent text-lg text-accent">~ lovely locals ~</span>
         <h1 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">Discover Cozy Local Shops</h1>
         <p className="mt-1.5 text-sm text-muted-foreground lg:text-base">Handpicked small businesses from all around Cebu</p>
       </div>

@@ -36,11 +36,12 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <Card className="rounded-2xl border-border/60 shadow-xl shadow-purple-400/5">
+    <Card className="rounded-[32px] border-border/60 shadow-dreamy">
       <CardHeader className="text-center">
         <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-purple-50">
-          <KeyRound className="h-7 w-7 text-purple-400" />
+          <KeyRound className="h-7 w-7 text-purple-500" />
         </div>
+        <span className="font-accent text-xl text-accent">~ fresh start ~</span>
         <CardTitle className="text-2xl font-bold tracking-tight font-display">Set new password</CardTitle>
         <CardDescription>Enter your new password below</CardDescription>
       </CardHeader>
@@ -54,7 +55,7 @@ export default function ResetPasswordPage() {
                 type={showPassword ? "text" : "password"}
                 placeholder="At least 6 characters"
                 {...register("password", { required: "Password is required", minLength: { value: 6, message: "Min 6 characters" } })}
-                className="rounded-xl h-11 border-border/60 pr-10 focus-visible:ring-purple-400/30"
+                className="rounded-2xl h-11 border-border/60 pr-10 focus-visible:ring-purple-400/30"
               />
               <button
                 type="button"
@@ -78,7 +79,7 @@ export default function ResetPasswordPage() {
                   required: "Please confirm your password",
                   validate: (val) => val === watch("password") || "Passwords do not match",
                 })}
-                className="rounded-xl h-11 border-border/60 pr-10 focus-visible:ring-purple-400/30"
+                className="rounded-2xl h-11 border-border/60 pr-10 focus-visible:ring-purple-400/30"
               />
               <button
                 type="button"

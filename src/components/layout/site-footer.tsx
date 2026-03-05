@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export function SiteFooter() {
   return (
     <footer className="relative">
-      <div className="bg-secondary">
+      <div className="bg-gradient-to-b from-secondary to-pink-100/30">
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
           {/* Top row: Brand + Nav */}
           <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
@@ -18,6 +18,7 @@ export function SiteFooter() {
               <p className="max-w-xs text-sm text-muted-foreground">
                 Your cozy marketplace for local Cebu finds
               </p>
+              <p className="font-accent text-lg text-accent/80">made with love for cebu&apos;s small businesses</p>
             </div>
 
             {/* Nav links */}
