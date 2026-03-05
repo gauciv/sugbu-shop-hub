@@ -16,6 +16,7 @@ const CartPage = lazy(() => import("@/pages/cart"));
 const CheckoutPage = lazy(() => import("@/pages/checkout"));
 const OrderConfirmationPage = lazy(() => import("@/pages/order-confirmation"));
 const OrdersPage = lazy(() => import("@/pages/orders"));
+const PaymentPage = lazy(() => import("@/pages/payment"));
 const LoginPage = lazy(() => import("@/pages/login"));
 const RegisterPage = lazy(() => import("@/pages/register"));
 const VerifyEmailPage = lazy(() => import("@/pages/verify-email"));
@@ -73,6 +74,7 @@ function App() {
               <Route path="/checkout" element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
               <Route path="/order-confirmation/:id" element={<ProtectedRoute><OrderConfirmationPage /></ProtectedRoute>} />
               <Route path="/orders" element={<ProtectedRoute><OrdersPage /></ProtectedRoute>} />
+              <Route path="/payment/:orderId" element={<ProtectedRoute><PaymentPage /></ProtectedRoute>} />
               <Route path="*" element={<NotFoundPage />} />
             </Route>
 
