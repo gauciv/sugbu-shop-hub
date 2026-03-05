@@ -56,3 +56,21 @@ export async function uploadProfileImage(file: File): Promise<string> {
 
   return data.publicUrl;
 }
+
+export async function uploadReviewImage(file: File): Promise<string> {
+  const ext = file.name.split(".").pop();
+  const fileName = `${crypto.randomUUID()}.${ext}`;
+  const filePath = `reviews/${fileName}`;
+
+  const { error } = await supabase.storage
+    .from("review-images")
+    .upload(filePath, file);
+
+  if (error) throw error;
+
+  const { data } = supabase.storage
+    .from("review-images")
+    .getPublicUrl(filePath);
+
+  return data.publicUrl;
+}
