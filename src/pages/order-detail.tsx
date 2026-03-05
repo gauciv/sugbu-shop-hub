@@ -6,6 +6,9 @@ import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { OrderStatusBadge } from "@/components/shared/order-status-badge";
 import { getOrderById, buyerUpdateOrderStatus } from "@/api/orders";
+import { getOrderItemReviewStatus } from "@/api/reviews";
+import { ReviewDialog } from "@/components/shared/review-dialog";
+import { useAuth } from "@/context/auth";
 import { supabase } from "@/lib/supabase";
 import { getMockCourier, getMockTrackingNumber, getExpectedDelivery } from "@/lib/mock-logistics";
 import { type OrderStatus, ORDER_STATUS_CONFIG } from "@/lib/constants";
@@ -24,10 +27,12 @@ import {
   MapPin,
   Phone,
   StickyNote,
+  Star,
+  Pencil,
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import type { Order } from "@/types";
+import type { Order, Review } from "@/types";
 
 const TIMELINE_STEPS: { status: OrderStatus; label: string; icon: typeof Package }[] = [
   { status: "pending", label: "Order Placed", icon: CreditCard },
@@ -45,9 +50,19 @@ function getTimelineIndex(status: OrderStatus): number {
 export default function OrderDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { profile } = useAuth();
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
   const [acting, setActing] = useState(false);
+  const [reviewMap, setReviewMap] = useState<Record<string, Review>>({});
+  const [reviewDialogOpen, setReviewDialogOpen] = useState(false);
+  const [reviewTarget, setReviewTarget] = useState<{
+    orderItemId: string;
+    productId: string;
+    productName: string;
+    productImage: string | null;
+    existingReview?: Review | null;
+  } | null>(null);
 
   useEffect(() => {
     if (!id) return;
@@ -77,6 +92,13 @@ export default function OrderDetailPage() {
       .subscribe();
     return () => { supabase.removeChannel(channel); };
   }, [id]);
+
+  // Fetch review status for delivered orders
+  useEffect(() => {
+    if (!order?.items || order.status !== "delivered") return;
+    const itemIds = order.items.map((i) => i.id);
+    getOrderItemReviewStatus(itemIds).then(setReviewMap).catch(() => {});
+  }, [order?.items, order?.status]);
 
   async function handleAction(status: "delivered" | "return_requested" | "cancelled") {
     if (!order) return;
@@ -256,25 +278,78 @@ export default function OrderDetailPage() {
           </CardHeader>
           <CardContent className="space-y-3">
             {order.items?.map((item) => (
-              <div key={item.id} className="flex items-center gap-3">
-                <div className="h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-lavender-100">
-                  {item.product_image ? (
-                    <img src={item.product_image} alt="" className="h-full w-full object-cover" />
-                  ) : (
-                    <div className="flex h-full items-center justify-center">
-                      <ImageOff className="h-4 w-4 text-muted-foreground/30" />
+              <div key={item.id} className="space-y-2">
+                <div className="flex items-center gap-3">
+                  <div className="h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-lavender-100">
+                    {item.product_image ? (
+                      <img src={item.product_image} alt="" className="h-full w-full object-cover" />
+                    ) : (
+                      <div className="flex h-full items-center justify-center">
+                        <ImageOff className="h-4 w-4 text-muted-foreground/30" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-1.5">
+                      <p className="truncate text-sm font-medium">{item.product_name}</p>
+                      {reviewMap[item.id] && (
+                        <span className="inline-flex items-center gap-0.5 text-[10px] text-amber-500">
+                          <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                          {reviewMap[item.id].rating}
+                        </span>
+                      )}
                     </div>
-                  )}
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium">{item.product_name}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {formatPrice(item.unit_price)} x {item.quantity}
+                    <p className="text-xs text-muted-foreground">
+                      {formatPrice(item.unit_price)} x {item.quantity}
+                    </p>
+                  </div>
+                  <p className="shrink-0 text-sm font-semibold tabular-nums">
+                    {formatPrice(item.line_total)}
                   </p>
                 </div>
-                <p className="shrink-0 text-sm font-semibold tabular-nums">
-                  {formatPrice(item.line_total)}
-                </p>
+                {order.status === "delivered" && profile && (
+                  <div className="pl-17">
+                    {reviewMap[item.id] ? (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-7 rounded-full text-xs text-purple-600 hover:bg-purple-50"
+                        onClick={() => {
+                          setReviewTarget({
+                            orderItemId: item.id,
+                            productId: item.product_id,
+                            productName: item.product_name,
+                            productImage: item.product_image,
+                            existingReview: reviewMap[item.id],
+                          });
+                          setReviewDialogOpen(true);
+                        }}
+                      >
+                        <Pencil className="mr-1 h-3 w-3" />
+                        Edit Review
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-7 rounded-full border-purple-200 text-xs text-purple-600 hover:bg-purple-50"
+                        onClick={() => {
+                          setReviewTarget({
+                            orderItemId: item.id,
+                            productId: item.product_id,
+                            productName: item.product_name,
+                            productImage: item.product_image,
+                            existingReview: null,
+                          });
+                          setReviewDialogOpen(true);
+                        }}
+                      >
+                        <Star className="mr-1 h-3 w-3" />
+                        Write Review
+                      </Button>
+                    )}
+                  </div>
+                )}
               </div>
             ))}
 
@@ -375,6 +450,22 @@ export default function OrderDetailPage() {
           )}
         </div>
       </div>
+
+      {reviewTarget && profile && (
+        <ReviewDialog
+          open={reviewDialogOpen}
+          onOpenChange={setReviewDialogOpen}
+          productId={reviewTarget.productId}
+          productName={reviewTarget.productName}
+          productImage={reviewTarget.productImage}
+          buyerId={profile.id}
+          orderItemId={reviewTarget.orderItemId}
+          existingReview={reviewTarget.existingReview}
+          onSuccess={(review) => {
+            setReviewMap((prev) => ({ ...prev, [reviewTarget.orderItemId]: review }));
+          }}
+        />
+      )}
     </div>
   );
 }
