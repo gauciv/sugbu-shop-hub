@@ -10,9 +10,11 @@ import { getShopOrders } from "@/api/orders";
 import { supabase } from "@/lib/supabase";
 import { SELLER_ORDER_TABS } from "@/lib/constants";
 import { formatPrice, formatDate, cn } from "@/lib/utils";
-import { ShoppingBag, Eye, Package } from "lucide-react";
+import { ShoppingBag, Eye, Package, ChevronLeft, ChevronRight } from "lucide-react";
 import type { Order, Shop } from "@/types";
 import type { OrderStatus } from "@/lib/constants";
+
+const PAGE_SIZE = 8;
 
 export default function SellerOrdersPage() {
   const { profile } = useAuth();
@@ -20,6 +22,7 @@ export default function SellerOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<string>("all");
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     if (!profile) return;
@@ -60,6 +63,8 @@ export default function SellerOrdersPage() {
   const filtered = currentTab.statuses
     ? orders.filter((o) => (currentTab.statuses as readonly string[]).includes(o.status))
     : orders;
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+  const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   if (loading) {
     return (
@@ -94,7 +99,7 @@ export default function SellerOrdersPage() {
             return (
               <button
                 key={tab.key}
-                onClick={() => setActiveTab(tab.key)}
+                onClick={() => { setActiveTab(tab.key); setPage(1); }}
                 className={cn(
                   "relative shrink-0 px-3 py-2.5 text-sm font-medium transition-colors",
                   isActive
@@ -146,11 +151,11 @@ export default function SellerOrdersPage() {
             <div className="w-16 text-right">Action</div>
           </div>
           {/* Order rows */}
-          {filtered.map((order, i) => (
+          {paginated.map((order, i) => (
             <Link
               key={order.id}
               to={`/seller/orders/${order.id}`}
-              className={`flex items-center justify-between gap-3 px-4 py-3 transition-colors hover:bg-lavender-50/50 sm:grid sm:grid-cols-[1fr_auto_1fr_auto_auto_auto] sm:gap-4 ${i < filtered.length - 1 ? "border-b border-border/30" : ""}`}
+              className={`flex items-center justify-between gap-3 px-4 py-3 transition-colors hover:bg-lavender-50/50 sm:grid sm:grid-cols-[1fr_auto_1fr_auto_auto_auto] sm:gap-4 ${i < paginated.length - 1 ? "border-b border-border/30" : ""}`}
             >
               <div className="min-w-0">
                 <p className="truncate text-sm font-semibold">{order.order_number}</p>
@@ -180,6 +185,35 @@ export default function SellerOrdersPage() {
               </div>
             </Link>
           ))}
+        </div>
+      )}
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="mt-6 flex items-center justify-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={page <= 1}
+            onClick={() => setPage((p) => p - 1)}
+            className="rounded-full border-border/60"
+          >
+            <ChevronLeft className="mr-1 h-4 w-4" />
+            Previous
+          </Button>
+          <span className="px-4 text-sm tabular-nums text-muted-foreground">
+            Page {page} of {totalPages}
+          </span>
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={page >= totalPages}
+            onClick={() => setPage((p) => p + 1)}
+            className="rounded-full border-border/60"
+          >
+            Next
+            <ChevronRight className="ml-1 h-4 w-4" />
+          </Button>
         </div>
       )}
     </div>

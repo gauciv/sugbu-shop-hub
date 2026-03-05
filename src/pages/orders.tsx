@@ -9,9 +9,12 @@ import { getBuyerOrders } from "@/api/orders";
 import { BUYER_ORDER_TABS } from "@/lib/constants";
 import { getExpectedDelivery } from "@/lib/mock-logistics";
 import { formatPrice, formatDate, cn } from "@/lib/utils";
-import { ShoppingBag, ImageOff, Package } from "lucide-react";
+import { ShoppingBag, ImageOff, Package, ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import type { Order } from "@/types";
 import type { OrderStatus } from "@/lib/constants";
+
+const PAGE_SIZE = 8;
 
 export default function OrdersPage() {
   const { profile } = useAuth();
@@ -19,6 +22,7 @@ export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<string>("all");
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     if (!profile) return;
@@ -48,6 +52,8 @@ export default function OrdersPage() {
   const filteredOrders = currentTab.statuses
     ? orders.filter((o) => (currentTab.statuses as readonly string[]).includes(o.status))
     : orders;
+  const totalPages = Math.ceil(filteredOrders.length / PAGE_SIZE);
+  const paginatedOrders = filteredOrders.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   if (loading) {
     return (
@@ -81,7 +87,7 @@ export default function OrdersPage() {
             return (
               <button
                 key={tab.key}
-                onClick={() => setActiveTab(tab.key)}
+                onClick={() => { setActiveTab(tab.key); setPage(1); }}
                 className={cn(
                   "relative shrink-0 px-3 py-2.5 text-sm font-medium transition-colors",
                   isActive
@@ -125,7 +131,7 @@ export default function OrdersPage() {
         />
       ) : (
         <div className="space-y-2.5">
-          {filteredOrders.map((order) => {
+          {paginatedOrders.map((order) => {
             const firstItem = order.items?.[0];
             const itemCount = order.items?.length ?? 0;
             const expectedDelivery = getExpectedDelivery(order.created_at);
@@ -178,6 +184,35 @@ export default function OrdersPage() {
               </button>
             );
           })}
+        </div>
+      )}
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="mt-6 flex items-center justify-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={page <= 1}
+            onClick={() => setPage((p) => p - 1)}
+            className="rounded-full border-border/60"
+          >
+            <ChevronLeft className="mr-1 h-4 w-4" />
+            Previous
+          </Button>
+          <span className="px-4 text-sm tabular-nums text-muted-foreground">
+            Page {page} of {totalPages}
+          </span>
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={page >= totalPages}
+            onClick={() => setPage((p) => p + 1)}
+            className="rounded-full border-border/60"
+          >
+            Next
+            <ChevronRight className="ml-1 h-4 w-4" />
+          </Button>
         </div>
       )}
     </div>
