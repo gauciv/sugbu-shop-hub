@@ -157,9 +157,6 @@ export default function CheckoutPage() {
                 {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <ShieldCheck className="mr-2 h-4 w-4" />}
                 Place Order
               </Button>
-              <p className="text-center text-[11px] text-muted-foreground">
-                This is a demo. No real payment will be processed.
-              </p>
             </CardContent>
           </Card>
         </div>
