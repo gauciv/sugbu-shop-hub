@@ -1,20 +1,33 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/shared/product-card";
+import { ReviewCard } from "@/components/shared/review-card";
+import { ReviewImageGallery } from "@/components/shared/review-image-gallery";
 import { EmptyState } from "@/components/shared/empty-state";
 import { getShopBySlug } from "@/api/shops";
 import { getActiveShopProducts } from "@/api/products";
-import { getInitials } from "@/lib/utils";
-import { Package, MapPin, Mail, Phone } from "lucide-react";
+import { getTopRatedProducts, getShopReviews } from "@/api/reviews";
+import { getInitials, formatPrice } from "@/lib/utils";
+import { Package, MapPin, Mail, Phone, Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { Shop, Product } from "@/types";
+import type { Shop, Product, Review } from "@/types";
 
 export default function ShopDetailPage() {
   const { slug } = useParams();
   const [shop, setShop] = useState<Shop | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [topRated, setTopRated] = useState<{ id: string; name: string; image_urls: string[]; price: number; avg_rating: number; review_count: number }[]>([]);
+  const [shopReviews, setShopReviews] = useState<Review[]>([]);
+  const [shopReviewsCount, setShopReviewsCount] = useState(0);
+  const [shopReviewsPage, setShopReviewsPage] = useState(1);
+  const [galleryOpen, setGalleryOpen] = useState(false);
+  const [galleryImages, setGalleryImages] = useState<string[]>([]);
+  const [galleryIndex, setGalleryIndex] = useState(0);
+
+  const REVIEWS_PAGE_SIZE = 5;
 
   useEffect(() => {
     if (!slug) return;
@@ -29,6 +42,23 @@ export default function ShopDetailPage() {
       }
     })();
   }, [slug]);
+
+  // Fetch top rated products
+  useEffect(() => {
+    if (!shop) return;
+    getTopRatedProducts(shop.id, 4).then(setTopRated).catch(() => {});
+  }, [shop]);
+
+  // Fetch paginated shop reviews
+  useEffect(() => {
+    if (!shop) return;
+    getShopReviews(shop.id, { page: shopReviewsPage, pageSize: REVIEWS_PAGE_SIZE })
+      .then(({ reviews, count }) => {
+        setShopReviews(reviews);
+        setShopReviewsCount(count);
+      })
+      .catch(() => {});
+  }, [shop, shopReviewsPage]);
 
   if (loading) {
     return (
@@ -90,6 +120,42 @@ export default function ShopDetailPage() {
           </div>
         </div>
 
+        {/* Top Rated Products */}
+        {topRated.length > 0 && (
+          <div className="border-t border-border/60 py-8">
+            <h2 className="mb-4 font-display text-lg font-semibold flex items-center gap-2">
+              <Star className="h-5 w-5 fill-amber-400 text-amber-400" />
+              Top Rated
+            </h2>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+              {topRated.map((p) => (
+                <Link key={p.id} to={`/product/${p.id}`} className="block">
+                  <div className="group overflow-hidden rounded-[24px] border border-border/60 bg-card shadow-cozy transition-all hover:border-pink-200 hover:shadow-cozy-lg">
+                    <div className="aspect-[4/3] overflow-hidden bg-purple-50">
+                      {p.image_urls[0] ? (
+                        <img src={p.image_urls[0]} alt={p.name} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                      ) : (
+                        <div className="flex h-full items-center justify-center">
+                          <Package className="h-8 w-8 text-purple-200" />
+                        </div>
+                      )}
+                    </div>
+                    <div className="p-3">
+                      <h3 className="line-clamp-1 text-sm font-semibold">{p.name}</h3>
+                      <div className="mt-1 flex items-center gap-1">
+                        <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                        <span className="text-xs font-medium tabular-nums">{p.avg_rating.toFixed(1)}</span>
+                        <span className="text-[11px] text-muted-foreground">({p.review_count})</span>
+                      </div>
+                      <p className="mt-1 text-sm font-bold">{formatPrice(p.price)}</p>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Products */}
         <div className="border-t border-border/60 py-8">
           <h2 className="mb-6 font-display text-lg font-semibold">Products ({products.length})</h2>
@@ -103,6 +169,64 @@ export default function ShopDetailPage() {
             </div>
           )}
         </div>
+
+        {/* Customer Reviews */}
+        {shopReviewsCount > 0 && (
+          <div className="border-t border-border/60 py-8">
+            <h2 className="mb-6 font-display text-lg font-semibold">
+              Customer Reviews ({shopReviewsCount})
+            </h2>
+            <div className="divide-y divide-border/40">
+              {shopReviews.map((review) => (
+                <ReviewCard
+                  key={review.id}
+                  review={review}
+                  showProduct
+                  onImageClick={(urls, index) => {
+                    setGalleryImages(urls);
+                    setGalleryIndex(index);
+                    setGalleryOpen(true);
+                  }}
+                />
+              ))}
+            </div>
+
+            {Math.ceil(shopReviewsCount / REVIEWS_PAGE_SIZE) > 1 && (
+              <div className="mt-6 flex items-center justify-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={shopReviewsPage <= 1}
+                  onClick={() => setShopReviewsPage((p) => p - 1)}
+                  className="rounded-full border-border/60"
+                >
+                  <ChevronLeft className="mr-1 h-4 w-4" />
+                  Previous
+                </Button>
+                <span className="px-4 text-sm tabular-nums text-muted-foreground">
+                  Page {shopReviewsPage} of {Math.ceil(shopReviewsCount / REVIEWS_PAGE_SIZE)}
+                </span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={shopReviewsPage >= Math.ceil(shopReviewsCount / REVIEWS_PAGE_SIZE)}
+                  onClick={() => setShopReviewsPage((p) => p + 1)}
+                  className="rounded-full border-border/60"
+                >
+                  Next
+                  <ChevronRight className="ml-1 h-4 w-4" />
+                </Button>
+              </div>
+            )}
+
+            <ReviewImageGallery
+              images={galleryImages}
+              initialIndex={galleryIndex}
+              open={galleryOpen}
+              onOpenChange={setGalleryOpen}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
