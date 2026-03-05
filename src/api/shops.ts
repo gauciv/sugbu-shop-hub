@@ -35,7 +35,7 @@ export async function getMyShop(ownerId: string): Promise<Shop | null> {
 }
 
 export async function createShop(
-  shop: Pick<Shop, "owner_id" | "name" | "slug" | "description" | "contact_email" | "contact_phone" | "address">
+  shop: Pick<Shop, "owner_id" | "name" | "slug" | "description" | "contact_email" | "contact_phone" | "address"> & Partial<Pick<Shop, "logo_url" | "banner_url">>
 ): Promise<Shop> {
   const { data, error } = await supabase
     .from("shops")

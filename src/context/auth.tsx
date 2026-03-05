@@ -69,8 +69,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         if (event === "SIGNED_IN" && s?.user?.id) {
           const hash = window.location.hash;
-          const pathname = window.location.pathname;
-          if (hash.includes("type=signup") || pathname === "/email-confirmed") {
+          if (hash.includes("type=signup")) {
             navigate("/email-confirmed");
             return;
           }

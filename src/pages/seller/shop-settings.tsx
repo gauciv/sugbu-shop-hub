@@ -99,6 +99,8 @@ export default function ShopSettingsPage() {
           contact_email: data.contact_email || null,
           contact_phone: data.contact_phone || null,
           address: data.address || null,
+          logo_url: logoUrl,
+          banner_url: bannerUrl,
         });
         setShop(created);
         toast.success("Shop created! Redirecting to dashboard...");
