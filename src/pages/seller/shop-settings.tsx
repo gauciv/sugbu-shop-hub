@@ -20,7 +20,7 @@ import { getMyShop, createShop, updateShop } from "@/api/shops";
 import { uploadShopAsset } from "@/api/storage";
 import { slugify, getInitials } from "@/lib/utils";
 import { toast } from "sonner";
-import { Loader2, Upload, ImageIcon, CheckCircle2, Eye, Camera } from "lucide-react";
+import { Loader2, Upload, ImageIcon, CheckCircle2, Eye, Camera, AlertCircle, XCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Shop } from "@/types";
 
@@ -122,7 +122,7 @@ export default function ShopSettingsPage() {
           banner_position_y: bannerPositionY,
         });
         setShop(created);
-        toast.success("Shop created! Redirecting to dashboard...");
+        toast.success("Shop created! Pending admin approval.");
       }
     } catch {
       toast.error("Failed to save shop");
@@ -191,6 +191,36 @@ export default function ShopSettingsPage() {
           </Dialog>
         )}
       </div>
+
+      {/* Approval / suspension banners */}
+      {shop?.approval_status === "pending" && (
+        <div className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4">
+          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
+          <div>
+            <p className="text-sm font-semibold text-amber-800">
+              Your shop is pending admin approval
+            </p>
+            <p className="mt-0.5 text-xs text-amber-600">
+              An admin will review your shop shortly. You can set up your
+              products in the meantime.
+            </p>
+          </div>
+        </div>
+      )}
+      {shop?.approval_status === "suspended" && (
+        <div className="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4">
+          <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-600" />
+          <div>
+            <p className="text-sm font-semibold text-red-800">
+              Your shop has been suspended
+            </p>
+            <p className="mt-0.5 text-xs text-red-600">
+              Your shop is no longer visible to buyers. Please contact support
+              for more information.
+            </p>
+          </div>
+        </div>
+      )}
 
       <Card className="border-border/60">
         <CardHeader>

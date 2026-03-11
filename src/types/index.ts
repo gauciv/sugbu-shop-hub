@@ -22,6 +22,7 @@ export interface Shop {
   contact_phone: string | null;
   address: string | null;
   is_active: boolean;
+  approval_status: "pending" | "approved" | "suspended";
   created_at: string;
   updated_at: string;
   product_count?: number;

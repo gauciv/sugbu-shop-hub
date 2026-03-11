@@ -12,11 +12,12 @@ export interface AdminStats {
 }
 
 export async function getAdminStats(): Promise<AdminStats> {
-  const [usersRes, shopsRes, ordersRes, revenueRes] = await Promise.all([
+  const [usersRes, shopsRes, ordersRes, revenueRes, pendingRes] = await Promise.all([
     supabase.from("profiles").select("id", { count: "exact", head: true }),
     supabase.from("shops").select("id", { count: "exact", head: true }),
     supabase.from("orders").select("id", { count: "exact", head: true }),
     supabase.from("orders").select("total").eq("status", "delivered"),
+    supabase.from("shops").select("id", { count: "exact", head: true }).eq("approval_status", "pending"),
   ]);
 
   if (usersRes.error) throw usersRes.error;
@@ -34,7 +35,7 @@ export async function getAdminStats(): Promise<AdminStats> {
     totalShops: shopsRes.count ?? 0,
     totalOrders: ordersRes.count ?? 0,
     platformRevenue,
-    pendingApprovals: 0, // populated after migration 014 adds approval_status
+    pendingApprovals: pendingRes.count ?? 0,
   };
 }
 
