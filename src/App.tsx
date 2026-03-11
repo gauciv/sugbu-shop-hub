@@ -46,7 +46,8 @@ const AdminCategories = lazy(() => import("@/pages/admin/categories"));
 const AdminFinancials = lazy(() => import("@/pages/admin/financials"));
 const AdminSupport = lazy(() => import("@/pages/admin/support"));
 const AdminSupportDetail = lazy(() => import("@/pages/admin/support-detail"));
-const SupportNewPage = lazy(() => import("@/pages/support-new"));
+const SupportPage = lazy(() => import("@/pages/support"));
+const SupportDetailPage = lazy(() => import("@/pages/support-detail"));
 const MessagesPage = lazy(() => import("@/pages/messages"));
 
 const SellerMessagesPage = lazy(() => import("@/pages/seller/messages"));
@@ -110,7 +111,8 @@ function App() {
               <Route path="/payment/:orderId" element={<ProtectedRoute><PaymentPage /></ProtectedRoute>} />
               <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
               <Route path="/addresses" element={<ProtectedRoute><AddressesPage /></ProtectedRoute>} />
-              <Route path="/support/new" element={<ProtectedRoute><SupportNewPage /></ProtectedRoute>} />
+              <Route path="/support" element={<ProtectedRoute><SupportPage /></ProtectedRoute>} />
+              <Route path="/support/:id" element={<ProtectedRoute><SupportDetailPage /></ProtectedRoute>} />
               <Route path="/messages" element={<ProtectedRoute><MessagesPage /></ProtectedRoute>} />
               <Route path="*" element={<NotFoundPage />} />
             </Route>

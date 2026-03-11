@@ -132,8 +132,8 @@ export function SiteHeader() {
                   </DropdownMenuItem>
                 )}
                 {profile.role !== "admin" && (
-                  <DropdownMenuItem onClick={() => navigate("/support/new")}>
-                    <HelpCircle className="mr-2 h-4 w-4" /> Get Help / Report Issue
+                  <DropdownMenuItem onClick={() => navigate("/support")}>
+                    <HelpCircle className="mr-2 h-4 w-4" /> Support
                   </DropdownMenuItem>
                 )}
                 <DropdownMenuSeparator />
