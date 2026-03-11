@@ -47,6 +47,9 @@ const AdminFinancials = lazy(() => import("@/pages/admin/financials"));
 const AdminSupport = lazy(() => import("@/pages/admin/support"));
 const AdminSupportDetail = lazy(() => import("@/pages/admin/support-detail"));
 const SupportNewPage = lazy(() => import("@/pages/support-new"));
+const MessagesPage = lazy(() => import("@/pages/messages"));
+
+const SellerMessagesPage = lazy(() => import("@/pages/seller/messages"));
 
 function Loading() {
   return (
@@ -95,6 +98,7 @@ function App() {
               <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
               <Route path="/addresses" element={<ProtectedRoute><AddressesPage /></ProtectedRoute>} />
               <Route path="/support/new" element={<ProtectedRoute><SupportNewPage /></ProtectedRoute>} />
+              <Route path="/messages" element={<ProtectedRoute><MessagesPage /></ProtectedRoute>} />
               <Route path="*" element={<NotFoundPage />} />
             </Route>
 
@@ -115,6 +119,7 @@ function App() {
               <Route path="/seller/orders" element={<SellerOrders />} />
               <Route path="/seller/orders/:id" element={<SellerOrderDetail />} />
               <Route path="/seller/shop-settings" element={<ShopSettings />} />
+              <Route path="/seller/messages" element={<SellerMessagesPage />} />
             </Route>
 
             <Route element={<AdminLayout />}>

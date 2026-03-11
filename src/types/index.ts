@@ -191,3 +191,28 @@ export interface TicketMessage {
   created_at: string;
   sender?: Profile;
 }
+
+export interface Conversation {
+  id: string;
+  buyer_id: string;
+  seller_id: string;
+  shop_id: string;
+  product_id: string | null;
+  last_message_at: string;
+  last_message_preview: string | null;
+  created_at: string;
+  buyer?: Profile;
+  seller?: Profile;
+  shop?: Shop;
+  unread_count?: number;
+}
+
+export interface Message {
+  id: string;
+  conversation_id: string;
+  sender_id: string;
+  content: string;
+  is_read: boolean;
+  created_at: string;
+  sender?: Profile;
+}

@@ -10,10 +10,11 @@ import { ReviewCard } from "@/components/shared/review-card";
 import { ReviewImageGallery } from "@/components/shared/review-image-gallery";
 import { getProductById } from "@/api/products";
 import { getProductReviews, getReviewStats } from "@/api/reviews";
+import { getOrCreateConversation } from "@/api/messages";
 import { useCart } from "@/hooks/use-cart";
 import { useAuth } from "@/context/auth";
 import { formatPrice } from "@/lib/utils";
-import { ShoppingCart, Store, Check, ImageOff, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import { ShoppingCart, Store, Check, ImageOff, ArrowLeft, ChevronLeft, ChevronRight, MessageSquare } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
 import type { Product, Review, ReviewStats } from "@/types";
@@ -25,8 +26,9 @@ export default function ProductDetailPage() {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [justAdded, setJustAdded] = useState(false);
+  const [startingChat, setStartingChat] = useState(false);
   const addItem = useCart((s) => s.addItem);
-  const { session } = useAuth();
+  const { session, profile } = useAuth();
   const navigate = useNavigate();
 
   // Review state
@@ -90,6 +92,24 @@ export default function ProductDetailPage() {
     }, quantity);
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 2000);
+  }
+
+  async function handleChat() {
+    if (!profile || !product?.shop) return;
+    setStartingChat(true);
+    try {
+      const conv = await getOrCreateConversation(
+        profile.id,
+        product.shop.id,
+        product.shop.owner_id,
+        product.id
+      );
+      navigate(`/messages?conv=${conv.id}`);
+    } catch {
+      toast.error("Couldn't start conversation");
+    } finally {
+      setStartingChat(false);
+    }
   }
 
   if (loading) {
@@ -245,6 +265,22 @@ export default function ProductDetailPage() {
             <div className="rounded-[28px] bg-pink-50/70 p-5 shadow-cozy">
               <span className="text-destructive font-medium">Out of stock</span>
             </div>
+          )}
+
+          {/* Chat with Seller */}
+          {profile?.role === "buyer" && product.shop && profile.id !== product.shop.owner_id && (
+            <Button
+              variant="outline"
+              className="mt-3 w-full rounded-full border-pink-200 text-pink-600 hover:bg-pink-50"
+              onClick={handleChat}
+              disabled={startingChat}
+            >
+              {startingChat ? (
+                <><span className="mr-2 h-4 w-4 animate-spin inline-block border-2 border-pink-400 border-t-transparent rounded-full" /> Starting chat...</>
+              ) : (
+                <><MessageSquare className="mr-2 h-4 w-4" /> Chat with Seller</>
+              )}
+            </Button>
           )}
         </div>
       </div>

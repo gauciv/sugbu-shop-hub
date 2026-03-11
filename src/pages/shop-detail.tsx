@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/shared/product-card";
@@ -9,15 +9,21 @@ import { EmptyState } from "@/components/shared/empty-state";
 import { getShopBySlug } from "@/api/shops";
 import { getActiveShopProducts } from "@/api/products";
 import { getTopRatedProducts, getShopReviews } from "@/api/reviews";
+import { getOrCreateConversation } from "@/api/messages";
+import { useAuth } from "@/context/auth";
 import { getInitials, formatPrice } from "@/lib/utils";
-import { Package, MapPin, Mail, Phone, Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { Package, MapPin, Mail, Phone, Star, ChevronLeft, ChevronRight, MessageSquare } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { toast } from "sonner";
 import type { Shop, Product, Review } from "@/types";
 
 export default function ShopDetailPage() {
   const { slug } = useParams();
+  const navigate = useNavigate();
+  const { profile } = useAuth();
   const [shop, setShop] = useState<Shop | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
+  const [startingChat, setStartingChat] = useState(false);
   const [loading, setLoading] = useState(true);
   const [topRated, setTopRated] = useState<{ id: string; name: string; image_urls: string[]; price: number; avg_rating: number; review_count: number }[]>([]);
   const [shopReviews, setShopReviews] = useState<Review[]>([]);
@@ -78,6 +84,23 @@ export default function ShopDetailPage() {
     return <EmptyState icon={Package} title="Shop not found" description="This shop doesn't exist or has been deactivated." />;
   }
 
+  async function handleChat() {
+    if (!profile || !shop) return;
+    setStartingChat(true);
+    try {
+      const conv = await getOrCreateConversation(
+        profile.id,
+        shop.id,
+        shop.owner_id
+      );
+      navigate(`/messages?conv=${conv.id}`);
+    } catch {
+      toast.error("Couldn't start conversation");
+    } finally {
+      setStartingChat(false);
+    }
+  }
+
   return (
     <div>
       {/* Banner */}
@@ -117,6 +140,18 @@ export default function ShopDetailPage() {
                 <span className="flex items-center gap-1"><Phone className="h-3 w-3" /> {shop.contact_phone}</span>
               )}
             </div>
+            {profile?.role === "buyer" && profile.id !== shop.owner_id && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleChat}
+                disabled={startingChat}
+                className="mt-3 rounded-full border-pink-200 text-pink-600 hover:bg-pink-50"
+              >
+                <MessageSquare className="mr-1.5 h-3.5 w-3.5" />
+                {startingChat ? "Starting chat…" : "Chat with Seller"}
+              </Button>
+            )}
           </div>
         </div>
 
