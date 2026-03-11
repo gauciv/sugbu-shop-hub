@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from "@/context/auth";
 import { PublicLayout } from "@/layouts/public-layout";
 import { AuthLayout } from "@/layouts/auth-layout";
 import { SellerLayout } from "@/layouts/seller-layout";
+import { AdminLayout } from "@/layouts/admin-layout";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const HomePage = lazy(() => import("@/pages/home"));
@@ -34,6 +35,8 @@ const ProductForm = lazy(() => import("@/pages/seller/product-form"));
 const SellerOrders = lazy(() => import("@/pages/seller/orders"));
 const SellerOrderDetail = lazy(() => import("@/pages/seller/order-detail"));
 const ShopSettings = lazy(() => import("@/pages/seller/shop-settings"));
+
+const AdminDashboard = lazy(() => import("@/pages/admin/dashboard"));
 
 function Loading() {
   return (
@@ -101,6 +104,10 @@ function App() {
               <Route path="/seller/orders" element={<SellerOrders />} />
               <Route path="/seller/orders/:id" element={<SellerOrderDetail />} />
               <Route path="/seller/shop-settings" element={<ShopSettings />} />
+            </Route>
+
+            <Route element={<AdminLayout />}>
+              <Route path="/admin/dashboard" element={<AdminDashboard />} />
             </Route>
           </Routes>
         </Suspense>

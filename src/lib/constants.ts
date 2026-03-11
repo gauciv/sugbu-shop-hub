@@ -44,4 +44,14 @@ export const SELLER_ORDER_TABS = [
 export const ROLES = {
   BUYER: "buyer",
   SELLER: "seller",
+  ADMIN: "admin",
 } as const;
+
+export const ADMIN_ORDER_TABS = [
+  { key: "all",             label: "All",          statuses: null },
+  { key: "pending",         label: "Pending",      statuses: ["pending"] },
+  { key: "active",          label: "Active",       statuses: ["confirmed", "preparing", "shipped"] },
+  { key: "completed",       label: "Completed",    statuses: ["delivered"] },
+  { key: "cancelled",       label: "Cancelled",    statuses: ["cancelled"] },
+  { key: "return_requests", label: "Return/Refund", statuses: ["return_requested"] },
+] as const;
