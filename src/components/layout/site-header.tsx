@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ShoppingCart, LogOut, Package, LayoutDashboard, Menu, X, User, MapPin } from "lucide-react";
+import { ShoppingCart, LogOut, Package, LayoutDashboard, Menu, X, User, MapPin, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -107,6 +107,11 @@ export function SiteHeader() {
                 <DropdownMenuItem onClick={() => navigate("/orders")}>
                   <Package className="mr-2 h-4 w-4" /> My Orders
                 </DropdownMenuItem>
+                {profile.role !== "admin" && (
+                  <DropdownMenuItem onClick={() => navigate("/support/new")}>
+                    <HelpCircle className="mr-2 h-4 w-4" /> Get Help / Report Issue
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => signOut()}>
                   <LogOut className="mr-2 h-4 w-4" /> Sign Out

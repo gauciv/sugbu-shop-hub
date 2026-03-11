@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Package, ShoppingBag, Settings, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import { LayoutDashboard, Package, ShoppingBag, Settings, ArrowLeft, ChevronLeft, ChevronRight, HelpCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -8,6 +8,7 @@ const navItems = [
   { label: "Products", icon: Package, href: "/seller/products" },
   { label: "Orders", icon: ShoppingBag, href: "/seller/orders" },
   { label: "Shop Settings", icon: Settings, href: "/seller/shop-settings" },
+  { label: "Get Help", icon: HelpCircle, href: "/support/new" },
 ];
 
 interface SellerSidebarProps {

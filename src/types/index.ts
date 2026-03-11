@@ -164,3 +164,30 @@ export interface SellerPayoutSummary {
   net_amount: number;
   order_ids: string[];
 }
+
+export interface SupportTicket {
+  id: string;
+  ticket_number: string;
+  submitted_by: string;
+  submitted_by_role: "buyer" | "seller";
+  type: "order_dispute" | "seller_dispute" | "bug_report" | "complaint" | "general";
+  subject: string;
+  description: string;
+  status: "open" | "in_progress" | "resolved" | "closed";
+  priority: "low" | "normal" | "high" | "urgent";
+  related_order_id: string | null;
+  created_at: string;
+  updated_at: string;
+  submitter?: Profile;
+  order?: Order;
+  messages?: TicketMessage[];
+}
+
+export interface TicketMessage {
+  id: string;
+  ticket_id: string;
+  sender_id: string;
+  message: string;
+  created_at: string;
+  sender?: Profile;
+}

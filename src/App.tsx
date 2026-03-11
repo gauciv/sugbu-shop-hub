@@ -44,6 +44,9 @@ const AdminOrders = lazy(() => import("@/pages/admin/orders"));
 const AdminOrderDetail = lazy(() => import("@/pages/admin/order-detail"));
 const AdminCategories = lazy(() => import("@/pages/admin/categories"));
 const AdminFinancials = lazy(() => import("@/pages/admin/financials"));
+const AdminSupport = lazy(() => import("@/pages/admin/support"));
+const AdminSupportDetail = lazy(() => import("@/pages/admin/support-detail"));
+const SupportNewPage = lazy(() => import("@/pages/support-new"));
 
 function Loading() {
   return (
@@ -91,6 +94,7 @@ function App() {
               <Route path="/payment/:orderId" element={<ProtectedRoute><PaymentPage /></ProtectedRoute>} />
               <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
               <Route path="/addresses" element={<ProtectedRoute><AddressesPage /></ProtectedRoute>} />
+              <Route path="/support/new" element={<ProtectedRoute><SupportNewPage /></ProtectedRoute>} />
               <Route path="*" element={<NotFoundPage />} />
             </Route>
 
@@ -122,6 +126,8 @@ function App() {
               <Route path="/admin/orders/:id" element={<AdminOrderDetail />} />
               <Route path="/admin/categories" element={<AdminCategories />} />
               <Route path="/admin/financials" element={<AdminFinancials />} />
+              <Route path="/admin/support" element={<AdminSupport />} />
+              <Route path="/admin/support/:id" element={<AdminSupportDetail />} />
             </Route>
           </Routes>
         </Suspense>
