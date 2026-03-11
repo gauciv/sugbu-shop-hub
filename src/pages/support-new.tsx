@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,8 +22,7 @@ export default function SupportNewPage() {
   const [submitting, setSubmitting] = useState(false);
 
   if (!profile || profile.role === "admin") {
-    navigate("/", { replace: true });
-    return null;
+    return <Navigate to="/" replace />;
   }
 
   const isValid =

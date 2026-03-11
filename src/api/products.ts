@@ -25,7 +25,7 @@ export async function getActiveShopProducts(shopId: string): Promise<Product[]> 
 export async function getProductById(id: string): Promise<Product> {
   const { data, error } = await supabase
     .from("products")
-    .select("*, category:categories(*), shop:shops(id, name, slug, logo_url)")
+    .select("*, category:categories(*), shop:shops(id, name, slug, logo_url, owner_id)")
     .eq("id", id)
     .single();
   if (error) throw error;

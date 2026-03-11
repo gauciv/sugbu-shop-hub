@@ -71,9 +71,14 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 }
 
 function GuestRoute({ children }: { children: React.ReactNode }) {
-  const { session, loading } = useAuth();
+  const { session, profile, loading } = useAuth();
   if (loading) return <Loading />;
-  if (session) return <Navigate to="/" replace />;
+  if (session && !profile) return <Loading />;
+  if (session && profile) {
+    if (profile.role === "admin") return <Navigate to="/admin/dashboard" replace />;
+    if (profile.role === "seller") return <Navigate to="/seller/dashboard" replace />;
+    return <Navigate to="/" replace />;
+  }
   return <>{children}</>;
 }
 
