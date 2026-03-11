@@ -80,6 +80,7 @@ export interface Order {
   notes: string | null;
   created_at: string;
   updated_at: string;
+  payout_id?: string | null;
   shop?: Shop;
   buyer?: Profile;
   items?: OrderItem[];
@@ -126,4 +127,40 @@ export interface Address {
   is_default: boolean;
   created_at: string;
   updated_at: string;
+}
+
+export interface PlatformSetting {
+  key: string;
+  value: string;
+  updated_at: string;
+}
+
+export interface Payout {
+  id: string;
+  seller_id: string;
+  shop_id: string;
+  period_label: string;
+  gross_amount: number;
+  commission_rate: number;
+  commission_amount: number;
+  net_amount: number;
+  status: "pending" | "paid";
+  transaction_ref: string | null;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+  paid_at: string | null;
+  paid_by: string | null;
+  shop?: Shop;
+}
+
+export interface SellerPayoutSummary {
+  shop_id: string;
+  seller_id: string;
+  shop_name: string;
+  unpaid_order_count: number;
+  gross_amount: number;
+  commission_amount: number;
+  net_amount: number;
+  order_ids: string[];
 }
