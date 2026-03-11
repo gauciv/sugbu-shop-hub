@@ -5,6 +5,7 @@ export interface Profile {
   avatar_url: string | null;
   role: "buyer" | "seller" | "admin";
   phone: string | null;
+  is_suspended: boolean;
   created_at: string;
   updated_at: string;
 }

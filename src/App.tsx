@@ -38,6 +38,7 @@ const ShopSettings = lazy(() => import("@/pages/seller/shop-settings"));
 
 const AdminDashboard = lazy(() => import("@/pages/admin/dashboard"));
 const AdminShops = lazy(() => import("@/pages/admin/shops"));
+const AdminUsers = lazy(() => import("@/pages/admin/users"));
 
 function Loading() {
   return (
@@ -110,6 +111,7 @@ function App() {
             <Route element={<AdminLayout />}>
               <Route path="/admin/dashboard" element={<AdminDashboard />} />
               <Route path="/admin/shops" element={<AdminShops />} />
+              <Route path="/admin/users" element={<AdminUsers />} />
             </Route>
           </Routes>
         </Suspense>
