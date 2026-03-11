@@ -150,6 +150,19 @@ export async function getAllPayouts(): Promise<Payout[]> {
   return (data ?? []) as Payout[];
 }
 
+// ─── Get Seller's Paid Payouts ───────────────────────────────────────────────
+
+export async function getSellerPaidPayouts(sellerId: string): Promise<Payout[]> {
+  const { data, error } = await supabase
+    .from("payouts")
+    .select("*")
+    .eq("seller_id", sellerId)
+    .eq("status", "paid")
+    .order("paid_at", { ascending: false });
+  if (error) throw error;
+  return (data ?? []) as Payout[];
+}
+
 // ─── Transaction Log ──────────────────────────────────────────────────────────
 
 export interface TransactionLogEntry {

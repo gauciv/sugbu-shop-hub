@@ -36,3 +36,20 @@ export function getInitials(name: string): string {
     .toUpperCase()
     .slice(0, 2);
 }
+
+export function formatMessageTime(date: string | Date): string {
+  const d = new Date(date);
+  const now = new Date();
+  const diffMs = now.getTime() - d.getTime();
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  const time = d.toLocaleTimeString("en-PH", { hour: "numeric", minute: "2-digit", hour12: true });
+
+  if (diffDays === 0) return time;
+  if (diffDays === 1) return `Yesterday, ${time}`;
+  if (diffDays < 7) {
+    const day = d.toLocaleDateString("en-PH", { weekday: "short" });
+    return `${day}, ${time}`;
+  }
+  return `${formatDate(d)}, ${time}`;
+}

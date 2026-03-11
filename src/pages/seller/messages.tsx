@@ -12,7 +12,7 @@ import {
 } from "@/api/messages";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/context/auth";
-import { getInitials, cn } from "@/lib/utils";
+import { getInitials, formatMessageTime, cn } from "@/lib/utils";
 import { MessageSquare, SendHorizonal, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import type { Conversation, Message } from "@/types";
@@ -314,6 +314,14 @@ export default function SellerMessagesPage() {
                         {msg.content}
                       </div>
                     </div>
+                    <p
+                      className={cn(
+                        "mt-0.5 text-[10px] text-muted-foreground",
+                        isMe ? "text-right pr-1" : "pl-9"
+                      )}
+                    >
+                      {formatMessageTime(msg.created_at)}
+                    </p>
                   );
                 })
               )}

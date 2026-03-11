@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from "
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/lib/supabase";
 import { getProfile } from "@/api/auth";
+import { toast } from "sonner";
 import type { Profile } from "@/types";
 import type { Session } from "@supabase/supabase-js";
 
@@ -24,6 +25,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   async function fetchProfile(userId: string) {
     try {
       const p = await getProfile(userId);
+      if ((p as Profile).is_suspended) {
+        await supabase.auth.signOut();
+        setSession(null);
+        setProfile(null);
+        toast.error("Your account has been suspended. Please contact support for assistance.");
+        return;
+      }
       setProfile(p as Profile);
     } catch {
       setProfile(null);

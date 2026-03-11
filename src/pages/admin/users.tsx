@@ -24,13 +24,11 @@ const TABS = [
   { key: "all",     label: "All",     filter: (_: Profile) => true },
   { key: "buyers",  label: "Buyers",  filter: (u: Profile) => u.role === "buyer" },
   { key: "sellers", label: "Sellers", filter: (u: Profile) => u.role === "seller" },
-  { key: "admins",  label: "Admins",  filter: (u: Profile) => u.role === "admin" },
 ] as const;
 
 const ROLE_BADGE: Record<string, string> = {
   buyer:  "bg-blue-100 text-blue-700",
   seller: "bg-purple-100 text-purple-700",
-  admin:  "bg-indigo-100 text-indigo-700",
 };
 
 type TabKey = typeof TABS[number]["key"];
@@ -201,20 +199,12 @@ export default function AdminUsersPage() {
 
               {/* Action */}
               <div className="flex w-24 justify-end">
-                {user.role === "admin" ? (
-                  <span
-                    className="cursor-not-allowed text-xs text-muted-foreground"
-                    title="Cannot suspend admin accounts"
-                  >
-                    —
-                  </span>
-                ) : (
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    disabled={acting === user.id}
-                    onClick={() => setConfirmUser(user)}
-                    className={cn(
+                <Button
+                  size="sm"
+                  variant="outline"
+                  disabled={acting === user.id}
+                  onClick={() => setConfirmUser(user)}
+                  className={cn(
                       "h-7 px-2 text-xs",
                       user.is_suspended
                         ? "border-green-200 text-green-700 hover:bg-green-50"
@@ -231,7 +221,6 @@ export default function AdminUsersPage() {
                       </>
                     )}
                   </Button>
-                )}
               </div>
             </div>
           ))}

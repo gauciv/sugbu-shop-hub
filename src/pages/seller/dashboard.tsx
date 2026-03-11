@@ -7,17 +7,19 @@ import { useAuth } from "@/context/auth";
 import { getMyShop } from "@/api/shops";
 import { getShopProducts } from "@/api/products";
 import { getShopOrders } from "@/api/orders";
+import { getSellerPaidPayouts } from "@/api/payouts";
 import { formatPrice, getInitials } from "@/lib/utils";
 import { Settings } from "lucide-react";
 import { DoodlePackage, DoodleCart, DoodleCoin, DoodleTrend } from "@/components/shared/doodles";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { Shop, Product, Order } from "@/types";
+import type { Shop, Product, Order, Payout } from "@/types";
 
 export default function SellerDashboard() {
   const { profile } = useAuth();
   const [shop, setShop] = useState<Shop | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
+  const [paidPayouts, setPaidPayouts] = useState<Payout[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,12 +29,14 @@ export default function SellerDashboard() {
         const s = await getMyShop(profile.id);
         setShop(s);
         if (s) {
-          const [p, o] = await Promise.all([
+          const [p, o, payouts] = await Promise.all([
             getShopProducts(s.id),
             getShopOrders(s.id),
+            getSellerPaidPayouts(profile.id),
           ]);
           setProducts(p);
           setOrders(o);
+          setPaidPayouts(payouts);
         }
       } finally {
         setLoading(false);
@@ -40,9 +44,7 @@ export default function SellerDashboard() {
     })();
   }, [profile]);
 
-  const totalRevenue = orders
-    .filter((o) => o.status !== "cancelled")
-    .reduce((sum, o) => sum + o.total, 0);
+  const totalRevenue = paidPayouts.reduce((sum, p) => sum + p.net_amount, 0);
   const pendingOrders = orders.filter((o) => o.status === "pending").length;
 
   if (loading) {
@@ -70,7 +72,7 @@ export default function SellerDashboard() {
   const stats = [
     { label: "Total Products", value: products.length, icon: DoodlePackage, color: "text-purple-400 bg-purple-50" },
     { label: "Total Orders", value: orders.length, icon: DoodleCart, color: "text-pink-400 bg-pink-50" },
-    { label: "Revenue", value: formatPrice(totalRevenue), icon: DoodleCoin, color: "text-pink-400 bg-pink-50" },
+    { label: "Paid Revenue", value: formatPrice(totalRevenue), icon: DoodleCoin, color: "text-green-500 bg-green-50" },
     { label: "Pending Orders", value: pendingOrders, icon: DoodleTrend, color: "text-amber-600 bg-amber-50" },
   ];
 
@@ -121,6 +123,15 @@ export default function SellerDashboard() {
           </Card>
         ))}
       </div>
+
+      {/* Payout info */}
+      <Card className="border-border/60 bg-blue-50/40">
+        <CardContent className="p-4">
+          <p className="text-sm text-blue-800">
+            Revenue reflects only completed payouts processed by the admin. Delivered orders are subject to admin review before payout is issued.
+          </p>
+        </CardContent>
+      </Card>
     </div>
   );
 }

@@ -104,6 +104,7 @@ export async function getAdminUsers(): Promise<Profile[]> {
   const { data, error } = await supabase
     .from("profiles")
     .select("*")
+    .neq("role", "admin")
     .order("created_at", { ascending: false });
   if (error) throw error;
   return (data ?? []) as Profile[];

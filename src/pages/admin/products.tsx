@@ -155,7 +155,7 @@ export default function AdminProductsPage() {
 
               {/* Category */}
               <div className="hidden w-20 truncate text-xs text-muted-foreground sm:block">
-                {(product.category as { name: string } | undefined)?.name ?? "—"}
+                {(product.category as { name: string } | undefined)?.name ?? "Uncategorized"}
               </div>
 
               {/* Price */}

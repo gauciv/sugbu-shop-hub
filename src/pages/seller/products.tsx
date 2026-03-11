@@ -1,10 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Plus, Pencil, Trash2, ImageOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState } from "@/components/shared/empty-state";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { useAuth } from "@/context/auth";
 import { getMyShop } from "@/api/shops";
 import { getShopProducts, deleteProduct } from "@/api/products";
@@ -18,6 +26,8 @@ export default function SellerProducts() {
   const [shop, setShop] = useState<Shop | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [confirmDelete, setConfirmDelete] = useState<Product | null>(null);
+  const pendingDeleteRef = useRef<{ product: Product; timeoutId: number } | null>(null);
 
   async function load() {
     if (!profile) return;
@@ -35,15 +45,46 @@ export default function SellerProducts() {
 
   useEffect(() => { load(); }, [profile]);
 
-  async function handleDelete(id: string) {
-    if (!confirm("Delete this product?")) return;
-    try {
-      await deleteProduct(id);
-      setProducts((prev) => prev.filter((p) => p.id !== id));
-      toast.success("Product deleted");
-    } catch {
-      toast.error("Failed to delete product");
-    }
+  function handleConfirmDelete(product: Product) {
+    setConfirmDelete(null);
+
+    // Remove from UI immediately
+    setProducts((prev) => prev.filter((p) => p.id !== product.id));
+
+    // Schedule actual deletion after a delay to allow undo
+    const timeoutId = window.setTimeout(async () => {
+      try {
+        await deleteProduct(product.id);
+      } catch {
+        setProducts((prev) =>
+          [...prev, product].sort(
+            (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+          )
+        );
+        toast.error("Failed to delete product");
+      }
+      pendingDeleteRef.current = null;
+    }, 5000);
+
+    pendingDeleteRef.current = { product, timeoutId };
+
+    toast("Product deleted", {
+      action: {
+        label: "Undo",
+        onClick: () => {
+          if (pendingDeleteRef.current) {
+            clearTimeout(pendingDeleteRef.current.timeoutId);
+            const restored = pendingDeleteRef.current.product;
+            setProducts((prev) =>
+              [...prev, restored].sort(
+                (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+              )
+            );
+            pendingDeleteRef.current = null;
+          }
+        },
+      },
+    });
   }
 
   if (loading) {
@@ -136,7 +177,7 @@ export default function SellerProducts() {
                     <Pencil className="h-3.5 w-3.5" />
                   </Button>
                 </Link>
-                <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-destructive" onClick={() => handleDelete(product.id)}>
+                <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-destructive" onClick={() => setConfirmDelete(product)}>
                   <Trash2 className="h-3.5 w-3.5" />
                 </Button>
               </div>
@@ -144,6 +185,29 @@ export default function SellerProducts() {
           ))}
         </div>
       )}
+
+      {/* Delete confirmation dialog */}
+      <Dialog open={!!confirmDelete} onOpenChange={(open) => !open && setConfirmDelete(null)}>
+        <DialogContent showCloseButton={false} className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Delete product?</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete &ldquo;{confirmDelete?.name}&rdquo;? You can undo this briefly after deletion.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setConfirmDelete(null)}>
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => confirmDelete && handleConfirmDelete(confirmDelete)}
+            >
+              Delete
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

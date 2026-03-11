@@ -10,7 +10,7 @@ import { getShopOrders } from "@/api/orders";
 import { supabase } from "@/lib/supabase";
 import { SELLER_ORDER_TABS } from "@/lib/constants";
 import { formatPrice, formatDate, cn } from "@/lib/utils";
-import { ShoppingBag, Eye, Package, ChevronLeft, ChevronRight } from "lucide-react";
+import { ShoppingBag, Eye, Package, ChevronLeft, ChevronRight, Info } from "lucide-react";
 import type { Order, Shop } from "@/types";
 import type { OrderStatus } from "@/lib/constants";
 
@@ -128,6 +128,15 @@ export default function SellerOrdersPage() {
           })}
         </div>
       </div>
+
+      {activeTab === "completed" && filtered.length > 0 && (
+        <div className="flex items-start gap-2.5 rounded-lg border border-blue-200 bg-blue-50/60 p-3">
+          <Info className="mt-0.5 h-4 w-4 shrink-0 text-blue-500" />
+          <p className="text-sm text-blue-800">
+            Delivered orders are subject to admin review. Earnings will reflect on your dashboard once the admin has processed your payout and marked it as paid.
+          </p>
+        </div>
+      )}
 
       {filtered.length === 0 ? (
         <EmptyState

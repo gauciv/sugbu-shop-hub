@@ -1,17 +1,32 @@
-import { useState } from "react";
-import { Outlet, Navigate } from "react-router-dom";
-import { Menu } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Outlet, Navigate, Link } from "react-router-dom";
+import { Menu, ShieldAlert } from "lucide-react";
 import { SellerSidebar } from "@/components/layout/seller-sidebar";
 import { useAuth } from "@/context/auth";
+import { getMyShop } from "@/api/shops";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import type { Shop } from "@/types";
 
 export function SellerLayout() {
   const { profile, loading } = useAuth();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [shop, setShop] = useState<Shop | null>(null);
+  const [shopLoading, setShopLoading] = useState(true);
 
-  if (loading) {
+  useEffect(() => {
+    if (!profile || profile.role !== "seller") {
+      setShopLoading(false);
+      return;
+    }
+    getMyShop(profile.id)
+      .then(setShop)
+      .finally(() => setShopLoading(false));
+  }, [profile]);
+
+  if (loading || shopLoading) {
     return (
       <div className="flex h-screen items-center justify-center">
         <Skeleton className="h-8 w-32" />
@@ -21,6 +36,36 @@ export function SellerLayout() {
 
   if (!profile || profile.role !== "seller") {
     return <Navigate to="/login" replace />;
+  }
+
+  if (shop?.approval_status === "suspended") {
+    return (
+      <div className="flex h-screen items-center justify-center bg-lavender-50 p-4">
+        <Card className="max-w-md border-red-200">
+          <CardContent className="flex flex-col items-center gap-4 p-8 text-center">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-red-100">
+              <ShieldAlert className="h-7 w-7 text-red-600" />
+            </div>
+            <h1 className="text-xl font-bold tracking-tight">Shop Suspended</h1>
+            <p className="text-sm text-muted-foreground">
+              Your shop has been suspended by the platform administrator. You will not
+              be able to access your seller dashboard until your shop is reinstated.
+            </p>
+            <p className="text-sm text-muted-foreground">
+              If you believe this is a mistake, please contact support for assistance.
+            </p>
+            <div className="flex gap-2 pt-2">
+              <Link to="/support/new">
+                <Button variant="outline">Contact Support</Button>
+              </Link>
+              <Link to="/">
+                <Button>Back to Store</Button>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
   }
 
   return (
