@@ -42,6 +42,7 @@ const AdminUsers = lazy(() => import("@/pages/admin/users"));
 const AdminProducts = lazy(() => import("@/pages/admin/products"));
 const AdminOrders = lazy(() => import("@/pages/admin/orders"));
 const AdminOrderDetail = lazy(() => import("@/pages/admin/order-detail"));
+const AdminCategories = lazy(() => import("@/pages/admin/categories"));
 
 function Loading() {
   return (
@@ -118,6 +119,7 @@ function App() {
               <Route path="/admin/products" element={<AdminProducts />} />
               <Route path="/admin/orders" element={<AdminOrders />} />
               <Route path="/admin/orders/:id" element={<AdminOrderDetail />} />
+              <Route path="/admin/categories" element={<AdminCategories />} />
             </Route>
           </Routes>
         </Suspense>
