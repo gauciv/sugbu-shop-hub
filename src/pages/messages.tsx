@@ -282,48 +282,49 @@ export default function MessagesPage() {
                 messages.map((msg) => {
                   const isMe = msg.sender_id === profile.id;
                   return (
-                    <div
-                      key={msg.id}
-                      className={cn(
-                        "flex items-end gap-2",
-                        isMe ? "flex-row-reverse" : "flex-row"
-                      )}
-                    >
-                      {!isMe && (
-                        <Avatar className="h-6 w-6 shrink-0">
-                          <AvatarImage
-                            src={
-                              (msg.sender as { avatar_url?: string } | undefined)
-                                ?.avatar_url ?? undefined
-                            }
-                          />
-                          <AvatarFallback className="text-[10px] bg-slate-100">
-                            {getInitials(
-                              (msg.sender as { full_name?: string } | undefined)
-                                ?.full_name ?? "?"
-                            )}
-                          </AvatarFallback>
-                        </Avatar>
-                      )}
+                    <div key={msg.id}>
                       <div
                         className={cn(
-                          "max-w-[72%] rounded-2xl px-3.5 py-2 text-sm",
-                          isMe
-                            ? "rounded-br-sm bg-indigo-500 text-white"
-                            : "rounded-bl-sm bg-slate-100 text-foreground"
+                          "flex items-end gap-2",
+                          isMe ? "flex-row-reverse" : "flex-row"
                         )}
                       >
-                        {msg.content}
+                        {!isMe && (
+                          <Avatar className="h-6 w-6 shrink-0">
+                            <AvatarImage
+                              src={
+                                (msg.sender as { avatar_url?: string } | undefined)
+                                  ?.avatar_url ?? undefined
+                              }
+                            />
+                            <AvatarFallback className="text-[10px] bg-slate-100">
+                              {getInitials(
+                                (msg.sender as { full_name?: string } | undefined)
+                                  ?.full_name ?? "?"
+                              )}
+                            </AvatarFallback>
+                          </Avatar>
+                        )}
+                        <div
+                          className={cn(
+                            "max-w-[72%] rounded-2xl px-3.5 py-2 text-sm",
+                            isMe
+                              ? "rounded-br-sm bg-indigo-500 text-white"
+                              : "rounded-bl-sm bg-slate-100 text-foreground"
+                          )}
+                        >
+                          {msg.content}
+                        </div>
                       </div>
+                      <p
+                        className={cn(
+                          "mt-0.5 text-[10px] text-muted-foreground",
+                          isMe ? "text-right pr-1" : "pl-9"
+                        )}
+                      >
+                        {formatMessageTime(msg.created_at)}
+                      </p>
                     </div>
-                    <p
-                      className={cn(
-                        "mt-0.5 text-[10px] text-muted-foreground",
-                        isMe ? "text-right pr-1" : "pl-9"
-                      )}
-                    >
-                      {formatMessageTime(msg.created_at)}
-                    </p>
                   );
                 })
               )}
