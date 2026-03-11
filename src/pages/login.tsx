@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -18,14 +18,17 @@ export default function LoginPage() {
   const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
 
   async function onSubmit(data: LoginForm) {
     setLoading(true);
     try {
       await signIn(data.email, data.password);
       toast.success("Welcome back!");
-      navigate("/");
+      // Do NOT navigate manually here.
+      // GuestRoute watches profile after session loads and redirects:
+      //   admin  → /admin/dashboard
+      //   seller → /seller/dashboard
+      //   buyer  → /
     } catch (err: unknown) {
       let message = "Failed to sign in";
       if (err instanceof Error) {

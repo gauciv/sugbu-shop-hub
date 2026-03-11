@@ -75,6 +75,15 @@ export function SiteHeader() {
             </Button>
           </Link>
 
+          {/* Visible Messages shortcut — buyers go to /messages, sellers to /seller/messages */}
+          {profile && profile.role !== "admin" && (
+            <Link to={profile.role === "seller" ? "/seller/messages" : "/messages"}>
+              <Button variant="ghost" size="icon" title="Messages">
+                <MessageSquare className="h-5 w-5" />
+              </Button>
+            </Link>
+          )}
+
           {profile ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -102,6 +111,11 @@ export function SiteHeader() {
                 {profile.role === "seller" && (
                   <DropdownMenuItem onClick={() => navigate("/seller/dashboard")}>
                     <LayoutDashboard className="mr-2 h-4 w-4" /> Dashboard
+                  </DropdownMenuItem>
+                )}
+                {profile.role === "admin" && (
+                  <DropdownMenuItem onClick={() => navigate("/admin/dashboard")}>
+                    <LayoutDashboard className="mr-2 h-4 w-4" /> Admin Dashboard
                   </DropdownMenuItem>
                 )}
                 <DropdownMenuItem onClick={() => navigate("/orders")}>
