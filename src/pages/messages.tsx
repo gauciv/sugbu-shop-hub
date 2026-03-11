@@ -12,7 +12,7 @@ import {
 } from "@/api/messages";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/context/auth";
-import { getInitials, formatDate, formatMessageTime, cn } from "@/lib/utils";
+import { getInitials, formatMessageTime, cn } from "@/lib/utils";
 import { MessageSquare, SendHorizonal, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import type { Conversation, Message } from "@/types";
@@ -172,8 +172,6 @@ export default function MessagesPage() {
           ) : (
             conversations.map((conv) => {
               const isActive = conv.id === activeConvId;
-              const otherParty =
-                profile.id === conv.buyer_id ? conv.seller : conv.buyer;
               const shopName =
                 (conv.shop as { name: string } | undefined)?.name ?? "Shop";
               return (

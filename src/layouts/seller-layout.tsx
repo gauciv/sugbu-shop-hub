@@ -14,13 +14,12 @@ export function SellerLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [shop, setShop] = useState<Shop | null>(null);
-  const [shopLoading, setShopLoading] = useState(true);
+  const [shopLoading, setShopLoading] = useState(
+    !!profile && profile.role === "seller"
+  );
 
   useEffect(() => {
-    if (!profile || profile.role !== "seller") {
-      setShopLoading(false);
-      return;
-    }
+    if (!profile || profile.role !== "seller") return;
     getMyShop(profile.id)
       .then(setShop)
       .finally(() => setShopLoading(false));

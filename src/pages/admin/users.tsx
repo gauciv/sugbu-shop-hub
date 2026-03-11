@@ -21,7 +21,7 @@ import type { Profile } from "@/types";
 const PAGE_SIZE = 8;
 
 const TABS = [
-  { key: "all",     label: "All",     filter: (_: Profile) => true },
+  { key: "all",     label: "All",     filter: () => true as boolean },
   { key: "buyers",  label: "Buyers",  filter: (u: Profile) => u.role === "buyer" },
   { key: "sellers", label: "Sellers", filter: (u: Profile) => u.role === "seller" },
 ] as const;
