@@ -82,6 +82,14 @@ function GuestRoute({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
+// Redirect admins away from the buyer-facing home page
+function HomeRoute() {
+  const { profile, loading } = useAuth();
+  if (loading) return <Loading />;
+  if (profile?.role === "admin") return <Navigate to="/admin/dashboard" replace />;
+  return <HomePage />;
+}
+
 function App() {
   return (
     <BrowserRouter>
@@ -89,7 +97,7 @@ function App() {
         <Suspense fallback={<Loading />}>
           <Routes>
             <Route element={<PublicLayout />}>
-              <Route path="/" element={<HomePage />} />
+              <Route path="/" element={<HomeRoute />} />
               <Route path="/shops" element={<ShopsPage />} />
               <Route path="/shop/:slug" element={<ShopDetailPage />} />
               <Route path="/product/:id" element={<ProductDetailPage />} />
