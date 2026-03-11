@@ -1,0 +1,60 @@
+flowchart TD
+    Start([Log In]) --> AutoRedirect[Auto-Redirected to Admin Dashboard]
+    AutoRedirect --> Dashboard[Dashboard\nTotal Users · Shops · Orders · Revenue\nPending Approvals Alert]
+
+    Dashboard --> ShopQueue{Pending Shop Approvals?}
+    ShopQueue -- Yes --> ReviewShop[Review Shop Details]
+    ReviewShop --> ShopDecision{Decision}
+    ShopDecision -- Approve --> ShopLive[Shop Goes Live]
+    ShopDecision -- Suspend --> ShopBlocked[Shop Blocked]
+    ShopLive --> Users
+    ShopBlocked --> Users
+    ShopQueue -- No --> Users
+
+    Users[User Management\nView All Buyers & Sellers] --> UserAction{Action Needed?}
+    UserAction -- Suspend User --> Suspended[Account Suspended\nCannot Log In]
+    UserAction -- Reinstate --> Active[Account Reinstated]
+    UserAction -- Skip --> Products
+    Suspended --> Products
+    Active --> Products
+
+    Products[Product Moderation\nSearch All Products] --> ProductAction{Action}
+    ProductAction -- Deactivate --> Hidden[Product Hidden from Storefront]
+    ProductAction -- Delete --> Removed[Product Permanently Removed]
+    ProductAction -- Skip --> OrdersMgmt
+    Hidden --> OrdersMgmt
+    Removed --> OrdersMgmt
+
+    OrdersMgmt[Order Management\nView All Orders by Status] --> OrderAction{Override Needed?}
+    OrderAction -- Yes --> ForceStatus[Force Order to Any Status\ne.g. Cancelled or Delivered]
+    OrderAction -- No --> Categories
+    ForceStatus --> Categories
+
+    Categories[Category Management] --> CatAction{Action}
+    CatAction -- Add / Edit --> SaveCategory[Save Category\nSlug Auto-Generated]
+    CatAction -- Reorder --> Reordered[Display Order Updated]
+    CatAction -- Delete --> CheckProducts{Products in Category?}
+    CheckProducts -- Yes --> WarnDelete[Warning: Products Become Uncategorized]
+    CheckProducts -- No --> Deleted[Category Deleted]
+    WarnDelete --> Deleted
+    SaveCategory --> Financials
+    Reordered --> Financials
+    Deleted --> Financials
+
+    Financials[Financials] --> FinAction{Task}
+    FinAction -- View Log --> TxLog[Read-Only Transaction Log\nAll Orders · Gross Revenue · Status]
+    FinAction -- Adjust Rate --> CommRate[Set Commission Percentage\nApplies to Future Payouts]
+    FinAction -- Process Payout --> SelectShop[Select Shop with Unpaid Revenue]
+    SelectShop --> Preview[Preview Payout\nGross minus Commission equals Net]
+    Preview --> CreatePayout[Create Payout Record]
+    CreatePayout --> MarkPaid[Mark as Paid + Log Transaction Ref]
+    TxLog --> Support
+    CommRate --> Support
+    MarkPaid --> Support
+
+    Support[Support Inbox\nTabbed by Status] --> TicketAction{Ticket Type}
+    TicketAction -- General or Bug or Complaint --> ReplyThread[Reply in Conversation Thread]
+    TicketAction -- Order Dispute --> QuickAction[Use Quick Action Panel\nOverride Linked Order Status]
+    ReplyThread --> UpdateStatus[Update Ticket Status\nIn Progress → Resolved → Closed]
+    QuickAction --> UpdateStatus
+    UpdateStatus --> Dashboard

@@ -1,0 +1,39 @@
+flowchart TD
+    Start([Register an Account]) --> Profile[Complete Profile]
+    Profile --> CreateShop[Create a Shop]
+    CreateShop --> Pending[Shop Status: Pending Approval]
+
+    Pending --> AdminDecision{Admin Reviews Shop}
+    AdminDecision -- Approved --> Live[Shop is Live & Visible to Buyers]
+    AdminDecision -- Suspended --> Fix[Address Issues]
+    Fix --> CreateShop
+
+    Live --> AddProducts[Add Products\nName · Price · Stock · Images]
+    AddProducts --> Wait[Wait for Customer Orders]
+
+    Wait --> NewOrder[New Order Arrives!]
+    NewOrder --> Confirm[Confirm Order]
+    Confirm --> Prepare[Prepare the Package]
+    Prepare --> Ship[Mark as Shipped]
+    Ship --> Delivery[Buyer Receives Package\nand Confirms Receipt]
+
+    Delivery --> Revenue[Order Revenue Recorded\npayout_id = null]
+    Revenue --> Wait
+
+    Revenue --> PayoutCycle[Admin Calculates Payout\nGross minus Commission]
+    PayoutCycle --> NetPaid[Receive Net Payment\nTransaction Ref Logged]
+
+    NewOrder --> Messages[Customer Sends a Message]
+    Messages --> Reply[Reply via Seller Messages Inbox]
+    Reply --> Wait
+
+    NewOrder --> Dispute{Customer Files Dispute?}
+    Dispute -- Yes --> Escalated[Support Ticket Created\nAdmin Mediates]
+    Dispute -- No --> Wait
+    Escalated --> AdminResolves([Admin Resolves the Issue])
+
+    Live --> ShopSettings[Update Shop Info\nLogo · Banner · Contact]
+    ShopSettings --> Live
+
+    Live --> ManageProducts[Edit or Deactivate Products]
+    ManageProducts --> Live

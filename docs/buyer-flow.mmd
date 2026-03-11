@@ -1,0 +1,39 @@
+flowchart TD
+    Start([Visit Sugbu Shop Hub]) --> Browse[Browse Shops & Products]
+
+    Browse --> Product[Open a Product Page]
+    Product --> LoggedIn{Logged In?}
+
+    LoggedIn -- No --> Auth[Sign Up or Log In]
+    Auth --> Product
+
+    LoggedIn -- Yes --> Action{Choose Action}
+
+    Action -- Ask a Question --> Chat[Chat with Seller]
+    Chat --> Browse
+
+    Action -- Want to Buy --> AddCart[Add to Cart]
+    AddCart --> MoreShopping{Continue Shopping?}
+    MoreShopping -- Yes --> Browse
+    MoreShopping -- No --> Checkout
+
+    Checkout[Go to Checkout] --> Address[Enter or Select Shipping Address]
+    Address --> PlaceOrder[Place Order]
+    PlaceOrder --> PayNow[Make Payment]
+    PayNow --> Confirmed[Order Confirmed!]
+
+    Confirmed --> Track[Track Order Status\nPending → Confirmed → Preparing → Shipped]
+    Track --> Arrived{Package Arrived?}
+
+    Arrived -- Yes --> ConfirmReceipt[Confirm Receipt]
+    ConfirmReceipt --> Review[Leave a Product Review]
+    Review --> Done([Happy Customer!])
+
+    Arrived -- Not Yet / Issue --> Problem{What is the issue?}
+    Problem -- Chat with Seller --> MsgSeller[Open Conversation with Seller]
+    Problem -- Formal Complaint --> Ticket[Submit a Support Ticket]
+
+    MsgSeller --> Resolved([Issue Resolved])
+    Ticket --> AdminReview[Admin Reviews Ticket]
+    AdminReview --> ForceResolve[Admin Overrides Order or Mediates]
+    ForceResolve --> Resolved

@@ -1,0 +1,194 @@
+erDiagram
+
+    profiles {
+        uuid id PK
+        text email
+        text full_name
+        text avatar_url
+        text role
+        text phone
+        bool is_suspended
+        timestamptz created_at
+    }
+
+    shops {
+        uuid id PK
+        uuid owner_id FK
+        text name
+        text slug
+        text description
+        text logo_url
+        text approval_status
+        bool is_active
+        timestamptz created_at
+    }
+
+    categories {
+        uuid id PK
+        text name
+        text slug
+        text icon
+        int display_order
+    }
+
+    products {
+        uuid id PK
+        uuid shop_id FK
+        uuid category_id FK
+        text name
+        numeric price
+        numeric compare_at_price
+        int stock
+        bool is_active
+        timestamptz created_at
+    }
+
+    addresses {
+        uuid id PK
+        uuid user_id FK
+        text label
+        text full_name
+        text address
+        text contact_phone
+        bool is_default
+    }
+
+    cart_items {
+        uuid id PK
+        uuid user_id FK
+        uuid product_id FK
+        int quantity
+        timestamptz created_at
+    }
+
+    orders {
+        uuid id PK
+        text order_number
+        uuid buyer_id FK
+        uuid shop_id FK
+        uuid payout_id FK
+        text status
+        numeric subtotal
+        numeric shipping_fee
+        numeric total
+        text shipping_address
+        timestamptz created_at
+    }
+
+    order_items {
+        uuid id PK
+        uuid order_id FK
+        uuid product_id FK
+        text product_name
+        numeric unit_price
+        int quantity
+        numeric line_total
+    }
+
+    reviews {
+        uuid id PK
+        uuid product_id FK
+        uuid buyer_id FK
+        uuid order_item_id FK
+        int rating
+        text comment
+        timestamptz created_at
+    }
+
+    platform_settings {
+        text key PK
+        text value
+        timestamptz updated_at
+    }
+
+    payouts {
+        uuid id PK
+        uuid seller_id FK
+        uuid shop_id FK
+        text period_label
+        numeric gross_amount
+        numeric commission_rate
+        numeric net_amount
+        text status
+        text transaction_ref
+        timestamptz paid_at
+    }
+
+    support_tickets {
+        uuid id PK
+        text ticket_number
+        uuid submitted_by FK
+        uuid related_order_id FK
+        text type
+        text subject
+        text status
+        text priority
+        timestamptz created_at
+    }
+
+    ticket_messages {
+        uuid id PK
+        uuid ticket_id FK
+        uuid sender_id FK
+        text message
+        timestamptz created_at
+    }
+
+    conversations {
+        uuid id PK
+        uuid buyer_id FK
+        uuid seller_id FK
+        uuid shop_id FK
+        uuid product_id FK
+        text last_message_preview
+        timestamptz last_message_at
+    }
+
+    messages {
+        uuid id PK
+        uuid conversation_id FK
+        uuid sender_id FK
+        text content
+        bool is_read
+        timestamptz created_at
+    }
+
+    %% Core identity
+    profiles ||--o{ shops : "owns"
+    profiles ||--o{ addresses : "has"
+    profiles ||--o{ cart_items : "has"
+    profiles ||--o{ orders : "places"
+    profiles ||--o{ reviews : "writes"
+    profiles ||--o{ support_tickets : "submits"
+    profiles ||--o{ ticket_messages : "sends"
+    profiles ||--o{ messages : "sends"
+    profiles ||--o{ payouts : "receives"
+
+    %% Shop relationships
+    shops ||--o{ products : "lists"
+    shops ||--o{ orders : "receives"
+    shops ||--o{ payouts : "has"
+    shops ||--o{ conversations : "hosts"
+
+    %% Catalog
+    categories ||--o{ products : "classifies"
+
+    %% Order lifecycle
+    orders ||--o{ order_items : "contains"
+    orders }o--o| payouts : "included in"
+    orders }o--o| support_tickets : "linked to"
+
+    %% Products in transactions
+    products ||--o{ order_items : "sold as"
+    products ||--o{ cart_items : "saved in"
+    products ||--o{ reviews : "receives"
+    products }o--o| conversations : "context of"
+
+    %% Reviews
+    order_items ||--o{ reviews : "reviewed via"
+
+    %% Support
+    support_tickets ||--o{ ticket_messages : "has"
+
+    %% Chat
+    conversations ||--o{ messages : "contains"
