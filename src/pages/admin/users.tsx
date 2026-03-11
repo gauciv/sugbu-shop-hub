@@ -4,6 +4,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState } from "@/components/shared/empty-state";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { getAdminUsers, suspendUser, reinstateUser } from "@/api/admin";
 import { formatDate, getInitials, cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -33,6 +41,7 @@ export default function AdminUsersPage() {
   const [activeTab, setActiveTab] = useState<TabKey>("all");
   const [page, setPage] = useState(1);
   const [acting, setActing] = useState<string | null>(null);
+  const [confirmUser, setConfirmUser] = useState<Profile | null>(null);
 
   useEffect(() => {
     getAdminUsers()
@@ -43,6 +52,7 @@ export default function AdminUsersPage() {
   async function handleToggleSuspend(user: Profile) {
     if (user.role === "admin") return;
     setActing(user.id);
+    setConfirmUser(null);
     try {
       const updated = user.is_suspended
         ? await reinstateUser(user.id)
@@ -203,7 +213,7 @@ export default function AdminUsersPage() {
                     size="sm"
                     variant="outline"
                     disabled={acting === user.id}
-                    onClick={() => handleToggleSuspend(user)}
+                    onClick={() => setConfirmUser(user)}
                     className={cn(
                       "h-7 px-2 text-xs",
                       user.is_suspended
@@ -256,6 +266,34 @@ export default function AdminUsersPage() {
           </Button>
         </div>
       )}
+
+      {/* Suspend / Reinstate confirmation dialog */}
+      <Dialog open={!!confirmUser} onOpenChange={(open) => !open && setConfirmUser(null)}>
+        <DialogContent showCloseButton={false} className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>
+              {confirmUser?.is_suspended ? "Reinstate user?" : "Suspend user?"}
+            </DialogTitle>
+            <DialogDescription>
+              {confirmUser?.is_suspended
+                ? `This will reinstate "${confirmUser.full_name}" and restore their access to the platform.`
+                : `This will suspend "${confirmUser?.full_name}" and prevent them from accessing the platform.`}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setConfirmUser(null)}>
+              Cancel
+            </Button>
+            <Button
+              variant={confirmUser?.is_suspended ? "default" : "destructive"}
+              disabled={acting === confirmUser?.id}
+              onClick={() => confirmUser && handleToggleSuspend(confirmUser)}
+            >
+              {confirmUser?.is_suspended ? "Reinstate" : "Suspend"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -109,7 +109,7 @@ export function AdminSidebar({ collapsed, onToggle }: AdminSidebarProps) {
 
       {/* Back to store */}
       <div className={cn("border-t border-border/60", collapsed ? "p-1.5" : "p-3")}>
-        <Link to="/" title={collapsed ? "Back to Store" : undefined}>
+        <Link to="/shops" title={collapsed ? "Back to Store" : undefined}>
           <Button
             variant="ghost"
             className={cn(

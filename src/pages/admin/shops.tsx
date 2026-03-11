@@ -4,6 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { EmptyState } from "@/components/shared/empty-state";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { getAdminShops, approveShop, suspendShop, reinstateShop } from "@/api/admin";
 import { formatDate, getInitials, cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -37,6 +45,7 @@ export default function AdminShopsPage() {
   const [activeTab, setActiveTab] = useState<TabKey>("all");
   const [page, setPage] = useState(1);
   const [acting, setActing] = useState<string | null>(null);
+  const [confirmShop, setConfirmShop] = useState<AdminShop | null>(null);
 
   useEffect(() => {
     getAdminShops()
@@ -49,6 +58,7 @@ export default function AdminShopsPage() {
     action: "approve" | "suspend" | "reinstate"
   ) {
     setActing(shopId);
+    setConfirmShop(null);
     try {
       let updated: Shop;
       if (action === "approve") updated = await approveShop(shopId);
@@ -220,7 +230,7 @@ export default function AdminShopsPage() {
                       size="sm"
                       variant="outline"
                       disabled={acting === shop.id}
-                      onClick={() => handleAction(shop.id, "suspend")}
+                      onClick={() => setConfirmShop(shop)}
                       className="h-7 border-red-200 px-2 text-xs text-red-600 hover:bg-red-50"
                     >
                       <Ban className="h-3 w-3" />
@@ -232,7 +242,7 @@ export default function AdminShopsPage() {
                     size="sm"
                     variant="outline"
                     disabled={acting === shop.id}
-                    onClick={() => handleAction(shop.id, "suspend")}
+                    onClick={() => setConfirmShop(shop)}
                     className="h-7 border-red-200 px-2 text-xs text-red-600 hover:bg-red-50"
                   >
                     <Ban className="mr-1 h-3 w-3" /> Suspend
@@ -283,6 +293,30 @@ export default function AdminShopsPage() {
           </Button>
         </div>
       )}
+
+      {/* Suspend confirmation dialog */}
+      <Dialog open={!!confirmShop} onOpenChange={(open) => !open && setConfirmShop(null)}>
+        <DialogContent showCloseButton={false} className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Suspend shop?</DialogTitle>
+            <DialogDescription>
+              This will suspend &ldquo;{confirmShop?.name}&rdquo; and hide it from the storefront. The shop owner will lose access to their seller dashboard.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setConfirmShop(null)}>
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              disabled={acting === confirmShop?.id}
+              onClick={() => confirmShop && handleAction(confirmShop.id, "suspend")}
+            >
+              Suspend
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

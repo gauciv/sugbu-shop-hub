@@ -45,38 +45,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let mounted = true;
 
-    supabase.auth.getSession().then(({ data: { session: s } }) => {
-      if (!mounted) return;
-      setSession(s);
-      if (s?.user?.id) {
-        fetchProfile(s.user.id).then(() => {
-          if (mounted) setLoading(false);
-        });
-      } else {
-        setLoading(false);
-      }
-    });
-
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, s) => {
+      async (event, s) => {
         if (!mounted) return;
         setSession(s);
 
         if (event === "PASSWORD_RECOVERY") {
           navigate("/reset-password");
-          return;
         }
 
-        if (event === "SIGNED_IN" && s?.user?.id) {
+        if (event === "SIGNED_IN") {
           const hash = window.location.hash;
           if (hash.includes("type=signup")) {
             navigate("/email-confirmed");
-            return;
           }
-          fetchProfile(s.user.id);
-        } else if (!s) {
+        }
+
+        if (s?.user?.id) {
+          await fetchProfile(s.user.id);
+        } else {
           setProfile(null);
         }
+
+        if (mounted) setLoading(false);
       }
     );
 
