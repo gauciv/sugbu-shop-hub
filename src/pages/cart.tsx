@@ -53,7 +53,7 @@ export default function CartPage() {
                   <div key={item.productId} className="flex gap-4">
                     <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl bg-secondary">
                       {item.image ? (
-                        <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
+                        <img src={item.image} alt={item.name} loading="lazy" className="h-full w-full object-cover" />
                       ) : (
                         <div className="flex h-full items-center justify-center">
                           <ImageOff className="h-5 w-5 text-muted-foreground/30" />

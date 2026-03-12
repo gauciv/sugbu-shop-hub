@@ -18,6 +18,7 @@ export function ShopCard({ shop }: ShopCardProps) {
             <img
               src={shop.banner_url}
               alt=""
+              loading="lazy"
               className="h-full w-full object-cover"
               style={{ objectPosition: `center ${shop.banner_position_y ?? 50}%` }}
             />

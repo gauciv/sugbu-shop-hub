@@ -132,7 +132,7 @@ export default function AdminProductsPage() {
               {/* Image */}
               <div className="hidden h-10 w-10 overflow-hidden rounded-lg bg-slate-100 sm:block">
                 {product.image_urls?.[0] ? (
-                  <img src={product.image_urls[0]} alt="" className="h-full w-full object-cover" />
+                  <img src={product.image_urls[0]} alt="" loading="lazy" className="h-full w-full object-cover" />
                 ) : (
                   <div className="flex h-full items-center justify-center">
                     <ImageOff className="h-4 w-4 text-muted-foreground/30" />

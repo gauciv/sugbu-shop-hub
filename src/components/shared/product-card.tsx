@@ -55,6 +55,7 @@ export function ProductCard({ product, showShop }: ProductCardProps) {
             <img
               src={product.image_urls[0]}
               alt={product.name}
+              loading="lazy"
               className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
           ) : (
