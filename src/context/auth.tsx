@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, useCallback, useMemo, useRef, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/lib/supabase";
 import { getProfile } from "@/api/auth";
@@ -21,34 +21,47 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const profileIdRef = useRef<string | null>(null);
 
-  async function fetchProfile(userId: string) {
+  const fetchProfile = useCallback(async (userId: string) => {
     try {
       const p = await getProfile(userId);
       if ((p as Profile).is_suspended) {
         await supabase.auth.signOut();
         setSession(null);
         setProfile(null);
+        profileIdRef.current = null;
         toast.error("Your account has been suspended. Please contact support for assistance.");
         return;
       }
-      setProfile(p as Profile);
+      const incoming = p as Profile;
+      // Only update profile state if the user actually changed — avoids
+      // unnecessary re-renders on token refreshes where the data is identical.
+      if (profileIdRef.current !== incoming.id) {
+        profileIdRef.current = incoming.id;
+        setProfile(incoming);
+      }
     } catch {
+      profileIdRef.current = null;
       setProfile(null);
     }
-  }
+  }, []);
 
-  async function handleSignOut() {
+  const handleSignOut = useCallback(async () => {
     await supabase.auth.signOut();
     setSession(null);
     setProfile(null);
-  }
+    profileIdRef.current = null;
+  }, []);
 
-  async function refreshProfile() {
-    if (session?.user?.id) {
-      await fetchProfile(session.user.id);
+  const refreshProfile = useCallback(async () => {
+    const uid = profileIdRef.current;
+    if (uid) {
+      // Force a fresh fetch by resetting the ref so setProfile always fires
+      profileIdRef.current = null;
+      await fetchProfile(uid);
     }
-  }
+  }, [fetchProfile]);
 
   useEffect(() => {
     let mounted = true;
@@ -72,6 +85,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (s?.user?.id) {
           await fetchProfile(s.user.id);
         } else {
+          profileIdRef.current = null;
           setProfile(null);
         }
 
@@ -83,12 +97,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       mounted = false;
       subscription.unsubscribe();
     };
-  }, []);
+  }, [navigate, fetchProfile]);
+
+  const value = useMemo(
+    () => ({ session, profile, loading, signOut: handleSignOut, refreshProfile }),
+    [session, profile, loading, handleSignOut, refreshProfile],
+  );
 
   return (
-    <AuthContext.Provider
-      value={{ session, profile, loading, signOut: handleSignOut, refreshProfile }}
-    >
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
