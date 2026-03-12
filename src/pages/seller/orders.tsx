@@ -38,7 +38,7 @@ export default function SellerOrdersPage() {
         setLoading(false);
       }
     })();
-  }, [profile]);
+  }, [profile?.id]);
 
   // Realtime: sync order status changes
   useEffect(() => {
@@ -57,7 +57,7 @@ export default function SellerOrdersPage() {
       )
       .subscribe();
     return () => { supabase.removeChannel(channel); };
-  }, [shop]);
+  }, [shop?.id]);
 
   const currentTab = SELLER_ORDER_TABS.find((t) => t.key === activeTab) ?? SELLER_ORDER_TABS[0];
   const filtered = currentTab.statuses

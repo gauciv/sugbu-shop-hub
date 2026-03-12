@@ -27,7 +27,7 @@ export default function OrdersPage() {
   useEffect(() => {
     if (!profile) return;
     getBuyerOrders(profile.id).then(setOrders).finally(() => setLoading(false));
-  }, [profile]);
+  }, [profile?.id]);
 
   // Realtime: sync order status changes
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function OrdersPage() {
       )
       .subscribe();
     return () => { supabase.removeChannel(channel); };
-  }, [profile]);
+  }, [profile?.id]);
 
   const currentTab = BUYER_ORDER_TABS.find((t) => t.key === activeTab) ?? BUYER_ORDER_TABS[0];
   const filteredOrders = currentTab.statuses
@@ -149,6 +149,7 @@ export default function OrdersPage() {
                     <img
                       src={firstItem.product_image}
                       alt=""
+                      loading="lazy"
                       className="h-full w-full object-cover"
                     />
                   ) : (

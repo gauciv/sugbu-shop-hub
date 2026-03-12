@@ -60,7 +60,7 @@ export default function ProductFormPage() {
         setPageLoading(false);
       }
     })();
-  }, [profile, id]);
+  }, [profile?.id, id]);
 
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const files = e.target.files;

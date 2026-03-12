@@ -45,7 +45,7 @@ export default function CheckoutPage() {
         setValue("contact_phone", defaultAddr.contact_phone ?? "");
       }
     });
-  }, [profile, setValue]);
+  }, [profile?.id, setValue]);
 
   function selectAddress(addr: Address) {
     setSelectedAddressId(addr.id);
@@ -116,8 +116,13 @@ export default function CheckoutPage() {
     }
   }
 
+  useEffect(() => {
+    if (items.length === 0) {
+      navigate("/cart", { replace: true });
+    }
+  }, [items.length, navigate]);
+
   if (items.length === 0) {
-    navigate("/cart");
     return null;
   }
 

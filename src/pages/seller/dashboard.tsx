@@ -42,7 +42,7 @@ export default function SellerDashboard() {
         setLoading(false);
       }
     })();
-  }, [profile]);
+  }, [profile?.id]);
 
   const totalRevenue = paidPayouts.reduce((sum, p) => sum + p.net_amount, 0);
   const pendingOrders = orders.filter((o) => o.status === "pending").length;

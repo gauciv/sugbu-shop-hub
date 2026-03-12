@@ -53,7 +53,7 @@ export default function ShopDetailPage() {
   useEffect(() => {
     if (!shop) return;
     getTopRatedProducts(shop.id, 4).then(setTopRated).catch(() => {});
-  }, [shop]);
+  }, [shop?.id]);
 
   // Fetch paginated shop reviews
   useEffect(() => {
@@ -64,7 +64,7 @@ export default function ShopDetailPage() {
         setShopReviewsCount(count);
       })
       .catch(() => {});
-  }, [shop, shopReviewsPage]);
+  }, [shop?.id, shopReviewsPage]);
 
   if (loading) {
     return (

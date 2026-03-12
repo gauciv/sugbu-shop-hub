@@ -46,7 +46,7 @@ export default function AddressesPage() {
   useEffect(() => {
     if (!profile) return;
     getUserAddresses(profile.id).then(setAddresses).finally(() => setLoading(false));
-  }, [profile]);
+  }, [profile?.id]);
 
   function openNew() {
     setEditingId(null);

@@ -23,7 +23,7 @@ export function SellerLayout() {
     getMyShop(profile.id)
       .then(setShop)
       .finally(() => setShopLoading(false));
-  }, [profile]);
+  }, [profile?.id]);
 
   if (loading || shopLoading) {
     return (

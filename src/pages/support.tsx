@@ -53,7 +53,7 @@ export default function SupportPage() {
     getMyTickets(profile.id)
       .then(setTickets)
       .finally(() => setLoadingTickets(false));
-  }, [profile]);
+  }, [profile?.id]);
 
   useEffect(() => {
     if (!loadingTickets && tickets.length === 0) {

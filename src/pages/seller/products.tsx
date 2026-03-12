@@ -43,7 +43,7 @@ export default function SellerProducts() {
     }
   }
 
-  useEffect(() => { load(); }, [profile]);
+  useEffect(() => { load(); }, [profile?.id]);
 
   function handleConfirmDelete(product: Product) {
     setConfirmDelete(null);
@@ -146,7 +146,7 @@ export default function SellerProducts() {
             >
               <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-lg bg-lavender-100">
                 {product.image_urls[0] ? (
-                  <img src={product.image_urls[0]} alt="" className="h-full w-full object-cover" />
+                  <img src={product.image_urls[0]} alt="" loading="lazy" className="h-full w-full object-cover" />
                 ) : (
                   <div className="flex h-full items-center justify-center">
                     <ImageOff className="h-4 w-4 text-muted-foreground/30" />

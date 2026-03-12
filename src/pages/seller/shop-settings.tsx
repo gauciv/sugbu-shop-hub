@@ -69,7 +69,7 @@ export default function ShopSettingsPage() {
       }
       setPageLoading(false);
     });
-  }, [profile, setValue]);
+  }, [profile?.id, setValue]);
 
   async function handleUpload(file: File, type: "logo" | "banner") {
     const setUploading = type === "logo" ? setUploadingLogo : setUploadingBanner;
