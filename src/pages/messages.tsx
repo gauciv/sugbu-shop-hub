@@ -41,12 +41,12 @@ export default function MessagesPage() {
     if (!profile) return;
     const convs = await getMyConversations(profile.id);
     setConversations(convs);
-  }, [profile]);
+  }, [profile?.id]);
 
   useEffect(() => {
     if (!profile) return;
     loadConversations().finally(() => setLoadingConvs(false));
-  }, [profile, loadConversations]);
+  }, [profile?.id, loadConversations]);
 
   // Auto-open from ?conv= param
   useEffect(() => {
@@ -58,15 +58,18 @@ export default function MessagesPage() {
   // Load messages for active conversation + mark read
   useEffect(() => {
     if (!activeConvId || !profile) return;
+    let cancelled = false;
     setLoadingMsgs(true);
     getMessages(activeConvId)
       .then((msgs) => {
+        if (cancelled) return;
         setMessages(msgs);
         markMessagesRead(activeConvId, profile.id).then(loadConversations);
       })
-      .catch(() => toast.error("Failed to load messages"))
-      .finally(() => setLoadingMsgs(false));
-  }, [activeConvId, profile, loadConversations]);
+      .catch(() => { if (!cancelled) toast.error("Failed to load messages"); })
+      .finally(() => { if (!cancelled) setLoadingMsgs(false); });
+    return () => { cancelled = true; };
+  }, [activeConvId, profile?.id, loadConversations]);
 
   // Scroll to bottom when messages change
   useEffect(() => {
@@ -115,9 +118,9 @@ export default function MessagesPage() {
 
     channelRef.current = channel;
     return () => {
-      channel.unsubscribe();
+      supabase.removeChannel(channel);
     };
-  }, [activeConvId, profile, loadConversations]);
+  }, [activeConvId]);
 
   async function handleSend() {
     if (!activeConvId || !profile || !input.trim()) return;

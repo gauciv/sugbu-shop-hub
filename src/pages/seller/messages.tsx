@@ -40,12 +40,12 @@ export default function SellerMessagesPage() {
     if (!profile) return;
     const convs = await getMyConversations(profile.id);
     setConversations(convs);
-  }, [profile]);
+  }, [profile?.id]);
 
   useEffect(() => {
     if (!profile) return;
     loadConversations().finally(() => setLoadingConvs(false));
-  }, [profile, loadConversations]);
+  }, [profile?.id, loadConversations]);
 
   useEffect(() => {
     if (initialConvId && !activeConvId) {
@@ -55,15 +55,18 @@ export default function SellerMessagesPage() {
 
   useEffect(() => {
     if (!activeConvId || !profile) return;
+    let cancelled = false;
     setLoadingMsgs(true);
     getMessages(activeConvId)
       .then((msgs) => {
+        if (cancelled) return;
         setMessages(msgs);
         markMessagesRead(activeConvId, profile.id).then(loadConversations);
       })
-      .catch(() => toast.error("Failed to load messages"))
-      .finally(() => setLoadingMsgs(false));
-  }, [activeConvId, profile, loadConversations]);
+      .catch(() => { if (!cancelled) toast.error("Failed to load messages"); })
+      .finally(() => { if (!cancelled) setLoadingMsgs(false); });
+    return () => { cancelled = true; };
+  }, [activeConvId, profile?.id, loadConversations]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -106,9 +109,9 @@ export default function SellerMessagesPage() {
 
     channelRef.current = channel;
     return () => {
-      channel.unsubscribe();
+      supabase.removeChannel(channel);
     };
-  }, [activeConvId, profile, loadConversations]);
+  }, [activeConvId]);
 
   async function handleSend() {
     if (!activeConvId || !profile || !input.trim()) return;
