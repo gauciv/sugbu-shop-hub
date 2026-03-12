@@ -67,7 +67,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     let mounted = true;
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, s) => {
+      (event, s) => {
         if (!mounted) return;
         setSession(s);
 
@@ -82,14 +82,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           }
         }
 
+        // Fetch the profile outside the synchronous callback to avoid
+        // deadlocking session initialization — the Supabase client waits
+        // for this callback to return before the session is "ready", so
+        // any await on a Supabase query inside it would hang forever.
         if (s?.user?.id) {
-          await fetchProfile(s.user.id);
+          fetchProfile(s.user.id).then(() => {
+            if (mounted) setLoading(false);
+          });
         } else {
           profileIdRef.current = null;
           setProfile(null);
+          setLoading(false);
         }
-
-        if (mounted) setLoading(false);
       }
     );
 
